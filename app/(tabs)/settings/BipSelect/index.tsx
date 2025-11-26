@@ -177,12 +177,6 @@ export default function BipFindScreen() {
                             <Text style={styles.buttonText}>{t('find')}</Text>
                         )}
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress={handleSkip}>
-                        <Text style={[styles.forgotText, { color: theme.text, borderBottomColor: theme.text }]}>
-                            {t('continue_without_connect')}
-                        </Text>
-                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>

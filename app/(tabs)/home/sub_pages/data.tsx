@@ -78,7 +78,7 @@ const OfficeInfoCard = () => {
 const styles = StyleSheet.create({
   card: {
     margin: 16,
-    marginTop: 8,
+    marginTop: 90,
     borderRadius: 20,
     overflow: 'hidden',
     paddingVertical: 12,

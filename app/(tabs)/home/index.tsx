@@ -1,6 +1,6 @@
 // app/(tabs)/home.tsx
 import { Colors } from '@/constants/theme';
-import { RelativePathString, router } from 'expo-router';
+import { RelativePathString, router, Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../../../assets/images/icon_svg.svg';
@@ -18,6 +18,11 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import SearchModal from '@/components/AnimatedSearchButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { Button } from '@expo/ui/swift-ui';
+import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton';
+import { GlassView } from 'expo-glass-effect';
+import { showMessage } from 'react-native-flash-message';
 const { width } = Dimensions.get('window');
 
 type Bip = {
@@ -30,9 +35,11 @@ export default function HomePage() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
-const [selectedBip, setSelectedBip] = useState<Bip | null>(null);
-const [loading, setLoading] = useState(true);
+  //const [selectedBip, setSelectedBip] = useState<Bip | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [SavedBipsArray, setSavedBipsArray] = useState<Bip[] | null>(null);
   const today = new Date();
   const dayName = today.toLocaleDateString('pl-PL', { weekday: 'long' });
   const dateStr = today.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -53,26 +60,25 @@ const [loading, setLoading] = useState(true);
     router.push(route);
   };
 
-useEffect(() => {
+  useEffect(() => {
     const loadSelectedBip = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('selectedBipCities');
-        console.log('Raw from storage:', jsonValue);
+        //console.log('Raw from storage:', jsonValue);
 
         if (jsonValue != null) {
           const parsed = JSON.parse(jsonValue);
 
           // If multiple cities saved → take first
-          const firstCity = Array.isArray(parsed) ? parsed[0] : parsed;
-
-          setSelectedBip(firstCity);
-          console.log('Selected BIP loaded:', firstCity);
-        } else {
-          setSelectedBip(null);
+          if (parsed.length > 1) {
+            setSavedBipsArray(parsed)
+          }
+          else {
+            setSavedBipsArray(null);
+          }
         }
       } catch (error) {
         console.error('Failed to load selected BIP:', error);
-        setSelectedBip(null);
       } finally {
         setLoading(false);
       }
@@ -93,41 +99,108 @@ useEffect(() => {
           style={{ paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 }}
         >
           {/* Weather + Search */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              <View style={{ flexDirection: 'row', alignItems:'center', gap: 1 }}>
-                <Text style={{ fontSize: 18, color: 'white', fontWeight: '600', marginTop: 4 }}>
-                  2°
-                </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop:5 }}>
+            <View style={{flexDirection:'row', gap: 8}}>
+            {(SavedBipsArray ? SavedBipsArray.length > 1 : false) && (
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
 
+                {/* NEW: Touchable temperature button – identical style to the search one */}
+                <TouchableOpacity
+                  onPress={() => {
+                    // your action, e.g. open city list, refresh, etc.
+                    router.push({
+                      pathname: '/(tabs)/home/sub_pages/bip_selector'
+                    })
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(255,255,255,0.25)',
+                    paddingHorizontal: 12,
+                    paddingVertical: 10,
+                    maxWidth: 200,
+                    maxHeight: 45,
+                    borderRadius: 25,
+                    gap: 6,                    // space between icon and text
+                  }}
+                  activeOpacity={0.7}
+                >
+                  {/* Optional location icon – looks great with temperature */}
+
+                  <Text style={{ color: 'white', fontSize: 15 }}>
+                    {t('change_bip')}
+                  </Text>
+                  <MaterialIcons name='swap-horiz' size={20} color="white" />
+
+                </TouchableOpacity>
+
+                {/* Uncomment if you want the AQI pill back later */}
+                {/* <View style={{ backgroundColor: '#00d4aa', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
+      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 13 }}>AQI 18</Text>
+    </View> */}
               </View>
-              {/* <View style={{ backgroundColor: '#00d4aa', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 13 }}>AQI 18</Text>
-              </View> */}
-            </View>
+            )}
+            <TouchableOpacity
+              onPress={() => {
+                // your action, e.g. open city list, refresh, etc.
+                
+               
+              }}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: 'rgba(255,255,255,0.25)',
+                paddingHorizontal: 12,
+                paddingVertical: 10,
+                maxWidth: 200,
+                maxHeight: 45,
+                borderRadius: 25,
+                gap: 6,                    // space between icon and text
+              }}
+              activeOpacity={0.7}
+            >
+              {/* Optional location icon – looks great with temperature */}
+              <Text style={{ color: 'white', fontSize: 15 }}>
+                2°
+              </Text>
+              <MaterialIcons name='snowing' size={20} color="white" />
+
+            </TouchableOpacity>
+          </View>
+            {/* Existing search button – unchanged */}
             <TouchableOpacity
               onPress={() => setIsSearchModalVisible(true)}
-              style={{ flexDirection: 'row', backgroundColor: 'rgba(255,255,255,0.25)', paddingLeft: 10, paddingRight: 15, paddingVertical: 10, borderRadius: 25 }}>
-              <MaterialIcons name={'search'} size={20} color={'white'} />
-              <Text style={{ color: 'white', fontSize: 15 }}> Szukaj</Text>
+              style={{
+                flexDirection: 'row',
+                backgroundColor: 'rgba(255,255,255,0.25)',
+                paddingLeft: 10,
+                paddingRight: 15,
+                paddingVertical: 10,
+                borderRadius: 25,
+                gap: 8,
+                alignItems: 'center',
+              }}
+            >
+              <MaterialIcons name="search" size={20} color="white" />
+              <Text style={{ color: 'white', fontSize: 15 }}>Szukaj</Text>
             </TouchableOpacity>
           </View>
 
           {/* Date */}
-          <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginBottom: 8 }}>
+          <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginBottom: 0 }}>
             {dayName.charAt(0).toUpperCase() + dayName.slice(1)}, {dateStr}
           </Text>
           {/* Title + Logo with Globe Background */}
-          <Logo width={90} height={60} fill="white" style={{marginTop: 20, marginBottom:-40}} />
+          <Logo width={90} height={60} fill="white" style={{ marginTop: 0, marginBottom: 0 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 32, fontWeight: '800', color: 'white', flex: 1 }}>
-              {selectedBip?selectedBip.name:'GMINA TESTOWA'}
+            <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
+              {selectedBip?.name ?? 'GMINA TESTOWA'}
             </Text>
 
             {/* Logo with original wireframe globe background */}
             <View style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', width: 140, height: 140, padding: 10 }}>
               <Image
-                source={ require('@/assets/images/sphere.1.webp')}
+                source={require('@/assets/images/sphere.1.webp')}
                 style={{ width: 140, height: 140, position: 'absolute' }}
                 resizeMode="contain"
               />
@@ -157,33 +230,29 @@ useEffect(() => {
           {/* <InfoCarousel></InfoCarousel> */}
 
           <View
-          style={{
-            backgroundColor: theme.background_2,
-            borderRadius: 16,
-            padding: 20,
-            marginBottom: 28,
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            shadowColor: theme.text,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.08,
-            shadowRadius: 12,
-            elevation: 6,
-          }}
-        >
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.tint }}>127</Text>
-            <Text style={{ color: theme.icon, fontSize: 13 }}>Nowe uchwały</Text>
+            style={{
+              backgroundColor: theme.background_2,
+              borderRadius: 16,
+              padding: 20,
+              marginBottom: 28,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              elevation: 6,
+            }}
+          >
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.tint }}>127</Text>
+              <Text style={{ color: theme.icon, fontSize: 13 }}>Nowe uchwały</Text>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#e74c3c' }}>8</Text>
+              <Text style={{ color: theme.icon, fontSize: 13 }}>Do przeczytania</Text>
+            </View>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#2ecc71' }}>42</Text>
+              <Text style={{ color: theme.icon, fontSize: 13 }}>Archiwum</Text>
+            </View>
           </View>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#e74c3c' }}>8</Text>
-            <Text style={{ color: theme.icon, fontSize: 13 }}>Do przeczytania</Text>
-          </View>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#2ecc71' }}>42</Text>
-            <Text style={{ color: theme.icon, fontSize: 13 }}>Archiwum</Text>
-          </View>
-        </View>
 
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
             {menuItems.map((item, index) => (

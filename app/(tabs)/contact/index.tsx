@@ -193,13 +193,17 @@ const ContactHeader = () => {
         {/* Contact Person */}
         <View style={styles.profileWrapper}>
           <View style={styles.avatarContainer}>
-
+            <Image
+            source={require('../../../assets/images/avatar.webp')}
+            style={styles.avatar}
+            resizeMode="cover"
+          />
           </View>
 
           <View style={styles.row}>
             {/* LEFT COLUMN */}
             <View style={styles.leftColumn}>
-              <Text style={styles.nameText}>Dawid Muniowski</Text>
+              <Text style={styles.nameText}>Julia Muniowska</Text>
               <Text style={styles.roleText}>
                 {t("specialist")}
                 {"\n"}
@@ -219,7 +223,7 @@ const ContactHeader = () => {
                   style={styles.iconText}
                   onPress={() => Linking.openURL("tel:799068203")}
                 >
-                  799 068 203
+                  32 67 000 97
                 </Text>
               </View>
 
@@ -232,10 +236,10 @@ const ContactHeader = () => {
                 <Text
                   style={styles.iconText}
                   onPress={() =>
-                    Linking.openURL("mailto:kontakt@korki-biologia.pl")
+                    Linking.openURL("mailto:j.muniowska@alpanet.pl")
                   }
                 >
-                  kontakt{"\n"}@korki-biologia.pl
+                  j.muniowska{"\n"}@alpanet.pl
                 </Text>
               </View>
             </View>

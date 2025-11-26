@@ -26,15 +26,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: t('home'),
+          title: t('home_tab'),
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="promotions"
+        name="recent"
         options={{
-          title: t('promo'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name='percent' color={color} />,
+          title: t('recent'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name='clock-o' color={color} />,
         }}
       />
       <Tabs.Screen

@@ -15,6 +15,7 @@ import {
 import { router, useLocalSearchParams } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 type City = {
     id: string;
@@ -25,6 +26,7 @@ type City = {
 export default function SelectBipScreen() {
     const { t } = useTranslation();
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { cities: citiesJson } = useLocalSearchParams();
 
     const cities: City[] = citiesJson ? JSON.parse(citiesJson as string) : [];
@@ -44,11 +46,9 @@ export default function SelectBipScreen() {
             // Save selected city IDs (or full objects — up to you)
             const selectedIdsArray = Array.from(selectedIds); // Set → Array
             await AsyncStorage.setItem('selectedBipIds', JSON.stringify(selectedIdsArray));
-
-            // Optional: save full city objects for faster access later
             await AsyncStorage.setItem('selectedBipCities', JSON.stringify(selected));
-
-            console.log('Selected BIP saved:', selected.map(c => c.name));
+            useSelectedBipStore.getState().setSelectedBip(selected[0]);           
+            //console.log('Selected BIP saved:', selected.map(c => c.name));
         } catch (error) {
             console.error('Failed to save selected BIP:', error);
             Alert.alert(t('error'), t('save_failed'));
