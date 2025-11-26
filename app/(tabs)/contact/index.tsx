@@ -1,0 +1,269 @@
+import ContactForm from "@/components/contactForm";
+import { Colors, hexToRgba } from "@/constants/theme";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Dimensions,
+  Image,
+  Linking,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
+
+
+const screen = Dimensions.get("screen").width;
+
+const ContactHeader = () => {
+  const { t } = useTranslation();
+  const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
+
+  const styles = StyleSheet.create({
+    headerRow: { flexDirection: "row", marginLeft: 24, height: 30, paddingTop: 50 },
+    section: { paddingLeft: 24 },
+    sectionText: {
+      color: themeColors.tint,
+      fontFamily: "Poppins-Bold",
+      fontSize: 20,
+      paddingRight: 80,
+    },
+    sectionDesc: {
+      color: themeColors.text,
+      fontFamily: "Poppins-Medium",
+      fontSize: 14,
+      paddingRight: 80,
+      paddingTop: 20,
+    },
+    profileWrapper: {
+      padding: 24,
+      marginTop: 40,
+      alignItems: "center",
+    },
+    avatarContainer: {
+      padding: 5,
+      borderRadius: 70,
+      backgroundColor: themeColors.background,
+      borderColor: hexToRgba(themeColors.text, 0.15),
+      borderWidth: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    avatar: { width: 114, height: 114, borderRadius: 70 },
+    row: { flexDirection: "row", padding: 24, justifyContent: "space-between" },
+    leftColumn: { flex: 1, alignItems: "flex-end", marginRight: 20 },
+    nameText: {
+      color: themeColors.text,
+      fontFamily: "Poppins-Regular",
+      fontSize: 14,
+      marginBottom: 11,
+    },
+    roleText: {
+      color: themeColors.text,
+      fontFamily: "Poppins-Regular",
+      fontSize: 14,
+      marginBottom: 20,
+      textAlign: "right",
+    },
+    rightColumn: { flex: 1 },
+    iconRow: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
+    iconText: {
+      marginLeft: 8,
+      color: themeColors.text,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 14,
+    },
+    consultContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    consultTitle: {
+      fontSize: 20,
+      height: 45,
+      fontFamily: "Poppins-SemiBold",
+      textAlign: "left",
+    },
+    consultDesc: {
+      padding: 12,
+      paddingRight: 44,
+      color: themeColors.text,
+      fontFamily: "Poppins-Regular",
+      fontSize: 14,
+    },
+    promoTextContainer: {
+      padding: 20,
+      paddingRight: 48,
+      paddingBottom: 48,
+    },
+    promoText: {
+      color: themeColors.text,
+      fontFamily: "Poppins-Bold",
+      fontSize: 24,
+    },
+    addressHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingLeft: 16,
+    },
+    addressHeaderText: {
+      color: themeColors.text,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 15,
+    },
+    imageRow: { flexDirection: "row", padding: 16 },
+    image: {
+      width: screen / 2 - 20,
+      height: screen / 2 - 20,
+      borderRadius: 8,
+      marginRight: 16,
+    },
+    companyTextContainer: { flex: 1 },
+    companyName: {
+      fontSize: 20,
+      height: 25,
+      fontFamily: "Poppins-Bold",
+    },
+    companySub: {
+      marginBottom: 4,
+
+      color: themeColors.text,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 12,
+    },
+    companyAddress: {
+      marginBottom: 4,
+      marginTop: 12,
+      color: themeColors.text,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 12,
+    },
+    companyContact: {
+      color: themeColors.text,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 12,
+    },
+    contactRow: {
+      flexDirection: "row",
+      padding: 16,
+      paddingBottom: 48,
+    },
+    contactColumn: { flex: 1 },
+    openHoursColumn: {
+      flex: 1,
+      paddingBottom: Platform.OS === "ios" ? 100 : 200,
+    },
+    openText: {
+      marginTop: -20,
+      marginBottom: 20,
+      width: "55%",
+      textAlign: "center",
+      paddingVertical: 4,
+      borderRadius: 4,
+      fontFamily: "Poppins-SemiBold",
+      fontSize: 16,
+    },
+    hoursRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginHorizontal: 8,
+      borderBottomWidth: 1,
+      paddingVertical: 2,
+    },
+    hourText: {
+      fontFamily: "Poppins-SemiBold",
+    },
+  });
+
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <View style={[styles.section, { marginBottom: 20, marginTop: 70 }]}>
+          <Text style={styles.sectionText}>
+            {t("want_to_talk_preview_title")}
+          </Text>
+          <Text style={styles.sectionDesc}>{t("want_to_talk_preview_desc")}</Text>
+        </View>
+
+
+        {/* Contact Person */}
+        <View style={styles.profileWrapper}>
+          <View style={styles.avatarContainer}>
+
+          </View>
+
+          <View style={styles.row}>
+            {/* LEFT COLUMN */}
+            <View style={styles.leftColumn}>
+              <Text style={styles.nameText}>Dawid Muniowski</Text>
+              <Text style={styles.roleText}>
+                {t("specialist")}
+                {"\n"}
+                {t("client_service")}
+              </Text>
+            </View>
+
+            {/* RIGHT COLUMN */}
+            <View style={styles.rightColumn}>
+              <View style={styles.iconRow}>
+                <FontAwesome5
+                  name="phone"
+                  size={16}
+                  color={themeColors.tint}
+                />
+                <Text
+                  style={styles.iconText}
+                  onPress={() => Linking.openURL("tel:799068203")}
+                >
+                  799 068 203
+                </Text>
+              </View>
+
+              <View style={styles.iconRow}>
+                <MaterialIcons
+                  name="email"
+                  size={18}
+                  color={themeColors.tint}
+                />
+                <Text
+                  style={styles.iconText}
+                  onPress={() =>
+                    Linking.openURL("mailto:kontakt@korki-biologia.pl")
+                  }
+                >
+                  kontakt{"\n"}@korki-biologia.pl
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        {/* Consultation */}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingLeft: 24 }}>
+          <View style={{ height: 30, alignItems: 'center', marginLeft: 10 }}>
+          </View>
+          <View style={{ paddingHorizontal: 10, marginTop: 5, marginBottom: 15, }}>
+            <Text
+              style={{ color: themeColors.text, fontFamily: 'Poppins-Regular', fontSize: 14 }}>
+              {t('consultation_needed_desc')}
+            </Text>
+          </View>
+        </View>
+
+        <ContactForm />
+
+
+      </ScrollView>
+    </View>
+  );
+};
+
+export default ContactHeader;
+function useFonts(arg0: { "Poppins-Regular": any; "Poppins-SemiBold": any; "Poppins-Bold": any; "Poppins-Medium": any; }): [any] {
+  throw new Error("Function not implemented.");
+}
+
