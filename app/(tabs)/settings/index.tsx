@@ -20,10 +20,9 @@ const Profile = () => {
 
 
   return (
-    <View style={[styles.container, { backgroundColor: 'transparent' }]}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentInsetAdjustmentBehavior='always' contentContainerStyle={styles.scrollContent}>
 
-         <View style={[styles.block, styles.mt50, { backgroundColor: themeColors.background_2 }]}>
+         <View style={[styles.block, { backgroundColor: themeColors.background_2 }]}>
           <ListButton
             icon='feed'
             label={t('change_bip_connection')}
@@ -45,11 +44,7 @@ const Profile = () => {
             isLast
           />
         </View>
-
-
-        
       </ScrollView>
-    </View>
   );
 };
 
@@ -63,7 +58,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 24,
     paddingBottom: 80,
-    paddingTop:0
   },
   block: {
     borderRadius: 16,

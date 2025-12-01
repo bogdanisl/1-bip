@@ -7,7 +7,7 @@ import {
 } from "@expo/ui/swift-ui";
 import { frame } from "@expo/ui/swift-ui/modifiers";
 import { router } from "expo-router";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle,View } from "react-native";
 
 const SIZE = 34;
 
@@ -23,7 +23,7 @@ export function HeaderButton({
   style,
 }: HeaderButtonProps) {
   return (
-    <Host matchContents style={[{ height: SIZE, width: SIZE }, style]}>
+    <View style={[{ height: SIZE, width: SIZE }, style]}>
       <Button onPress={()=>{router.back()}} variant={buttonProps?.variant || "glass"}>
         <Image
           {...imageProps}
@@ -36,6 +36,6 @@ export function HeaderButton({
           ]}
         />
       </Button>
-    </Host>
+    </View>
   );
 }

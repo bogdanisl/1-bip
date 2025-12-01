@@ -74,5 +74,6 @@
   "back": "Powrót",
   "no_cities_found_for_code": "Nie znaleziono BIP'a za podanym kodem",
   "change_bip_connection": "Zmień połączone BIP'y",
-  "change_bip": "Zmień BIP'a"
+  "change_bip": "Zmień BIP'a",
+  "search_article":"Wyszukaj artykuł"
 }

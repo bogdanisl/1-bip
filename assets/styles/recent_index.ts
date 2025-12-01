@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   listContent: {
     padding: 16,
     paddingBottom: 100,
+    gap:15,
   },
   pageTitle: {
     fontSize: 20,
@@ -43,11 +44,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#444',
     borderRadius: 2,
     overflow: 'hidden',
-    marginVertical: 16,
+    marginBottom: 12,
   },
   progressBar: {
+    backgroundColor:'#b50315',
     height: '100%',
-    width: '40%', // simulates partial read progress
+    width: '40%', 
     borderRadius: 2,
   },
   readMoreButton: {

@@ -24,7 +24,7 @@ const ContactHeader = () => {
 
   const styles = StyleSheet.create({
     headerRow: { flexDirection: "row", marginLeft: 24, height: 30, paddingTop: 50 },
-    section: { paddingLeft: 24 },
+    section: { paddingLeft: 17 },
     sectionText: {
       color: themeColors.tint,
       fontFamily: "Poppins-Bold",
@@ -182,7 +182,7 @@ const ContactHeader = () => {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: 'transparent' }}>
-        <View style={[styles.section, { marginBottom: 20, marginTop: 70 }]}>
+        <View style={[styles.section, { marginBottom: 20 }]}>
           <Text style={styles.sectionText}>
             {t("want_to_talk_preview_title")}
           </Text>
@@ -194,10 +194,10 @@ const ContactHeader = () => {
         <View style={styles.profileWrapper}>
           <View style={styles.avatarContainer}>
             <Image
-            source={require('../../../assets/images/avatar.webp')}
-            style={styles.avatar}
-            resizeMode="cover"
-          />
+              source={require('../../../assets/images/avatar.webp')}
+              style={styles.avatar}
+              resizeMode="cover"
+            />
           </View>
 
           <View style={styles.row}>
