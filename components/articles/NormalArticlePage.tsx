@@ -15,11 +15,35 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { NormalArticle } from '@/types/Article';
+import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
 
 // Включаем LayoutAnimation на Android
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
+const getFileIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+        case 'pdf':
+            return <MaterialIcons name="picture-as-pdf" size={24} color="#e74c3c" />;
+        case 'doc':
+        case 'docx':
+            return <MaterialIcons name="description" size={24} color="#3498db" />;
+        case 'image':
+        case 'png':
+        case 'jpg':
+        case 'webp':
+            return <MaterialIcons name="image" size={24} color="#f1c40f" />;
+        case 'rar':
+        case 'zip':
+            return <MaterialIcons name="folder-zip" size={24} color="#9b59b6" />;
+        case 'excel':
+        case 'xlsx':
+            return <MaterialIcons name="grid-on" size={24} color="#2ecc71" />;
+        default:
+            return <MaterialIcons name="insert-drive-file" size={24} color="#7f8c8d" />;
+    }
+};
 
 interface Props {
     article: NormalArticle;
@@ -28,11 +52,14 @@ interface Props {
 export default function NormalArticlePage({ article }: Props) {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const [isMatrykaOpen, setIsMatrykaOpen] = useState(false);
+    const { t } = useTranslation();
+    //console.log(article.attachments)
 
     const toggleMatryka = () => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setIsMatrykaOpen(prev => !prev);
     };
+    //const pdfUri = 'https://www.bip.alpanet.pl/dokumenty/Lorem-ipsum-dolor-sit-amet_2.doc';
 
     return (
         <ScrollView style={{ backgroundColor: theme.background }}>
@@ -64,6 +91,46 @@ export default function NormalArticlePage({ article }: Props) {
                         {article.content || 'Treść artykułu niedostępna.'}
                     </Text>
                 </View>
+
+                {article.attachments && article.attachments.length > 0 && (
+                    <View>
+                        <Text
+                            style={[
+                                styles.sectionTitle,
+                                { color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 },
+                            ]}
+                        >
+                            Dokumenty
+                        </Text>
+
+                        <View style={styles.progressContainer}>
+                            <View style={[styles.progressBar]} />
+                        </View>
+
+                        <View>
+                            {article.attachments.map((attachment, index) => (
+                                <TouchableOpacity
+                                    key={attachment.id}
+                                    onPress={() => { router.push(`/(tabs)/recent/${article.slug}/${attachment.name}.${attachment.extension}`) }} style={[styles.authorRow, { marginBottom: 10 }]}>
+                                    <View style={[styles.avatar, { backgroundColor: theme.background_2 }]}>
+                                        {getFileIcon(attachment.extension)}
+                                    </View>
+                                    <Text style={[styles.authorName, { color: theme.text }]}>
+                                        {attachment.name + '.' + attachment.extension + '\n'}
+                                        <Text style={{ fontSize: 13, color: theme.subText }}>
+                                            {`${t('size')}: ${attachment.size}, ${t('format')}: ${attachment.extension}, ${t('language')}: ${attachment.language}`}
+                                        </Text>
+                                    </Text>
+                                    {/* <View style={{ flex: 1 }}>
+                                        <View style={[{ justifyContent: 'center', alignSelf: 'flex-end' }]}>
+                                            <MaterialIcons size={24} name='download' color={theme.tint}></MaterialIcons>
+                                        </View>
+                                    </View> */}
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
+                )}
 
 
                 {(article.categoryId || article.categoryId1 || article.categoryId2 || article.categoryId3) && (

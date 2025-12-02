@@ -18,6 +18,7 @@ export const normalizeArticle = (data: ArticleFull): Article => {
     categoryId2: data.categoryId2,
     categoryId3: data.categoryId3,
     artTypeId: (data.artTypeId ?? 0) as 0 | 1 | 2,
+    attachments: data.attachments ?? [],
   };
 
   switch (base.artTypeId) {

@@ -1,4 +1,5 @@
 import { ArticleFull } from "@/types/Article";
+import { Attachment } from "@/types/Attachment";
 
 export const FAKE_CITIES = [
   { id: '1', code: '42100', name: 'Gmina Testowa' },
@@ -129,4 +130,60 @@ export const articles_examples_full: ArticleFull[] = [
     status: '1',
     authorId: 5,
   },
+  {
+    id: 105,
+    categoryId: 10,
+    slug: 'test-zalacznikow',
+    title: 'Test załączników',
+    content: 'Test załączników',
+    addedDate: new Date('2025-11-06T10:30:00+01:00'),
+    createdDate: new Date('2025-11-06T10:30:00+01:00'),
+    approvedAt: new Date('2025-11-06T09:15:00+01:00'),
+    deleteDate: null,
+    readCount: 312,
+    keywords: 'śmieci, harmonogram, odpady, 2026',
+    attachments: [
+      {
+        id: 501,
+        name: "Lorem-ipsum-dolor-sit-amet_26",
+        extension: "pdf",
+        size: 285743,
+        language: "pl"
+      },
+      {
+        id: 502,
+        name: "Lorem-ipsum-dolor-sit-amet_2",
+        extension: "doc",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 503,
+        name: "duzy-pdf-2",
+        extension: "pdf",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 504,
+        name: "Lorem-ipsum-dolor-sit-amet_24",
+        extension: "png",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 505,
+        name: "ARCHIWA",
+        extension: "rar",
+        size: 56789,
+        language: "pl"
+      }
+    ],
+    artTypeId: 0,
+    status: '1',
+    authorId: 5,
+  }
 ];
