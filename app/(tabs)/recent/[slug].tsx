@@ -1,8 +1,8 @@
-import { CaseArticleCard } from '@/components/articles/CaseArticleCard';
-import CaseArticlePage from '@/components/articles/CaseArticlePage';
-import { HandleArticleCard } from '@/components/articles/HandleArticleCard';
-import HandleArticlePage from '@/components/articles/HandleArticlePage';
-import NormalArticlePage from '@/components/articles/NormalArticlePage';
+import { CaseArticleCard } from '@/components/articles/case/CaseArticleCard';
+import CaseArticlePage from '@/components/articles/case/CaseArticlePage';
+import { HandleArticleCard } from '@/components/articles/handle/HandleArticleCard';
+import HandleArticlePage from '@/components/articles/handle/HandleArticlePage';
+import NormalArticlePage from '@/components/articles/normal/NormalArticlePage';
 import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton.ios';
 import { articles_examples_full } from '@/constants/data_example';
 import { Colors } from '@/constants/theme';
@@ -44,16 +44,16 @@ export default function ArticlePage() {
                         <>
                             <TouchableOpacity style={{ height: 34, width: 34, justifyContent: 'center', alignItems: 'center' }} onPress={handlePress}>
                                 <MaterialIcons
-                                 name={Platform.OS=='ios'?'ios-share':'share'} 
-                                 size={24} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint}
-                                 style={{
-                                    paddingLeft:2,
-                                    paddingBottom:2
+                                    name={Platform.OS == 'ios' ? 'ios-share' : 'share'}
+                                    size={24} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint}
+                                    style={{
+                                        paddingLeft: 2,
+                                        paddingBottom: 2
 
-                                 }}
-                                 >
+                                    }}
+                                >
 
-                                 </MaterialIcons>
+                                </MaterialIcons>
                             </TouchableOpacity>
                         </>
                 }}

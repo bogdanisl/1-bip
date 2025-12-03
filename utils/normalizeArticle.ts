@@ -1,5 +1,5 @@
 // utils/normalizeArticle.ts
-import type { ArticleFull, Article, NormalArticle, HandleArticle, CaseArticle } from '@/types/Article';
+import type { ArticleFull, Article, BaseArticle, HandleArticle, CaseArticle } from '@/types/Article';
 
 export const normalizeArticle = (data: ArticleFull): Article => {
   const base = {
@@ -29,7 +29,7 @@ export const normalizeArticle = (data: ArticleFull): Article => {
         title: data.title,
         subtitle: data.subtitle,
         content: data.content,
-      } as NormalArticle;
+      } as BaseArticle;
 
     case 1:
       return {
@@ -58,6 +58,6 @@ export const normalizeArticle = (data: ArticleFull): Article => {
         artTypeId: 0,
         title: data.title ?? 'Artykuł',
         content: data.content,
-      } as NormalArticle;
+      } as BaseArticle;
   }
 };

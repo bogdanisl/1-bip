@@ -168,7 +168,7 @@ export const articles_examples_full: ArticleFull[] = [
       ,
       {
         id: 504,
-        name: "Lorem-ipsum-dolor-sit-amet_24",
+        name: "Lorem-ipsum-dolor-sit-amet_2",
         extension: "png",
         size: 56789,
         language: "pl"

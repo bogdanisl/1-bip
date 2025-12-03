@@ -76,5 +76,9 @@
   "change_bip_connection": "Zmień połączone BIP'y",
   "change_bip": "Zmień BIP'a",
   "search_article":"Wyszukaj artykuł",
-  "preview_not_supported":"Podgląd niemożliwy"
+  "preview_not_supported":"Podgląd niemożliwy",
+  "size":"Rozmiar",
+  "format":"Format",
+  "from_day":"Z dnia",
+  "settle_place":"Miejsce załatwienia"
 }

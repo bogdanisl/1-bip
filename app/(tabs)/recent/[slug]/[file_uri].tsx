@@ -45,24 +45,6 @@ const PdfViewerPage = () => {
 
   const isPreviewSupported = SUPPORTED_PREVIEW_EXTENSIONS.includes(extension);
 
-  // Загружаем размер файла для неподдерживаемых типов
-  // useEffect(() => {
-  //   if (!isPreviewSupported && file_uri) {
-  //     fetch(fullUrl, { method: 'HEAD' })
-  //       .then(res => {
-  //         const size = res.headers.get('content-length');
-  //         if (size) {
-  //           const bytes = parseInt(size, 10);
-  //           const mb = (bytes / (1024 * 1024)).toFixed(2);
-  //           setFileSize(`${mb} MB`);
-  //         } else {
-  //           setFileSize('—');
-  //         }
-  //       })
-  //       .catch(() => setFileSize('—'));
-  //   }
-  // }, [file_uri, isPreviewSupported]);
-
   // === Твой шэринг без изменений ===
   const handleShareAndSave = async () => {
     if (!file_uri) return;
@@ -91,6 +73,7 @@ const PdfViewerPage = () => {
       console.error('Share/Save failed:', error);
       Alert.alert('Błąd', 'Nie udało się pobrać lub udostępnić pliku');
     } finally {
+      localUri.delete()
       setIsSharingLoading(false);
     }
   };
@@ -112,25 +95,18 @@ const PdfViewerPage = () => {
               style={{ height: 34, width: 34, justifyContent: 'center', alignItems: 'center' }}
               onPress={handleShareAndSave}
             >
-              {isSharingLoading ? (
-                <ActivityIndicator
-                  size="small"
-                  color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint}
-                />
-              ) : (
                 <MaterialIcons
                   name={Platform.OS === 'ios' ? 'ios-share' : 'share'}
                   size={24}
-                  color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint}
+                  color={ isSharingLoading? themeColors.border :isLiquidGlassAvailable() ?themeColors.text : themeColors.tint}
                   style={{ paddingLeft: 2, paddingBottom: 2 }}
                 />
-              )}
             </TouchableOpacity>
           ),
         }}
       />
 
-      <SafeAreaView style={styles.container}>
+      <View style={[styles.container,{paddingTop:isLiquidGlassAvailable()?70:0}]}>
         {isPreviewSupported ? (
           /* WebView — как и было */
           <WebView
@@ -161,7 +137,7 @@ const PdfViewerPage = () => {
             </Text>
           </View>
         )}
-      </SafeAreaView>
+      </View>
     </>
   );
 };

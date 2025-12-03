@@ -14,9 +14,9 @@ import Animated, {
 import { Colors } from '@/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import type { Article, NormalArticle, HandleArticle, CaseArticle } from '@/types/Article'
-import { NormalArticleCard } from '@/components/articles/NormalArticleCard';
-import { HandleArticleCard } from '@/components/articles/HandleArticleCard';
-import { CaseArticleCard } from '@/components/articles/CaseArticleCard';
+import { NormalArticleCard } from '@/components/articles/normal/NormalArticleCard';
+import { HandleArticleCard } from '@/components/articles/handle/HandleArticleCard';
+import { CaseArticleCard } from '@/components/articles/case/CaseArticleCard';
 import { articles_examples_full } from '@/constants/data_example';
 import { normalizeArticle } from '@/utils/normalizeArticle';
 

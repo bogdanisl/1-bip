@@ -19,7 +19,7 @@ export const Colors = {
     tabIconSelected: tintColorLight,
     border: '#969696ff',
     subText:'#636363ff',
-    inactive:'#b5031565'
+    inactive:'#cf0015b2'
   },
   dark: {
     text: '#ECEDEE',
