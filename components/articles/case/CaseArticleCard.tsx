@@ -4,7 +4,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { CaseArticle } from "@/types/Article";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View,Text } from "react-native";
-import { ReadMoreButton } from "../buttons/ReadMoreButton";
+import { ReadMoreButton } from "../../buttons/ReadMoreButton";
 
 export const CaseArticleCard = ({ article }: { article: CaseArticle }) => {
   const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;

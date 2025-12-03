@@ -1,12 +1,13 @@
 // app/(tabs)/home.tsx
 import { Colors } from '@/constants/theme';
 import { RelativePathString, router, Stack } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../../../assets/images/icon_svg.svg';
 import {
   Dimensions,
   Image,
+  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -23,6 +24,8 @@ import { Button } from '@expo/ui/swift-ui';
 import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton';
 import { GlassView } from 'expo-glass-effect';
 import { showMessage } from 'react-native-flash-message';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const { width } = Dimensions.get('window');
 
 type Bip = {
@@ -33,12 +36,16 @@ type Bip = {
 
 export default function HomePage() {
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
   //const [selectedBip, setSelectedBip] = useState<Bip | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
   const [SavedBipsArray, setSavedBipsArray] = useState<Bip[] | null>(null);
   const today = new Date();
   const dayName = today.toLocaleDateString('pl-PL', { weekday: 'long' });
@@ -59,6 +66,16 @@ export default function HomePage() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.push(route);
   };
+
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    // Simulate an async refresh action
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
 
   useEffect(() => {
     const loadSelectedBip = async () => {
@@ -89,84 +106,104 @@ export default function HomePage() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100, marginTop: 0 }}
+      >
 
         {/* Red → Dark Blue Header */}
         <LinearGradient
           colors={['#b50315', '#20313b']}
-          start={{ x: 0, y: 0 }}
+          start={{ x: 0, y: 0.4 }}
           end={{ x: 1, y: 1 }}
-          style={{ paddingTop: 50, paddingHorizontal: 20, paddingBottom: 40 }}
+          style={{ marginTop: -300, paddingHorizontal: 20, paddingBottom: 40 }}
         >
+          <Image
+            source={require('@/assets/images/shape.3.50.webp')}
+            style={{
+              backgroundColor: 'transparent',
+              position: 'absolute',
+              top: 230,
+              left: -50,
+              right: 0,
+              bottom: 0,
+              width: '100%',
+              height: '100%',
+              alignSelf: 'center',
+              opacity: 1,        // adjust for blending
+              transform: [{ rotate: '180deg' }]
+            }}
+            resizeMode='contain'
+          />
           {/* Weather + Search */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop:5 }}>
-            <View style={{flexDirection:'row', gap: 8}}>
-            {(SavedBipsArray ? SavedBipsArray.length > 1 : false) && (
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop: insets.top+300 }}>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              {(SavedBipsArray ? SavedBipsArray.length > 1 : false) && (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
 
-                {/* NEW: Touchable temperature button – identical style to the search one */}
-                <TouchableOpacity
-                  onPress={() => {
-                    // your action, e.g. open city list, refresh, etc.
-                    router.push({
-                      pathname: '/(tabs)/home/sub_pages/bip_selector'
-                    })
-                  }}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundColor: 'rgba(255,255,255,0.25)',
-                    paddingHorizontal: 12,
-                    paddingVertical: 10,
-                    maxWidth: 200,
-                    maxHeight: 45,
-                    borderRadius: 25,
-                    gap: 6,                    // space between icon and text
-                  }}
-                  activeOpacity={0.7}
-                >
-                  {/* Optional location icon – looks great with temperature */}
+                  {/* NEW: Touchable temperature button – identical style to the search one */}
+                  <TouchableOpacity
+                    onPress={() => {
+                      // your action, e.g. open city list, refresh, etc.
+                      router.push({
+                        pathname: '/(tabs)/home/sub_pages/bip_selector'
+                      })
+                    }}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      backgroundColor: 'rgba(255,255,255,0.25)',
+                      paddingHorizontal: 12,
+                      paddingVertical: 10,
+                      maxWidth: 200,
+                      maxHeight: 45,
+                      borderRadius: 25,
+                      gap: 6,                    // space between icon and text
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    {/* Optional location icon – looks great with temperature */}
 
-                  <Text style={{ color: 'white', fontSize: 15 }}>
-                    {t('change_bip')}
-                  </Text>
-                  <MaterialIcons name='swap-horiz' size={20} color="white" />
+                    <Text style={{ color: 'white', fontSize: 15 }}>
+                      {t('change_bip')}
+                    </Text>
+                    <MaterialIcons name='swap-horiz' size={20} color="white" />
 
-                </TouchableOpacity>
+                  </TouchableOpacity>
 
-                {/* Uncomment if you want the AQI pill back later */}
-                {/* <View style={{ backgroundColor: '#00d4aa', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
+                  {/* Uncomment if you want the AQI pill back later */}
+                  {/* <View style={{ backgroundColor: '#00d4aa', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 13 }}>AQI 18</Text>
     </View> */}
-              </View>
-            )}
-            <TouchableOpacity
-              onPress={() => {
-                // your action, e.g. open city list, refresh, etc.
-                
-               
-              }}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'rgba(255,255,255,0.25)',
-                paddingHorizontal: 12,
-                paddingVertical: 10,
-                maxWidth: 200,
-                maxHeight: 45,
-                borderRadius: 25,
-                gap: 6,                    // space between icon and text
-              }}
-              activeOpacity={0.7}
-            >
-              {/* Optional location icon – looks great with temperature */}
-              <Text style={{ color: 'white', fontSize: 15 }}>
-                2°
-              </Text>
-              <MaterialIcons name='snowing' size={20} color="white" />
+                </View>
+              )}
+              <TouchableOpacity
+                onPress={() => {
+                  // your action, e.g. open city list, refresh, etc.
 
-            </TouchableOpacity>
-          </View>
+
+                }}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(255,255,255,0.25)',
+                  paddingHorizontal: 12,
+                  paddingVertical: 10,
+                  maxWidth: 200,
+                  maxHeight: 45,
+                  borderRadius: 25,
+                  gap: 6,                    // space between icon and text
+                }}
+                activeOpacity={0.7}
+              >
+                {/* Optional location icon – looks great with temperature */}
+                <Text style={{ color: 'white', fontSize: 15 }}>
+                  2°
+                </Text>
+                <MaterialIcons name='snowing' size={20} color="white" />
+
+              </TouchableOpacity>
+            </View>
             {/* Existing search button – unchanged */}
             <TouchableOpacity
               onPress={() => setIsSearchModalVisible(true)}
@@ -198,7 +235,7 @@ export default function HomePage() {
             </Text>
 
             {/* Logo with original wireframe globe background */}
-            <View style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', width: 140, height: 140, padding: 10 }}>
+            <View style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', width: 140, height: 140, padding: 80, backgroundColor: 'transparent', borderRadius: 90 }}>
               <Image
                 source={require('@/assets/images/sphere.1.webp')}
                 style={{ width: 140, height: 140, position: 'absolute' }}

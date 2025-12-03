@@ -1,3 +1,5 @@
+import { Attachment } from "./Attachment";
+
 export interface ArticleFull {
     id: number; // id
     categoryId?: number //id_kat
@@ -45,6 +47,7 @@ export interface ArticleFull {
     articleReferenceId?: number; // id_art
     type?: string; // typ
     isOld?: number; // stare
+    attachments?: Attachment[] //załączniki
 }
 
 
@@ -148,6 +151,7 @@ export interface BaseArticle {
     categoryId2?: number; // pow2
     categoryId3?: number; // pow3
     artTypeId: 0 | 1 | 2;
+    attachments?:Attachment[]
 }
 
 export interface NormalArticle extends BaseArticle {
