@@ -25,6 +25,9 @@ import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton';
 import { GlassView } from 'expo-glass-effect';
 import { showMessage } from 'react-native-flash-message';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import OpeningHoursCard from './sub_pages/hours';
+import OfficeInfoCard from './sub_pages/data';
+import BankAccountCard from './sub_pages/bank_accounts';
 
 const { width } = Dimensions.get('window');
 
@@ -52,14 +55,14 @@ export default function HomePage() {
   const dateStr = today.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const menuItems = [
-    { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
-    { title: t('home.opening_hours'), subtitle: t('home.opening_hours_desc'), icon: 'schedule', route: '/(tabs)/home/sub_pages/hours' },
-    { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/positions' },
-    { title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
-    { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/downloads' },
+     { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
+    // { title: t('home.opening_hours'), subtitle: t('home.opening_hours_desc'), icon: 'schedule', route: '/(tabs)/home/sub_pages/hours' },
+    { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/(tabs)/home/sub_pages/employees' },
+    //{ title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
+    { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/sub_pages/downloads' },
     { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/sub_pages/editors' },
-    { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/statistics' },
-    { title: t('home.search_employee'), subtitle: t('home.search_employee_desc'), icon: 'person-search', route: '/employee-search' },
+    { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/sub_pages/visit_statistics' },
+    { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register' },
   ];
 
   const handlePress = (route: RelativePathString) => {
@@ -264,34 +267,13 @@ export default function HomePage() {
           paddingHorizontal: 16,
           paddingTop: 30,
         }}>
-          {/* <InfoCarousel></InfoCarousel> */}
+         
 
-          <View
-            style={{
-              backgroundColor: theme.background_2,
-              borderRadius: 16,
-              padding: 20,
-              marginBottom: 28,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              elevation: 6,
-            }}
-          >
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.tint }}>127</Text>
-              <Text style={{ color: theme.icon, fontSize: 13 }}>Nowe uchwały</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#e74c3c' }}>8</Text>
-              <Text style={{ color: theme.icon, fontSize: 13 }}>Do przeczytania</Text>
-            </View>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#2ecc71' }}>42</Text>
-              <Text style={{ color: theme.icon, fontSize: 13 }}>Archiwum</Text>
-            </View>
-          </View>
+          <OpeningHoursCard/>
+          {/* <OfficeInfoCard/> */}
+          <BankAccountCard/>
 
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop:16, justifyContent: 'center' }}>
             {menuItems.map((item, index) => (
               <TouchableOpacity
                 key={index}

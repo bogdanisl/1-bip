@@ -1,124 +1,158 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
+  Animated,
   useColorScheme,
 } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import * as Clipboard from 'expo-clipboard';     // ← added
+import { MaterialIcons } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
 import { Colors } from '@/constants/theme';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
+import FileItem from '@/components/buttons/ItemButton';
+
+const ROW_HEIGHT = 60;
+const ROW_COUNT = 2;
 
 const BankAccountCard = () => {
-    const { t } = useTranslation()
+  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+
+  const [expanded, setExpanded] = useState(false);
+  const animatedHeight = useRef(new Animated.Value(0)).current;
+  const arrowRotation = useRef(new Animated.Value(0)).current;
 
   const accountNumber = '11 2222 3333 4444 5555 6666 7777 8888';
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(accountNumber);
-
-    // You can replace this Alert with react-native-toast-message or any other toast library
     showMessage({
-        message: t('code_copied'), // "Skopiowano!"
-        description: t('code_copied_desc'),
-        type: 'success',
-        icon: 'success',
-        duration: 2500,
-      });
+      message: t('code_copied') || 'Skopiowano!',
+      description: accountNumber,
+      type: 'success',
+      icon: 'success',
+      duration: 2800,
+    });
   };
 
-  const handleBankPress = () => {
-    // Optional: keep opening the bank website / app if you still want it
-    // Linking.openURL('https://twojbank.pl');
-    // Or just do nothing – here we just copy on the bank name row as well if you want
+  const toggleExpand = () => {
+    const toValue = expanded ? 0 : ROW_HEIGHT * (ROW_COUNT + 1);
+
+    Animated.parallel([
+      Animated.timing(animatedHeight, {
+        toValue,
+        duration: 300,
+        useNativeDriver: false,
+      }),
+      Animated.timing(arrowRotation, {
+        toValue: expanded ? 0 : 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    if (expanded) {
+      setTimeout(() => setExpanded(false), 300);
+    } else {
+      setExpanded(true);
+    }
   };
+
+  const rotation = arrowRotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
 
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
-      {/* Nazwa banku – you can keep the press behaviour you prefer */}
-      <TouchableOpacity style={styles.row} onPress={handleBankPress}>
-        <View style={[styles.iconCircle,{backgroundColor:theme.background}]}>
-          <MaterialCommunityIcons name="bank" size={24} color="#D32F2F" />
+      {/* Header */}
+      <TouchableOpacity activeOpacity={0.8} onPress={toggleExpand} style={styles.header}>
+        <View style={styles.statusRow}>
+          <MaterialIcons name='credit-card' size={36} color={theme.tint} />
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.titleText, { color: theme.text }]}>
+              {t('home.bank_accounts')}
+            </Text>
+            <Text style={{ color: theme.text + '80', fontSize: 13, marginTop: 2 }}>
+              {t('home.bank_accounts_desc')}
+            </Text>
+          </View>
         </View>
-        <View style={[styles.infoBox,{backgroundColor:theme.background}]}>
-          <Text style={[styles.bankName, {color:theme.text}]}>BANK TESTOWY</Text>
-        </View>
+        <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+          <MaterialIcons name="keyboard-arrow-down" size={28} color={theme.text} />
+        </Animated.View>
       </TouchableOpacity>
 
-      {/* Numer konta – press → copy */}
-      <TouchableOpacity
-        style={styles.row}
-        onPress={copyToClipboard}           // ← copy on normal press
-        onLongPress={copyToClipboard}       // ← copy on long press (optional)
-        activeOpacity={0.7}
-      >
-        <View style={[styles.iconCircle,{backgroundColor:theme.background}]}>
-          <MaterialIcons name="credit-card" size={22} color={theme.tint} />
+      {/* Expandable Content */}
+      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
+        <View style={{ paddingBottom: 12, paddingHorizontal:10 }}>
+          {expanded && (
+            <>
+              {/* Bank Name Row */}
+              <FileItem name={'Bank Testowy'} leftIconName={'account-balance'} style={{marginBottom:8}} disabled/>
+              {/* Account Number Row - Clickable */}
+              <FileItem name={accountNumber} leftIconName={'credit-card'} rightIconName='content-copy' onPress={copyToClipboard} />
+            </>
+          )}
         </View>
-        <View style={[styles.infoBox,{backgroundColor:theme.background}]}>
-          <Text style={[styles.accountNumber, {color:theme.text}]}>{accountNumber}</Text>
-        </View>
-      </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    margin: 16,
-    marginTop: 110,
     borderRadius: 20,
     overflow: 'hidden',
-    paddingVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
     elevation: 12,
+    marginTop: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flex: 1,
+  },
+  titleText: {
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   row: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 16,
-    marginVertical: 7,
-  },
-  iconCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  infoBox: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.07)',
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    marginTop: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     borderRadius: 16,
-    justifyContent: 'center',
+    height: ROW_HEIGHT,
+  },
+  clickableRow: {
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    borderColor: '#FFFFFF10',
   },
-  accountBox: {
-    backgroundColor: 'rgba(255,255,255,0.05)',
+  dayContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
-  bankName: {
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  accountNumber: {
-    fontSize: 18,
+  dayText: {
+    fontSize: 15,
     fontWeight: '600',
-    letterSpacing: 2.5,
-    fontVariant: ['tabular-nums'],
+    letterSpacing: 0.5,
   },
 });
 

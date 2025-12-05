@@ -32,11 +32,12 @@ export default function EmployeesPage() {
         <TouchableOpacity
             style={[styles.card, { backgroundColor: theme.background_2 }]}
             onPress={() => handlePress(item)}
-            activeOpacity={0.7}
         >
             <View style={[styles.row, { justifyContent: 'space-between', alignItems: 'center' }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <MaterialIcons name="person" size={24} color={theme.tint} style={{ marginRight: 12 }} />
+                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background, justifyContent:'center', alignItems:'center', marginRight: 8 }}>
+                        <MaterialIcons name="person" size={24} color={theme.tint} />
+                    </View>
                     <View>
                         <Text style={[styles.name, { color: theme.text }]}>{item.fullName}</Text>
                         <Text style={[styles.function, { color: theme.subText }]}>{item.function}</Text>
@@ -48,15 +49,15 @@ export default function EmployeesPage() {
     );
 
     return (
-            <Animated.FlatList
-            style={{padding:20}}
-                data={filteredSpeakers}
-                itemLayoutAnimation={LinearTransition}
-                renderItem={renderEmployee}
-                keyExtractor={(item) => item.id.toString()}
-                ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-                contentInsetAdjustmentBehavior={'automatic'}
-            />
+        <Animated.FlatList
+            style={{ padding: 20 }}
+            data={filteredSpeakers}
+            itemLayoutAnimation={LinearTransition}
+            renderItem={renderEmployee}
+            keyExtractor={(item) => item.id.toString()}
+            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+            contentInsetAdjustmentBehavior={'automatic'}
+        />
     );
 }
 

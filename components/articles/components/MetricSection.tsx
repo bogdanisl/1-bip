@@ -79,7 +79,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                         <MaterialIcons name="verified-user" size={24} color={theme.tint} />
                                     </View>
-                                    <Text style={{ color: theme.text, fontSize:1 }}>
+                                    <Text style={{ color: theme.text, fontSize:15 }}>
                                         Jan Nowak{'\n'}
                                         <Text style={{ fontSize: 13, color: theme.subText }}>
                                             {new Date(article.addedDate).toLocaleDateString('pl-PL', {

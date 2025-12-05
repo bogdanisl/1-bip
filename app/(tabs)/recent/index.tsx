@@ -19,13 +19,24 @@ import { HandleArticleCard } from '@/components/articles/handle/HandleArticleCar
 import { CaseArticleCard } from '@/components/articles/case/CaseArticleCard';
 import { articles_examples_full } from '@/constants/data_example';
 import { normalizeArticle } from '@/utils/normalizeArticle';
+import { useLocalSearchParams } from 'expo-router';
 
 // === Основная страница ===
 const RecentPage = () => {
   const colorScheme = useColorScheme();
   const [articles, setArticles] = useState<Article[] | null>(null)
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const params = useLocalSearchParams<{ q?: string }>();
 
+  const searchText = params?.q?.toLowerCase() || "";
+  const filteredArticles = articles ? articles.filter((article) => {
+          if (!searchText) {
+              return true;
+          }
+
+          return article.keywords? article.slug.toLowerCase().includes(searchText.replace(' ','-')):articles;
+      }):null;
+  
   useEffect(() => {
     const normalized = articles_examples_full.map(normalizeArticle)
     setArticles(normalized)
@@ -44,18 +55,18 @@ const RecentPage = () => {
   };
 
   return (
-      <FlatList
-        scrollToOverflowEnabled
-        contentInsetAdjustmentBehavior='automatic'
-        keyboardShouldPersistTaps='handled'      
-        data={articles}
-        renderItem={renderArticle}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-              //itemLayoutAnimation={LinearTransition}
+    <Animated.FlatList
+      scrollToOverflowEnabled
+      contentInsetAdjustmentBehavior='automatic'
+      keyboardShouldPersistTaps='handled'
+      data={filteredArticles}
+      renderItem={renderArticle}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={styles.listContent}
+      showsVerticalScrollIndicator={false}
+      itemLayoutAnimation={LinearTransition}
 
-      />
+    />
   );
 };
 

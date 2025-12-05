@@ -26,7 +26,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
             {attachments.map(att => (
                 <TouchableOpacity
                     key={att.id}
-                    onPress={() => router.push(`/(tabs)/recent/${slug}/${att.name}.${att.extension}`)}
+                    onPress={() => router.push(`./${slug}/${att.name}.${att.extension}`)}
                     style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingRight: 80 }}
                 >
                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>

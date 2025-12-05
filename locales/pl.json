@@ -59,6 +59,7 @@
     "visit_statistics": "Statystyka odwiedzin",
     "visit_statistics_desc": "Liczba wejść na stronę",
     "search_employee": "Wyszukaj pracownika",
+    "search_editor": "Wyszukaj edytora",
     "search_employee_desc": "Znajdź osobę w urzędzie",
     "change_log": "Rejestr zmian",
     "change_log_desc": "Historia aktualizacji BIP"
@@ -80,5 +81,6 @@
   "size":"Rozmiar",
   "format":"Format",
   "from_day":"Z dnia",
-  "settle_place":"Miejsce załatwienia"
+  "settle_place":"Miejsce załatwienia",
+  "phone_inside":"Numer wewnętrzny"
 }

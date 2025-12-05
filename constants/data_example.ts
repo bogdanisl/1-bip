@@ -1,5 +1,6 @@
 import { ArticleFull } from "@/types/Article";
 import { Attachment } from "@/types/Attachment";
+import { Employee } from "@/types/Employee";
 
 export const FAKE_CITIES = [
   { id: '1', code: '42100', name: 'Gmina Testowa' },
@@ -187,3 +188,59 @@ export const articles_examples_full: ArticleFull[] = [
     authorId: 5,
   }
 ];
+
+export const exampleEmployees: Employee[] = [
+    { id: 1, fullName: 'Jan Kowalski', function: 'Dyrektor', phone: 123456789,phone_2:500, email: 'jan.kowalski@example.com' },
+    { id: 2, fullName: 'Anna Nowak', function: 'Sekretarz', phone: 234567890, email: 'anna.nowak@example.com' },
+    { id: 3, fullName: 'Piotr Wiśniewski', function: 'Specjalista ds. administracji', phone: 345678901, email: 'piotr.wisniewski@example.com' },
+    { id: 4, fullName: 'Ewa Kaczmarek', function: 'Księgowa', phone: 456789012, email: 'ewa.kaczmarek@example.com' },
+    { id: 5, fullName: 'Tomasz Zieliński', function: 'Radca prawny', phone: 567890123, email: 'tomasz.zielinski@example.com' },
+    { id: 6, fullName: 'Karolina Lewandowska', function: 'Referent', phone: 678901234, email: 'karolina.lewandowska@example.com' },
+    { id: 7, fullName: 'Michał Woźniak', function: 'Informatyk', phone: 789012345, email: 'michal.wozniak@example.com' },
+    { id: 8, fullName: 'Agnieszka Piotrowska', function: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com' },
+    { id: 9, fullName: 'Agnieszka Piotrowska', function: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com' },
+    { id: 10, fullName: 'Agnieszka Piotrowska', function: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com' },
+    { id: 11, fullName: 'Agnieszka Piotrowska', function: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com' },
+    { id: 12, fullName: 'Agnieszka Piotrowska', function: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com' },
+];
+
+export const attachmentExamples: Attachment[] =[
+   {
+        id: 501,
+        name: "Lorem-ipsum-dolor-sit-amet_26",
+        extension: "pdf",
+        size: 285743,
+        language: "pl"
+      },
+      {
+        id: 502,
+        name: "Lorem-ipsum-dolor-sit-amet_2",
+        extension: "doc",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 503,
+        name: "duzy-pdf-2",
+        extension: "pdf",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 504,
+        name: "Lorem-ipsum-dolor-sit-amet_2",
+        extension: "png",
+        size: 56789,
+        language: "pl"
+      }
+      ,
+      {
+        id: 505,
+        name: "ARCHIWA",
+        extension: "rar",
+        size: 56789,
+        language: "pl"
+      }
+]
