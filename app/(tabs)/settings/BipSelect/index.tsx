@@ -26,6 +26,7 @@ import { router } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
 import { FAKE_CITIES } from '@/constants/data_example';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 const NUM_DIGITS = 5;
 
@@ -49,9 +50,10 @@ export default function BipFindScreen() {
     }));
 
     useEffect(() => {
-        const clearStorage = async () =>{
-        await AsyncStorage.removeItem('selectedBipIds');
-        await AsyncStorage.removeItem('selectedBipCities');
+        const clearStorage = async () => {
+            await AsyncStorage.removeItem('selectedBipIds');
+            await AsyncStorage.removeItem('selectedBipCities');
+            useSelectedBipStore.getState().setSelectedBip(null);
         }
         setIsComplete(digits.every(d => d.length === 1));
         clearStorage();

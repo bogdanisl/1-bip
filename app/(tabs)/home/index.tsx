@@ -234,7 +234,10 @@ export default function HomePage() {
           <Logo width={90} height={60} fill="white" style={{ marginTop: 0, marginBottom: 0 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
-              {selectedBip?.name ?? 'GMINA TESTOWA'}
+              {selectedBip?.name??'Gmina Testowa'}
+              <Text style={{fontSize:15, color:Colors.dark.subText, fontWeight:'600'}}>
+                {`\n${(selectedBip?.code.slice(0,2) ?? '11') + '-' + (selectedBip?.code.slice(2) ?? '222')} Testowo\nTestowa 11A`}
+              </Text>
             </Text>
 
             {/* Logo with original wireframe globe background */}

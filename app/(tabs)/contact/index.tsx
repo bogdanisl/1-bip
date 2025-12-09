@@ -1,9 +1,13 @@
+import FileItem from "@/components/buttons/ItemButton";
 import ContactForm from "@/components/contactForm";
 import { Colors, hexToRgba } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme.web";
+import { useSelectedBipStore } from "@/hooks/use-selected-bip";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Alert,
   Dimensions,
   Image,
   Linking,
@@ -11,17 +15,27 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from "react-native";
+import MapView, { Marker } from 'react-native-maps';
 
 
+export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
+  const url = Platform.select({
+    ios: `http://maps.apple.com/?daddr=${lat},${lng}&q=${label}`,
+    android: `google.navigation:q=${lat},${lng}`,
+  });
+
+  if (url)
+    Linking.openURL(url);
+};
 const screen = Dimensions.get("screen").width;
 
 const ContactHeader = () => {
   const { t } = useTranslation();
   const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
-
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+  const colorSheme = useColorScheme()
   const styles = StyleSheet.create({
     headerRow: { flexDirection: "row", marginLeft: 24, height: 30, paddingTop: 50 },
     section: { paddingLeft: 17 },
@@ -177,83 +191,155 @@ const ContactHeader = () => {
     hourText: {
       fontFamily: "Poppins-SemiBold",
     },
+    map: { width: '100%', height: '100%' },
   });
+
+
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: 'transparent' }}>
-        <View style={[styles.section, { marginBottom: 20 }]}>
-          <Text style={styles.sectionText}>
-            {t("want_to_talk_preview_title")}
-          </Text>
-          <Text style={styles.sectionDesc}>{t("want_to_talk_preview_desc")}</Text>
-        </View>
 
+        {selectedBip ? (
+          <>
+            <View style={[styles.section, { marginBottom: 20 }]}>
 
-        {/* Contact Person */}
-        <View style={styles.profileWrapper}>
-          <View style={styles.avatarContainer}>
-            <Image
-              source={require('../../../assets/images/avatar.webp')}
-              style={styles.avatar}
-              resizeMode="cover"
-            />
-          </View>
-
-          <View style={styles.row}>
-            {/* LEFT COLUMN */}
-            <View style={styles.leftColumn}>
-              <Text style={styles.nameText}>Julia Muniowska</Text>
-              <Text style={styles.roleText}>
-                {t("specialist")}
-                {"\n"}
-                {t("client_service")}
+              <Text style={styles.sectionText}>
+                {'Skontaktuj się z nami'}
               </Text>
-            </View>
+              <Text style={styles.sectionDesc}>{"Wybierz najwygodniejsą dla siebie formę kontaktu"}</Text>
+              <View style={{ padding: 17, paddingLeft: 0 }}>
+                <FileItem
+                  name={"111 222 334"}
+                  details="Telefon"
+                  iconBackground={themeColors.background}
+                  style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
+                  leftIconName={"phone"}
+                  rightIconName="chevron-right"
+                  onPress={() => {Linking.openURL(`tel:111222334`)}}
+                ></FileItem>
 
-            {/* RIGHT COLUMN */}
-            <View style={styles.rightColumn}>
-              <View style={styles.iconRow}>
-                <FontAwesome5
-                  name="phone"
-                  size={16}
-                  color={themeColors.tint}
-                />
-                <Text
-                  style={styles.iconText}
-                  onPress={() => Linking.openURL("tel:799068203")}
+                <FileItem
+                  name={"biuro@testowo.pl"}
+                  details="E-mail"
+                  iconBackground={themeColors.background}
+                  style={{ backgroundColor: themeColors.background_2, marginTop: 10 }}
+                  leftIconName={"mail"}
+                  rightIconName="chevron-right"
+                  onPress={() => {Linking.openURL(`mailto:biuro@testowo.pl`);}}
+                ></FileItem>
+                <FileItem
+                  name={"Testowa 11A,\n42-400 Testowo"}
+                  details="Adres"
+                  iconBackground={themeColors.background}
+                  style={{ backgroundColor: themeColors.background_2, marginTop: 10 }}
+                  leftIconName={"location-on"}
+                  rightIconName="chevron-right"
+                  onPress={() => {
+                    openNavigation(50.4933467, 19.4179835, 'ALPANET');
+                  }}
+                ></FileItem>
+              </View>
+              <View style={{ padding: 17, paddingLeft: 0, height: 250, borderRadius: 30 }}>
+                <MapView
+                  userInterfaceStyle={colorSheme?'dark':'light'}
+                  style={[styles.map, { borderRadius: 12 }]}
+                  //scrollEnabled={false}
+                  rotateEnabled={false}
+                  initialRegion={{
+                    latitude: 50.4933467,
+                    longitude: 19.4179735,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                  }}
+
+
                 >
-                  32 67 000 97
-                </Text>
+                  <Marker
+                    coordinate={{
+                      latitude: 50.4933467,
+                      longitude: 19.4179835,
+                    }}
+                    title="ALPANET"
+                    description="Polskie Systemy Internetowe"
+                  />
+                </MapView>
+
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={[styles.section, { marginBottom: 20 }]}>
+              <Text style={styles.sectionText}>
+                {t("want_to_talk_preview_title")}
+              </Text>
+              <Text style={styles.sectionDesc}>{t("want_to_talk_preview_desc")}</Text>
+            </View>
+            <View style={styles.profileWrapper}>
+              <View style={styles.avatarContainer}>
+                <Image
+                  source={require('../../../assets/images/avatar.webp')}
+                  style={styles.avatar}
+                  resizeMode="cover"
+                />
               </View>
 
-              <View style={styles.iconRow}>
-                <MaterialIcons
-                  name="email"
-                  size={18}
-                  color={themeColors.tint}
-                />
-                <Text
-                  style={styles.iconText}
-                  onPress={() =>
-                    Linking.openURL("mailto:j.muniowska@alpanet.pl")
-                  }
-                >
-                  j.muniowska{"\n"}@alpanet.pl
-                </Text>
+              <View style={styles.row}>
+
+                <View style={styles.leftColumn}>
+                  <Text style={styles.nameText}>Julia Muniowska</Text>
+                  <Text style={styles.roleText}>
+                    {t("specialist")}
+                    {"\n"}
+                    {t("client_service")}
+                  </Text>
+                </View>
+
+
+                <View style={styles.rightColumn}>
+                  <View style={styles.iconRow}>
+                    <FontAwesome5
+                      name="phone"
+                      size={16}
+                      color={themeColors.tint}
+                    />
+                    <Text
+                      style={styles.iconText}
+                      onPress={() => Linking.openURL("tel:799068203")}
+                    >
+                      32 67 000 97
+                    </Text>
+                  </View>
+
+                  <View style={styles.iconRow}>
+                    <MaterialIcons
+                      name="email"
+                      size={18}
+                      color={themeColors.tint}
+                    />
+                    <Text
+                      style={styles.iconText}
+                      onPress={() =>
+                        Linking.openURL("mailto:j.muniowska@alpanet.pl")
+                      }
+                    >
+                      j.muniowska{"\n"}@alpanet.pl
+                    </Text>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
-        </View>
+          </>
+        )}
+
 
         {/* Consultation */}
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingLeft: 24 }}>
-          <View style={{ height: 30, alignItems: 'center', marginLeft: 10 }}>
-          </View>
-          <View style={{ paddingHorizontal: 10, marginTop: 5, marginBottom: 15, }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 24 }}>
+          <View style={{ height: 30, alignItems: 'flex-start' }}>
             <Text
-              style={{ color: themeColors.text, fontFamily: 'Poppins-Regular', fontSize: 14 }}>
-              {t('consultation_needed_desc')}
+              style={[styles.sectionText, { color: themeColors.text }]}>
+              {t('Formularz kontaktowy')}
             </Text>
           </View>
         </View>

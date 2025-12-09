@@ -13,13 +13,12 @@ import Animated, {
 
 import { Colors } from '@/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
-import type { Article, NormalArticle, HandleArticle, CaseArticle } from '@/types/Article'
+import type { Article } from '@/types/Article'
 import { NormalArticleCard } from '@/components/articles/normal/NormalArticleCard';
-import { HandleArticleCard } from '@/components/articles/handle/HandleArticleCard';
-import { CaseArticleCard } from '@/components/articles/case/CaseArticleCard';
 import { articles_examples_full } from '@/constants/data_example';
-import { normalizeArticle } from '@/utils/normalizeArticle';
+//import { normalizeArticle } from '@/utils/normalizeArticle';
 import { useLocalSearchParams } from 'expo-router';
+import { fetchArticles } from '@/utils/articles';
 
 // === Основная страница ===
 const RecentPage = () => {
@@ -30,30 +29,28 @@ const RecentPage = () => {
 
   const searchText = params?.q?.toLowerCase() || "";
   const filteredArticles = articles ? articles.filter((article) => {
-          if (!searchText) {
-              return true;
-          }
+    if (!searchText) {
+      return true;
+    }
 
-          return article.keywords? article.slug.toLowerCase().includes(searchText.replace(' ','-')):articles;
-      }):null;
-  
+    return article.keywords ? article.slug.toLowerCase().includes(searchText.replace(' ', '-')) : articles;
+  }) : null;
+
+  const loadArticles = async () =>{
+    const fetchedArticles = await fetchArticles(0,4);
+    if(fetchedArticles){
+      setArticles(fetchedArticles);
+    }
+  }
+
   useEffect(() => {
-    const normalized = articles_examples_full.map(normalizeArticle)
-    setArticles(normalized)
+    loadArticles()
   }, [])
   const renderArticle = ({ item }: { item: Article }) => {
-    switch (item.artTypeId) {
-      case 0:
-        return <NormalArticleCard article={item} />;
-      case 1:
-        return <HandleArticleCard article={item} />;
-      case 2:
-        return <CaseArticleCard article={item} />;
-      default:
-        return null;
-    }
-  };
-
+    return (
+      <NormalArticleCard article={item} />
+    )
+  }
   return (
     <Animated.FlatList
       scrollToOverflowEnabled

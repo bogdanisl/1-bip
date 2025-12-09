@@ -12,7 +12,7 @@ export const ReadMoreButton = ({ article, theme }: { article: Article; theme: an
     setLoading(true);
     setTimeout(() => {
       router.push({
-        pathname:`../recent/${article.slug}`,
+        pathname:`../recent/${article.id}`,
     });
       setLoading(false);
     }, 0);
@@ -27,7 +27,7 @@ export const ReadMoreButton = ({ article, theme }: { article: Article; theme: an
       {loading ? (
         <ActivityIndicator size="small" color={theme.background_2} />
       ) : (
-        <Text style={[styles.readMoreText, { color: theme.text }]}>
+        <Text style={[styles.readMoreText, { color: 'white' }]}>
           CZYTAJ DALEJ
         </Text>
       )}

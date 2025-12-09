@@ -67,7 +67,7 @@ const OpeningHoursCard = () => {
     if (!today) return '';
 
     if (isOpenNow) {
-      return `Zamknięcie się o ${today.close}`;
+      return `Zamknięcie o ${today.close}`;
     }
     if (currentMinutes < today.openM) {
       return `Otwarcie dziś o ${today.open}`;
@@ -79,8 +79,8 @@ const OpeningHoursCard = () => {
       if (nextDayNum >= 1 && nextDayNum <= 5) {
         const next = schedule.find(s => s.day === nextDayNum);
         if (next) {
-          const dayName = nextDayNum === 1 && dayOfWeek >= 5 ? 'w poniedziałek' : next.name.toLowerCase();
-          return `Otwarcie ${dayName} o ${next.open}`;
+          const dayName = nextDayNum === 1 && dayOfWeek >= 5 ? 'poniedziałek' : next.name.toLowerCase();
+          return `Otwarcie w ${dayName} o ${next.open}`;
         }
       }
     }
@@ -174,7 +174,7 @@ const OpeningHoursCard = () => {
                     </Text>
                   </View>
 
-                  <View style={[styles.timeContainer, { backgroundColor: isToday && isOpenNow ? theme.green : 'transparent' }]}>
+                  <View style={[styles.timeContainer, { backgroundColor: (isOpenNow && isToday) ? theme.green : isToday? theme.tint:'transparent' }]}>
                     <MaterialIcons
                       name="access-time"
                       size={20}

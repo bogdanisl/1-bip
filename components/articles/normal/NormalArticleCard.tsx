@@ -1,12 +1,12 @@
 import { styles } from "@/assets/styles/recent_index";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { NormalArticle } from "@/types/Article";
+import { Article } from "@/types/Article";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View,Text } from "react-native";
 import { ReadMoreButton } from "../../buttons/ReadMoreButton";
 
-export const NormalArticleCard = ({ article }: { article: NormalArticle }) => {
+export const NormalArticleCard = ({ article }: { article: Article }) => {
   const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
 
   return (
@@ -24,7 +24,7 @@ export const NormalArticleCard = ({ article }: { article: NormalArticle }) => {
       <View style={styles.infoRow}>
         <MaterialIcons name="schedule" size={18} color={theme.icon} />
         <Text style={[styles.infoText, { color: theme.text }]}>
-          Dodano: {article.addedDate.toLocaleDateString('pl-PL')}
+          {article.publishedAt?.date? 'Dodano: ' + new Date(article.publishedAt.date).toLocaleDateString('pl-PL'):''}
         </Text>
       </View>
 

@@ -8,11 +8,13 @@ import { articles_examples_full } from '@/constants/data_example';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme.web';
 import { Article } from '@/types/Article';
-import { normalizeArticle } from '@/utils/normalizeArticle';
+import { fetchArticle } from '@/utils/articles';
+//import { normalizeArticle } from '@/utils/normalizeArticle';
 import { MaterialIcons } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useLocalSearchParams } from 'expo-router';
 import { Stack } from 'expo-router/stack'
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, Share, Platform } from 'react-native'
 
@@ -20,6 +22,7 @@ export default function ArticlePage() {
     const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
     const { t } = useTranslation()
     const { slug } = useLocalSearchParams<{ slug: string }>();
+    const [article, setArticle] = useState<Article | null>(null);
     const handlePress = async () => {
         try {
             const result = await Share.share({
@@ -33,7 +36,18 @@ export default function ArticlePage() {
 
     }
 
-    const article = articles_examples_full.map(normalizeArticle).find(a => a.slug === slug);
+    const getArticle = async () =>{
+        const fetchedArticle = await fetchArticle(Number(slug));
+        if(fetchedArticle){
+            setArticle(fetchedArticle)
+        }
+        //console.log(fetchedArticle)
+    }
+
+    useEffect(()=>{
+
+        getArticle();
+    },[])
 
     if (!article) return <Text>Artykuł nie znaleziony</Text>;
     return (
@@ -60,13 +74,14 @@ export default function ArticlePage() {
             >
 
             </Stack.Screen>
-            {article.artTypeId === 0 && (
+
+            {article.articleType === 0 && (
                 <NormalArticlePage article={article} />
             )}
-            {article.artTypeId === 1 && (
+            {article.articleType === 1 && (
                 <HandleArticlePage article={article} />
             )}
-            {article.artTypeId === 2 && (
+            {article.articleType === 2 && (
                 <CaseArticlePage article={article} />
             )}
         </>

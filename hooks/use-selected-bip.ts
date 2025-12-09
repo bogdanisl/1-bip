@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SelectedBipState = {
   selectedBip: Bip | null;
-  setSelectedBip: (bip: Bip) => void;
+  setSelectedBip: (bip: Bip|null) => void;
 };
 
 export const useSelectedBipStore = create<SelectedBipState>()(

@@ -1,31 +1,32 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { NormalArticle, CaseArticle, HandleArticle } from '@/types/Article';
 import { useTranslation } from 'react-i18next';
+import { Article } from '@/types/Article';
 
 interface Props {
-    article: NormalArticle | CaseArticle | HandleArticle;
+    article: Article;
     theme: any;
 }
 
-const getSubTitle = (article: NormalArticle | CaseArticle | HandleArticle, t: any) => {
-    switch (article.artTypeId) {
+const getSubTitle = (article: Article, t: any) => {
+    switch (article.articleType) {
         case 0: return article.subtitle;
-        case 1: return `${t('from_day')}: ${article.fromDay}`;
-        case 2: return `${t('settle_place')}: ${article.settlePlace}`;
+        case 1: return `${t('from_day')}: ${article.resolutionDate?.date}`;
+        case 2: return `${t('settle_place')}: ${article.resolutionPlace}`;
         default: return '';
     }
 }
 
 export function ArticleHeader({ article, theme }: Props) {
     const { t } = useTranslation();
+    var he = require('he');
 
     return (
         <View style={{ marginBottom: 12 }}>
             {/* TITLE */}
             <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.text, lineHeight: 38 }}>
-                {article.artTypeId == 0 ? article.title : article.artTypeId == 1 ? article.handleNumber : article.caseType || 'Brak tytułu'}
+                {article.articleType == 0 ? he.decode(article.title) : article.articleType == 1 ? article.resolutionNumber : article.resolutionType || 'Brak tytułu'}
             </Text>
 
 
@@ -33,7 +34,7 @@ export function ArticleHeader({ article, theme }: Props) {
             {/* SUBTITLE */}
             {getSubTitle(article, t) ? (
                 <Text style={{ color: theme.subText, marginTop: 8, fontSize: 18 }}>
-                    {getSubTitle(article, t)}
+                    {he.decode(getSubTitle(article, t))}
                 </Text>
             ) : null}
             {/* VIEWS */}
@@ -41,7 +42,7 @@ export function ArticleHeader({ article, theme }: Props) {
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
                     <MaterialIcons name="visibility" size={18} color={theme.subText} />
                     <Text style={{ color: theme.subText, marginLeft: 4 }}>
-                        {article.readCount ?? 0}
+                        {article.views ?? 0}
                     </Text>
                 </View>
             </View>

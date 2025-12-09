@@ -12,7 +12,7 @@
   "phone": "Telefon",
   "content": "Treść",
   "contact_consent_2": "Zapoznałem się z\u00A0zasadami polityki prywatności.",
-  "contact_consent_1": "Wyrażam zgodę na przetwarzanie danych osobowych przez ALPANET - Polskie Systemy Internetowe w\u00A0celu udzielenia odpowiedzi.",
+  "contact_consent_1": "Wyrażam zgodę na przetwarzanie danych osobowych przez {{ company }} w\u00A0celu udzielenia odpowiedzi.",
   "contact_consents_error": "Proszę wyrazić zgodę na przetwarzanie danych i\u00A0politykę prywatności.",
   "invalid_email_error": "Adres e-mail jest niepoprawny.",
   "invalid_phone_error": "Numer telefonu jest niepoprawny.",

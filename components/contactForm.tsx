@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import AlpiInput from './AlpiInput';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 const ContactForm: React.FC<{
   endpoint?: string;
@@ -24,246 +25,248 @@ const ContactForm: React.FC<{
   endpoint = `${API_URL}/consultation/send`,
   onSubmitSuccess,
 }) => {
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
-  const [consentData, setConsentData] = useState(false);
-  const [consentPrivacy, setConsentPrivacy] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const colorScheme = useColorScheme();
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
-  const { t } = useTranslation();
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [message, setMessage] = useState('');
+    const [consentData, setConsentData] = useState(false);
+    const [consentPrivacy, setConsentPrivacy] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const colorScheme = useColorScheme();
+    const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
-  // ошибки
-  const [emailError, setEmailError] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [messageError, setMessageError] = useState('');
-  const [consentError, setConsentError] = useState('');
+    const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { t } = useTranslation();
 
-
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-    if (emailError) setEmailError('');
-  };
-
-  const handlePhoneChange = (text: string) => {
-    setPhone(text);
-    if (phoneError) setPhoneError('');
-  };
-
-  const handleMessageChange = (text: string) => {
-    setMessage(text);
-    if (messageError) setMessageError('');
-  };
-
-  const validateForm = () => {
-    let valid = true;
-
-    const phoneRegex = /^\+?[0-9\s\-]+$/;
-    const messageRegex = /^[\p{L}\p{N}\p{P}\p{M}\p{S}\p{Z}\p{Sc}\p{Sm}\p{Sk}\p{So}]{5,300}$/u;
-
-    setEmailError('');
-    setPhoneError('');
-    setMessageError('');
-    setConsentError('');
+    // ошибки
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [messageError, setMessageError] = useState('');
+    const [consentError, setConsentError] = useState('');
 
 
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setEmailError(t('invalid_email_error'));
-      valid = false;
-    }
-
-    if (phone.trim() && !phoneRegex.test(phone.trim())) {
-      setPhoneError(t('invalid_phone_error'));
-      valid = false;
-    }
-
-    if (!messageRegex.test(message.trim())) {
-      setMessageError(t('contact_content_error'));
-      valid = false;
-    }
-
-    if (!consentData || !consentPrivacy) {
-      setConsentError(t('contact_consents_error'));
-      valid = false;
-    }
-
-    return valid;
-  };
-
-  const handleSubmit = async () => {
-    if (!validateForm()) return;
-
-    const payload = {
-      email,
-      phone,
-      content: message,
-      consents: [consentData ? 1 : 0, consentPrivacy ? 1 : 0],
+    const handleEmailChange = (text: string) => {
+      setEmail(text);
+      if (emailError) setEmailError('');
     };
 
-    try {
-      setLoading(true);
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+    const handlePhoneChange = (text: string) => {
+      setPhone(text);
+      if (phoneError) setPhoneError('');
+    };
 
-      console.log(res)
-      if (!res.ok) throw new Error('Błąd wysyłania formularza.');
+    const handleMessageChange = (text: string) => {
+      setMessage(text);
+      if (messageError) setMessageError('');
+    };
+
+    const validateForm = () => {
+      let valid = true;
+
+      const phoneRegex = /^\+?[0-9\s\-]+$/;
+      const messageRegex = /^[\p{L}\p{N}\p{P}\p{M}\p{S}\p{Z}\p{Sc}\p{Sm}\p{Sk}\p{So}]{5,300}$/u;
+
+      setEmailError('');
+      setPhoneError('');
+      setMessageError('');
+      setConsentError('');
 
 
-      setEmail('');
-      setPhone('');
-      setMessage('');
-      setConsentData(false);
-      setConsentPrivacy(false);
 
-      showMessage({
-        message: t('message_sent_title'),
-        description: t('message_sent_desc'),
-        type: 'success',
-        icon: 'success',
-        duration: 3000,
-      });
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+        setEmailError(t('invalid_email_error'));
+        valid = false;
+      }
 
-      onSubmitSuccess?.();
-    } catch (err: any) {
-      setConsentError(err.message || t('error_sending'));
-      // showMessage({
-      //   message: t('error_sending'),
-      //   description: t('oops'),
-      //   type: 'danger',
-      //   icon: 'danger',
-      //   duration: 3000,
-      // });
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (phone.trim() && !phoneRegex.test(phone.trim())) {
+        setPhoneError(t('invalid_phone_error'));
+        valid = false;
+      }
 
-  const messageLength = message.length;
-  const messageMax = 300;
+      if (!messageRegex.test(message.trim())) {
+        setMessageError(t('contact_content_error'));
+        valid = false;
+      }
 
-  return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.scrollContainer}
-      bounces={true}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      extraHeight={Platform.OS === 'ios' ? 150 : 150}
-      enableOnAndroid={true}
-      enableAutomaticScroll={true}
-      keyboardOpeningTime={250}
-    >
-      <View style={styles.container}>
-        {/* Inputs */}
+      if (!consentData || !consentPrivacy) {
+        setConsentError(t('contact_consents_error'));
+        valid = false;
+      }
 
-        <AlpiInput
-          placeholder="E-mail*"
-          value={email}
-          onChangeText={handleEmailChange}
-          keyboardType="email-address"
-          errorValue={!!emailError}
-          errorText={emailError}
-        />
-        <AlpiInput
-          placeholder={`${t('phone')}*`}
-          value={phone}
-          onChangeText={handlePhoneChange}
-          keyboardType="phone-pad"
-          errorValue={!!phoneError}
-          errorText={phoneError}
-        />
+      return valid;
+    };
 
-        {/* Message */}
-        <View style={styles.messageContainer}>
-          <Text style={[styles.messageLabel, { color: themeColors.text }]}>{t('content')}*</Text>
+    const handleSubmit = async () => {
+      if (!validateForm()) return;
+
+      const payload = {
+        email,
+        phone,
+        content: message,
+        consents: [consentData ? 1 : 0, consentPrivacy ? 1 : 0],
+      };
+
+      try {
+        setLoading(true);
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        console.log(res)
+        if (!res.ok) throw new Error('Błąd wysyłania formularza.');
+
+
+        setEmail('');
+        setPhone('');
+        setMessage('');
+        setConsentData(false);
+        setConsentPrivacy(false);
+
+        showMessage({
+          message: t('message_sent_title'),
+          description: t('message_sent_desc'),
+          type: 'success',
+          icon: 'success',
+          duration: 3000,
+        });
+
+        onSubmitSuccess?.();
+      } catch (err: any) {
+        setConsentError(err.message || t('error_sending'));
+        // showMessage({
+        //   message: t('error_sending'),
+        //   description: t('oops'),
+        //   type: 'danger',
+        //   icon: 'danger',
+        //   duration: 3000,
+        // });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const messageLength = message.length;
+    const messageMax = 300;
+
+    return (
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollContainer}
+        bounces={true}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        extraHeight={Platform.OS === 'ios' ? 150 : 150}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
+        keyboardOpeningTime={250}
+      >
+        <View style={styles.container}>
+          {/* Inputs */}
+
           <AlpiInput
-            value={message}
-            onChangeText={handleMessageChange}
-            multiline
-            errorValue={!!messageError}
-            errorText={messageError}
+            placeholder="E-mail*"
+            value={email}
+            onChangeText={handleEmailChange}
+            keyboardType="email-address"
+            errorValue={!!emailError}
+            errorText={emailError}
           />
-          <Text
-            style={[
-              styles.counter,
-              { color: messageLength > messageMax ? 'red' : themeColors.text },
-            ]}
-          >
-            {messageLength}/{messageMax}
-          </Text>
-        </View>
+          <AlpiInput
+            placeholder={`${t('phone')}*`}
+            value={phone}
+            onChangeText={handlePhoneChange}
+            keyboardType="phone-pad"
+            errorValue={!!phoneError}
+            errorText={phoneError}
+          />
 
-        {/* Consents */}
-        <View style={styles.checkboxContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              setConsentData(!consentData);
-              if (consentError) setConsentError('');
-            }}
-            style={styles.checkboxRow}
-          >
-            <View
+          {/* Message */}
+          <View style={styles.messageContainer}>
+            <Text style={[styles.messageLabel, { color: themeColors.text }]}>{t('content')}*</Text>
+            <AlpiInput
+              value={message}
+              onChangeText={handleMessageChange}
+              multiline
+              errorValue={!!messageError}
+              errorText={messageError}
+            />
+            <Text
               style={[
-                styles.checkbox,
-                {
-                  borderColor: themeColors.border,
-                  backgroundColor: consentData ? themeColors.text : themeColors.background,
-                },
+                styles.counter,
+                { color: messageLength > messageMax ? 'red' : themeColors.text },
               ]}
             >
-              {consentData && <AntDesign name="check" size={14} color={themeColors.background} />}
-            </View>
-            <Text style={{ color: themeColors.text }}>{t('contact_consent_1')}</Text>
-          </TouchableOpacity>
+              {messageLength}/{messageMax}
+            </Text>
+          </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              setConsentPrivacy(!consentPrivacy);
-              if (consentError) setConsentError('');
-            }}
-            style={styles.checkboxRow}
-          >
-            <View
-              style={[
-                styles.checkbox,
-                {
-                  borderColor: themeColors.border,
-                  backgroundColor: consentPrivacy ? themeColors.text : themeColors.background,
-                },
-              ]}
+          {/* Consents */}
+          <View style={styles.checkboxContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                setConsentData(!consentData);
+                if (consentError) setConsentError('');
+              }}
+              style={styles.checkboxRow}
             >
-              {consentPrivacy && <AntDesign name="check" size={14} color={themeColors.background} />}
-            </View>
-            <Text style={{ color: themeColors.text }}>{t('contact_consent_2')}</Text>
-          </TouchableOpacity>
-          {consentError ? <Text style={styles.errorText}>{consentError}</Text> : null}
-        </View>
+              <View
+                style={[
+                  styles.checkbox,
+                  {
+                    borderColor: themeColors.border,
+                    backgroundColor: consentData ? themeColors.text : themeColors.background,
+                  },
+                ]}
+              >
+                {consentData && <AntDesign name="check" size={14} color={themeColors.background} />}
+              </View>
+              <Text style={{ color: themeColors.text }}>{t('contact_consent_1',{company: selectedBip?selectedBip.name:'ALPANET - Polskie Systemy Internetowe'})}</Text>
+            </TouchableOpacity>
 
-        {/* Submit */}
-        <TouchableOpacity
-          onPress={handleSubmit}
-          disabled={loading}
-          style={[styles.submitBtn, { backgroundColor: themeColors.tint, opacity: loading ? 0.7 : 1 }]}
-        >
-          <Text style={styles.submitText}>
-            {loading ? t('sending...') : t('send_email')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAwareScrollView>
-  );
-};
+            <TouchableOpacity
+              onPress={() => {
+                setConsentPrivacy(!consentPrivacy);
+                if (consentError) setConsentError('');
+              }}
+              style={styles.checkboxRow}
+            >
+              <View
+                style={[
+                  styles.checkbox,
+                  {
+                    borderColor: themeColors.border,
+                    backgroundColor: consentPrivacy ? themeColors.text : themeColors.background,
+                  },
+                ]}
+              >
+                {consentPrivacy && <AntDesign name="check" size={14} color={themeColors.background} />}
+              </View>
+              <Text style={{ color: themeColors.text }}>{t('contact_consent_2')}</Text>
+            </TouchableOpacity>
+            {consentError ? <Text style={styles.errorText}>{consentError}</Text> : null}
+          </View>
+
+          {/* Submit */}
+          <TouchableOpacity
+            onPress={handleSubmit}
+            disabled={loading}
+            style={[styles.submitBtn, { backgroundColor: themeColors.tint, opacity: loading ? 0.7 : 1 }]}
+          >
+            <Text style={styles.submitText}>
+              {loading ? t('sending...') : t('send_email')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
+    );
+  };
 
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
   },
   container: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 17,
     paddingTop: 20,
     paddingBottom: 80,
   },
