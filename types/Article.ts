@@ -44,12 +44,26 @@ export interface Article {
     deletedAt: DateObject | null | null ;
     publishedAt: DateObject | null ;
     type: string | null ;
+    documents: Document[] | null;
 }
 
 export interface DateObject {
     date: string | null ; // ISO format
     timezone_type: number | null ;
     timezone: string | null ;
+}
+
+export interface Document{
+    id: number,
+    articleId: number,
+    articleType: string,
+    fullPath: string,
+    fileName: string,
+    extension:string,
+    description:string,
+    position:number,
+    fileSize: number,
+    language: string
 }
 
 

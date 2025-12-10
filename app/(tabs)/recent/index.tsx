@@ -1,68 +1,127 @@
 // app/(tabs)/recent.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
-  FlatList,
-  View,
+  RefreshControl,
   useColorScheme,
 } from 'react-native';
 import Animated, {
-  FadeIn,
-  FadeOut,
   LinearTransition,
 } from "react-native-reanimated";
 
 import { Colors } from '@/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
-import type { Article } from '@/types/Article'
-import { NormalArticleCard } from '@/components/articles/normal/NormalArticleCard';
-import { articles_examples_full } from '@/constants/data_example';
-//import { normalizeArticle } from '@/utils/normalizeArticle';
+import type { Article } from '@/types/Article';
+import { ArticleCard } from '@/components/articles/ArticleCard';
 import { useLocalSearchParams } from 'expo-router';
 import { fetchArticles } from '@/utils/articles';
 
-// === Основная страница ===
+const LIMIT = 40;
+
 const RecentPage = () => {
   const colorScheme = useColorScheme();
-  const [articles, setArticles] = useState<Article[] | null>(null)
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [offset, setOffset] = useState(0);
+
+  const [isRefreshing, setIsRefreshing] = useState(false); // <-- refresh
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const params = useLocalSearchParams<{ q?: string }>();
-
   const searchText = params?.q?.toLowerCase() || "";
-  const filteredArticles = articles ? articles.filter((article) => {
-    if (!searchText) {
-      return true;
-    }
 
-    return article.keywords ? article.slug.toLowerCase().includes(searchText.replace(' ', '-')) : articles;
-  }) : null;
+  const filteredArticles = articles.filter((article) => {
+    if (!searchText) return true;
+    return article.title?.toLowerCase().includes(searchText);
+  });
 
-  const loadArticles = async () =>{
-    const fetchedArticles = await fetchArticles(0,4);
-    if(fetchedArticles){
-      setArticles(fetchedArticles);
-    }
-  }
+  // === Загрузка статей (offset,limit) ===
+  const loadArticles = useCallback(
+    async (offsetToLoad: number, append = false) => {
+      if (isLoadingMore || isRefreshing) return;
 
+      if (append) {
+        setIsLoadingMore(true);
+      }
+
+      const fetched = await fetchArticles(offsetToLoad, LIMIT);
+
+      if (fetched) {
+        if (fetched.length < LIMIT) {
+          setHasMore(false);
+        }
+
+        setArticles((prev) =>
+          append ? [...prev, ...fetched] : fetched
+        );
+
+        setOffset(offsetToLoad);
+      }
+
+      if (append) {
+        setIsLoadingMore(false);
+      }
+    },
+    [isLoadingMore, isRefreshing]
+  );
+
+  // === Primary load ===
   useEffect(() => {
-    loadArticles()
-  }, [])
-  const renderArticle = ({ item }: { item: Article }) => {
-    return (
-      <NormalArticleCard article={item} />
-    )
-  }
+    loadArticles(0, false);
+  }, []);
+
+  // === Pull-to-refresh ===
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+
+    setHasMore(true);       // Сбросить "конец списка"
+    const freshData = await fetchArticles(0, LIMIT);
+
+    if (freshData) {
+      setArticles(freshData);
+      setOffset(0);
+      if (freshData.length < LIMIT) {
+        setHasMore(false);
+      }
+    }
+
+    setIsRefreshing(false);
+  };
+
+  // === Load more ===
+  const handleLoadMore = () => {
+    if (isLoadingMore || isRefreshing || !hasMore) return;
+    loadArticles(offset + LIMIT, true);
+  };
+
+  const renderArticle = ({ item }: { item: Article }) => (
+    <ArticleCard article={item} />
+  );
+
   return (
     <Animated.FlatList
       scrollToOverflowEnabled
       contentInsetAdjustmentBehavior='automatic'
       keyboardShouldPersistTaps='handled'
+
       data={filteredArticles}
       renderItem={renderArticle}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.listContent}
-      showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={true}
       itemLayoutAnimation={LinearTransition}
 
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.3}
+
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          tintColor={theme.tint}
+          colors={[theme.text]}
+        />
+      }
     />
   );
 };

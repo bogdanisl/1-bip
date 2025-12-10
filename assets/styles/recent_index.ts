@@ -26,9 +26,8 @@ export const styles = StyleSheet.create({
   },
   recentHeader: {
     fontSize: 16,
+    // paddingRight:20,
     fontWeight: '600',
-    marginBottom: 16,
-    lineHeight: 22,
   },
   infoRow: {
     flexDirection: 'row',

@@ -1,6 +1,7 @@
 // app/components/ArticleContent.tsx
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
+import RenderHTML from 'react-native-render-html';
 
 
 interface Props {
@@ -9,19 +10,43 @@ interface Props {
 }
 
 export function ArticleContent({ content, theme }: Props) {
-    var he = require('he');
+    const { width } = useWindowDimensions();
+    //var he = require('he');
+    //const decoded = he.decode(content || '');
+    const transformedIMG = content.replaceAll('<img src="', `<img src="${'https://www.bip.alpanet.pl/'}`)
+    //console.log(content);
 
     return (
-        <View style={{
-            borderTopWidth: 1,
-            borderBottomWidth: 1,
-            borderColor: theme.border,
-            paddingVertical: 12,
-            marginBottom: 16
-        }}>
-            <Text style={{ color: theme.text, fontSize: 16 }}>
-                {`${he.decode(content)}` || 'Treść artykułu niedostępna.'}
-            </Text>
+        <View
+            style={{
+                borderTopWidth: 1,
+                borderBottomWidth: 1,
+                borderColor: theme.border,
+                paddingVertical: 12,
+                marginBottom: 16
+            }}
+        >
+            <RenderHTML
+                contentWidth={width}
+                source={{ html: transformedIMG }}
+                ignoredDomTags={['table']}
+                tagsStyles={{
+                    p: { color: theme.text, fontSize: 16, lineHeight: 22 },
+                    span: { color: theme.text, fontSize: 16 },
+                    strong: { fontWeight: '700', color: theme.text },
+                    em: { fontStyle: 'italic', color: theme.text },
+                    a: { color: theme.tint },
+                    li: { color: theme.text, fontSize: 16 },
+                    img: { marginVertical: 10 }
+                }}
+                enableExperimentalMarginCollapsing={true}
+                defaultTextProps={{
+                    selectable: true
+                }}
+                baseStyle={{ color: theme.text }}
+                enableCSSInlineProcessing={true}
+
+            />
         </View>
     );
 }

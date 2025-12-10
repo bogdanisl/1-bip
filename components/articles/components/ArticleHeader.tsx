@@ -26,7 +26,7 @@ export function ArticleHeader({ article, theme }: Props) {
         <View style={{ marginBottom: 12 }}>
             {/* TITLE */}
             <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.text, lineHeight: 38 }}>
-                {article.articleType == 0 ? he.decode(article.title) : article.articleType == 1 ? article.resolutionNumber : article.resolutionType || 'Brak tytułu'}
+                {he.decode(article.title)}
             </Text>
 
 
@@ -34,7 +34,7 @@ export function ArticleHeader({ article, theme }: Props) {
             {/* SUBTITLE */}
             {getSubTitle(article, t) ? (
                 <Text style={{ color: theme.subText, marginTop: 8, fontSize: 18 }}>
-                    {he.decode(getSubTitle(article, t))}
+                    {he.decode(article.subtitle)}
                 </Text>
             ) : null}
             {/* VIEWS */}

@@ -33,8 +33,24 @@ export default function ProfileLayout() {
           </Text>
           : undefined,
       }} />
-      <Stack.Screen name="language" options={{ title: t('language'), headerShown: true, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
-      <Stack.Screen name="themePage" options={{ title: t('color_theme'), headerShown: true, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
+      <Stack.Screen name="language" options={{
+        headerShown: true,
+        headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+        headerTransparent: Platform.OS == 'ios' ? true : false,
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+        title: t('language'),
+        headerTintColor: colorScheme.tint,
+        headerTitleStyle: { color: colorScheme.text }
+      }} />
+      <Stack.Screen name="themePage" options={{ 
+        headerShown: true,
+        headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+        headerTransparent: Platform.OS == 'ios' ? true : false,
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+        title: t('color_scheme'),
+        headerTintColor: colorScheme.tint,
+        headerTitleStyle: { color: colorScheme.text }
+        }} />
 
 
       <Stack.Screen name="BipSelect/index" options={{ title: t('color_theme'), headerShown: false, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />

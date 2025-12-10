@@ -1,0 +1,60 @@
+import { styles } from "@/assets/styles/recent_index";
+import { Colors } from "@/constants/theme";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { Article } from "@/types/Article";
+import { MaterialIcons } from "@expo/vector-icons";
+import { View, Text } from "react-native";
+import { ReadMoreButton } from "../buttons/ReadMoreButton";
+
+export const ArticleCard = ({ article }: { article: Article }) => {
+  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  var he = require('he');
+
+  return (
+    <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
+      <View style={{ flex: 1, paddingRight: 40, position: 'relative' }}>
+        <Text
+          style={[
+            styles.recentHeader,
+            {
+              color: theme.text,
+              flexWrap: 'wrap',
+            },
+          ]}
+        >
+          {he.decode(article.title) || 'Artykuł bez tytułu'}
+        </Text>
+
+        <View style={{ position: 'absolute', flexDirection:'row', top: 0, right: 0, alignItems: 'center' }}>
+          <MaterialIcons name="visibility" size={18} color={theme.subText} />
+          <Text style={{ color: theme.subText}}> {article.views ?? 0}</Text>
+        </View>
+      </View>
+      {article.subtitle && (
+        <Text style={{ color: theme.subText, marginBottom: 8, marginTop: 5 }}>
+          {article.subtitle}
+        </Text>
+      )}
+
+
+      <View style={[styles.infoRow, { marginTop: 10 }]}>
+        <MaterialIcons name="schedule" size={18} color={theme.icon} />
+        <Text style={[styles.infoText, { color: theme.text }]}>
+          {article.publishedAt?.date ? 'Dodano: ' + new Date(article.publishedAt.date).toLocaleDateString('pl-PL') : ''}
+        </Text>
+      </View>
+      <View style={styles.infoRow}>
+        <MaterialIcons name='person-add-alt-1' size={18} color={theme.icon} />
+        <Text style={[styles.infoText, { color: theme.text }]}>
+          {article.acceptedBy ? 'Wprowadził: ' + article.acceptedBy : ''}
+        </Text>
+      </View>
+
+      <View style={styles.progressContainer}>
+        <View style={[styles.progressBar]} />
+      </View>
+
+      <ReadMoreButton article={article} theme={theme} />
+    </View>
+  );
+};

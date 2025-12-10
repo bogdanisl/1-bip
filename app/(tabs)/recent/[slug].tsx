@@ -1,8 +1,4 @@
-import { CaseArticleCard } from '@/components/articles/case/CaseArticleCard';
-import CaseArticlePage from '@/components/articles/case/CaseArticlePage';
-import { HandleArticleCard } from '@/components/articles/handle/HandleArticleCard';
-import HandleArticlePage from '@/components/articles/handle/HandleArticlePage';
-import NormalArticlePage from '@/components/articles/normal/NormalArticlePage';
+import ArticlePage from '@/components/articles/ArticlePage';
 import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton.ios';
 import { articles_examples_full } from '@/constants/data_example';
 import { Colors } from '@/constants/theme';
@@ -18,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, Share, Platform } from 'react-native'
 
-export default function ArticlePage() {
+export default function ArticleShow() {
     const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
     const { t } = useTranslation()
     const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -36,18 +32,18 @@ export default function ArticlePage() {
 
     }
 
-    const getArticle = async () =>{
+    const getArticle = async () => {
         const fetchedArticle = await fetchArticle(Number(slug));
-        if(fetchedArticle){
+        if (fetchedArticle) {
             setArticle(fetchedArticle)
         }
         //console.log(fetchedArticle)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
 
         getArticle();
-    },[])
+    }, [])
 
     if (!article) return <Text>Artykuł nie znaleziony</Text>;
     return (
@@ -75,15 +71,7 @@ export default function ArticlePage() {
 
             </Stack.Screen>
 
-            {article.articleType === 0 && (
-                <NormalArticlePage article={article} />
-            )}
-            {article.articleType === 1 && (
-                <HandleArticlePage article={article} />
-            )}
-            {article.articleType === 2 && (
-                <CaseArticlePage article={article} />
-            )}
+            <ArticlePage article={article} />
         </>
     )
 }

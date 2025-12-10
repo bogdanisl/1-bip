@@ -42,6 +42,7 @@ export async function fetchArticle(id:number): Promise<Article | null> {
         }
         const articles = await response.json();
         //console.log('fetchArticles articles: ',articles[0].text?.[1])
+        //console.log(articles.data)
         return articles.data as Article;
   
     }

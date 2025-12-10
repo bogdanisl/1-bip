@@ -242,7 +242,7 @@ const ContactHeader = () => {
               </View>
               <View style={{ padding: 17, paddingLeft: 0, height: 250, borderRadius: 30 }}>
                 <MapView
-                  userInterfaceStyle={colorSheme?'dark':'light'}
+                  userInterfaceStyle={colorSheme == 'dark'?'dark':'light'}
                   style={[styles.map, { borderRadius: 12 }]}
                   //scrollEnabled={false}
                   rotateEnabled={false}
