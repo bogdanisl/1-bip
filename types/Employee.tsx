@@ -1,8 +1,11 @@
 export interface Employee{
     id:number,
-    fullName:string,
-    function:string,
-    phone:number,
-    phone_2?:number,
-    email:string
+    name: string | null,
+    surname:string | null,
+    position:string | null,
+    phone:number | null,
+    extension?:number | null,
+    email:string | null,
+    notes?:string | null,
+    sort?:number | null
 }

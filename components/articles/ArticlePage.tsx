@@ -18,7 +18,7 @@ interface Props {
 export default function ArticlePage({ article }: Props) {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const [isMatrykaOpen, setIsMatrykaOpen] = useState(false);
-    console.log(article)
+   //console.log(article)
 
     if (!article) return null;
     return (

@@ -82,5 +82,11 @@
   "format":"Format",
   "from_day":"Z dnia",
   "settle_place":"Miejsce załatwienia",
-  "phone_inside":"Numer wewnętrzny"
+  "phone_inside":"Numer wewnętrzny",
+  "update_available":"Dostępna aktualizacja",
+  "update":"Aktualizuj",
+  "skip":"Pomiń",
+  "update_required":"Dostępna jest nowa wersja aplikacji {{ version }}. Aby korzystać z aplikacji, prosimy o jej aktualizację.",
+  "update_available_desc":"Wersja {{ version }} aplikacji jest już dostępna. Zalecamy aktualizację, aby korzystać z najnowszych funkcji i poprawek.",
+  "update_required_title":"Wymagana aktualizacja"
 }

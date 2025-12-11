@@ -1,6 +1,5 @@
 import ArticlePage from '@/components/articles/ArticlePage';
 import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton.ios';
-import { articles_examples_full } from '@/constants/data_example';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme.web';
 import { Article } from '@/types/Article';

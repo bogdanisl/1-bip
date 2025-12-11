@@ -1,31 +1,44 @@
 // app/(tabs)/employees/EmployeesPage.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { Employee } from '@/types/Employee';
-import { exampleEmployees } from '@/constants/data_example';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { fetchEmployees } from '@/utils/data';
 
 export default function EmployeesPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const params = useLocalSearchParams<{ q?: string }>();
+    const [employees,setEmplpoyees] = useState<Employee[]>([])
 
     const searchText = params?.q?.toLowerCase() || "";
     //Agnconsole.log(searchText)
     const handlePress = (employee: Employee) => {
         // Empty function for now
         router.push(`../sub_pages/employee/${employee.id}`)
-        console.log('Pressed employee:', employee.fullName);
+        console.log('Pressed employee:', employee.name);
     };
 
-    const filteredSpeakers = exampleEmployees.filter((employee) => {
+    useEffect(()=>{
+
+        const getEmployee = async()=>{
+            const fetchedEmployees = await fetchEmployees();
+            if(fetchedEmployees)
+            {
+                setEmplpoyees(fetchedEmployees)
+            }
+        }
+        getEmployee();
+    },[])
+
+    const filteredSpeakers = employees.filter((employee) => {
         if (!searchText) {
             return true;
         }
-        return employee.fullName.toLowerCase().includes(searchText);
+        return employee.name? employee.name.toLowerCase().includes(searchText):employee.surname?.toLowerCase().includes(searchText);
     });
 
     const renderEmployee = ({ item }: { item: Employee }) => (
@@ -39,8 +52,8 @@ export default function EmployeesPage() {
                         <MaterialIcons name="person" size={24} color={theme.tint} />
                     </View>
                     <View>
-                        <Text style={[styles.name, { color: theme.text }]}>{item.fullName}</Text>
-                        <Text style={[styles.function, { color: theme.subText }]}>{item.function}</Text>
+                        <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
+                        <Text style={[styles.function, { color: theme.subText }]}>{item.position}</Text>
                     </View>
                 </View>
                 <MaterialIcons name="chevron-right" size={24} color={theme.subText} />

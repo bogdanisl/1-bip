@@ -85,12 +85,12 @@ export default function EmployeeDetailPage() {
                 <View style={[styles.iconCircle, { backgroundColor: theme.background_2, width: 70, height: 70, borderRadius: 50, marginRight: 0, marginBottom: 10 }]}>
                     <MaterialIcons name={'person'} size={60} color={theme.text} />
                 </View>
-                <Text style={[styles.name, { color: theme.text }]}>{employee.fullName}</Text>
-                <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.function}</Text>
+                <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>
+                <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.position}</Text>
 
-                {renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone))}
-                {employee.phone_2 && renderInfoRow('phone', employee.phone_2, () => openPhone(employee.phone_2!), t('phone_inside'))}
-                {renderInfoRow('email', employee.email, () => openEmail(employee.email))}
+                {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!))}
+                {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'))}
+                {employee.email &&renderInfoRow('email', employee.email, () => openEmail(employee.email!))}
                 {/* {renderInfoRow('phone', employee.email, () => openEmail(employee.email))} */}
             </View>
         </View>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
+import { OpenHoursDTO } from '@/types/OpenHours';
+import { fetchOpenHours } from '@/utils/data';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;
@@ -21,22 +23,59 @@ const OpeningHoursCard = () => {
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const arrowRotation = useRef(new Animated.Value(0)).current;
 
-  // Время в Польше (UTC+1 / UTC+2 — для простоты +1, разница в 1 час не критична)
   const now = new Date();
+  const [schedule, setSchedule] = useState<OpenHoursDTO[]>([])
   const polandTime = new Date(now.getTime() + (now.getTimezoneOffset() + 60) * 60000);
   const currentMinutes = polandTime.getHours() * 60 + polandTime.getMinutes();
-  const dayOfWeek = polandTime.getDay(); // 0 = воскресенье, 1 = понедельник...
+  const dayOfWeek = polandTime.getDay();
 
-  const schedule = [
-    { day: 1, name: 'Poniedziałek', open: '06:30', close: '15:00', openM: 390, closeM: 900 },
-    { day: 2, name: 'Wtorek', open: '07:00', close: '15:00', openM: 420, closeM: 900 },
-    { day: 3, name: 'Środa', open: '07:00', close: '15:00', openM: 420, closeM: 900 },
-    { day: 4, name: 'Czwartek', open: '07:00', close: '15:00', openM: 420, closeM: 900 },
-    { day: 5, name: 'Piątek', open: '07:00', close: '13:00', openM: 420, closeM: 780 },
-  ];
+  const nowM = (polandTime.getHours() * 60)
+  // const openM = (Number(schedule[1].startAt.split(':')[0]) * 60);
+  //const endM = ((Number(schedule[1].endAt.split(':')[0]) * 60) + Number(schedule[1].endAt.split(':')[1]));
+  // if (currentMinutes >= openM && currentMinutes < endM) {
+  //   console.log({currentMinutes})
+  //   console.log({openM})
+  //   console.log({endM})
+  //   //console.log(nowM)
+  // }
+  // else {
+  //   console.log('closed')
+  // }
 
-  const today = schedule.find((s) => s.day === dayOfWeek);
-  const isOpenNow = today ? currentMinutes >= today.openM && currentMinutes < today.closeM : false;
+  useEffect(() => {
+    const getHours = async () => {
+      const hours = await fetchOpenHours();
+      //console.log(hours)
+      if (hours) {
+
+        hours.map(h => {
+          console.log(h.startAt)
+          if (h.status != 0) {
+            const startAtSplit = h.startAt.split(':')
+            const endAtAtSplit = h.startAt.split(':')
+            const startAtM = Number(startAtSplit[0]) + Number(startAtSplit[1])
+            const endAtM = Number(endAtAtSplit[0]) + Number(endAtAtSplit[1])
+            const hour: OpenHoursDTO = {
+              id: h.id,
+              name: h.name,
+              slug: h.slug,
+              startAt: h.startAt,
+              endAt: h.endAt,
+              startM: startAtM,
+              endAtM: endAtM,
+              status: h.status
+            }
+            schedule?.push(hour)
+          }
+        })
+      }
+    }
+    getHours();
+  }, [])
+
+
+  const today = schedule.find((s) => s.id === dayOfWeek);
+  const isOpenNow = today ? currentMinutes >= today.startM && currentMinutes < today.endAtM : false;
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
   const toggleExpand = () => {
@@ -67,20 +106,20 @@ const OpeningHoursCard = () => {
     if (!today) return '';
 
     if (isOpenNow) {
-      return `Zamknięcie o ${today.close}`;
+      return `Zamknięcie o ${today.endAt}`;
     }
-    if (currentMinutes < today.openM) {
-      return `Otwarcie dziś o ${today.open}`;
+    if (currentMinutes < today.startM) {
+      return `Otwarcie dziś o ${today.startAt}`;
     }
 
     // Ищем следующий рабочий день
     for (let i = 1; i <= 7; i++) {
       const nextDayNum = (dayOfWeek + i) % 7 || 7;
       if (nextDayNum >= 1 && nextDayNum <= 5) {
-        const next = schedule.find(s => s.day === nextDayNum);
+        const next = schedule.find(s => s.id === nextDayNum);
         if (next) {
           const dayName = nextDayNum === 1 && dayOfWeek >= 5 ? 'poniedziałek' : next.name.toLowerCase();
-          return `Otwarcie w ${dayName} o ${next.open}`;
+          return `Otwarcie w ${dayName} o ${next.startAt}`;
         }
       }
     }
@@ -99,7 +138,7 @@ const OpeningHoursCard = () => {
     if (isOpenNow) {
       return { text: 'Otwarte', isOpen: true };
     }
-    if (currentMinutes < today.openM) {
+    if (currentMinutes < today.startM) {
       return { text: 'Zamknięte', isOpen: false };
     }
 
@@ -151,12 +190,12 @@ const OpeningHoursCard = () => {
         <View style={{ paddingBottom: 12 }}>
           {expanded &&
             schedule.map((item) => {
-              const isToday = item.day === dayOfWeek;
+              const isToday = item.id === dayOfWeek;
               const isTodayOpen = isToday && isOpenNow;
 
               return (
                 <View
-                  key={item.day}
+                  key={item.id}
                   style={[
                     styles.row,
                     { backgroundColor: theme.background },
@@ -174,7 +213,7 @@ const OpeningHoursCard = () => {
                     </Text>
                   </View>
 
-                  <View style={[styles.timeContainer, { backgroundColor: (isOpenNow && isToday) ? theme.green : isToday? theme.tint:'transparent' }]}>
+                  <View style={[styles.timeContainer, { backgroundColor: (isOpenNow && isToday) ? theme.green : isToday ? theme.tint : 'transparent' }]}>
                     <MaterialIcons
                       name="access-time"
                       size={20}
@@ -186,7 +225,7 @@ const OpeningHoursCard = () => {
                         { color: isTodayOpen ? 'white' : theme.text },
                       ]}
                     >
-                      {item.open} – {item.close}
+                      {item.startAt} – {item.endAt}
                     </Text>
                   </View>
                 </View>

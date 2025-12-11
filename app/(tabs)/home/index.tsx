@@ -5,8 +5,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Logo from '../../../assets/images/icon_svg.svg';
 import {
+  Alert,
   Dimensions,
   Image,
+  Linking,
+  Platform,
   RefreshControl,
   ScrollView,
   Text,
@@ -28,8 +31,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import OpeningHoursCard from './sub_pages/hours';
 import OfficeInfoCard from './sub_pages/data';
 import BankAccountCard from './sub_pages/bank_accounts';
+import * as Application from 'expo-application'
+import { checkVersion } from '@/utils/versionControl';
+import { VersionResponse } from '@/types/VersionResponse';
 
 const { width } = Dimensions.get('window');
+const GOOGLE_PLAY_STORE_LINK = 'https://play.google.com/store/apps/details?id=com.anonymous.Alpanet&hl=pl'
+const APP_STORE_LINK = 'https://apps.apple.com/pl/app/alpanet/id6749890567?l=pl'
 
 type Bip = {
   id: string;
@@ -45,6 +53,7 @@ export default function HomePage() {
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
+  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false)
   //const [selectedBip, setSelectedBip] = useState<Bip | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -55,7 +64,7 @@ export default function HomePage() {
   const dateStr = today.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
 
   const menuItems = [
-     { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
+    { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
     // { title: t('home.opening_hours'), subtitle: t('home.opening_hours_desc'), icon: 'schedule', route: '/(tabs)/home/sub_pages/hours' },
     { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/(tabs)/home/sub_pages/employees' },
     //{ title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
@@ -71,6 +80,49 @@ export default function HomePage() {
   };
 
 
+
+  async function promptUpdate(result: VersionResponse) {
+    if (!result) {
+      setIsUpdateAvailable(false);
+      return;
+    }
+    if (!result.updateAvailable) {
+      setIsUpdateAvailable(false);
+      return;
+    }
+
+    if (result.mandatory) {
+      Alert.alert(
+        t('update_required_title'),
+        t('update_required', { version: result.latestVersion }),
+        [
+          {
+            text: t('update'),
+            onPress: () => {
+              const url =
+                Platform.OS === 'ios' ? APP_STORE_LINK : GOOGLE_PLAY_STORE_LINK
+              Linking.openURL(url).catch(err =>
+                console.error('Open store error', err)
+              )
+              setTimeout(() => {
+                router.replace('./')
+              }, 2000)
+
+            },
+
+          },
+        ],
+        { cancelable: false }
+      )
+      setIsUpdateAvailable(true);
+    }
+    else {
+      setIsUpdateAvailable(true);
+    }
+
+  }
+
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
 
@@ -81,6 +133,10 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    const checkUpdate = async () => {
+      const result = await checkVersion();
+      promptUpdate(result!);
+    }
     const loadSelectedBip = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('selectedBipCities');
@@ -103,8 +159,8 @@ export default function HomePage() {
         setLoading(false);
       }
     };
-
     loadSelectedBip();
+    checkUpdate();
   }, []);
 
   return (
@@ -139,7 +195,7 @@ export default function HomePage() {
             resizeMode='contain'
           />
           {/* Weather + Search */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop: insets.top+300 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop: insets.top + 300 }}>
             <View style={{ flexDirection: 'row', gap: 8 }}>
               {(SavedBipsArray ? SavedBipsArray.length > 1 : false) && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
@@ -234,9 +290,9 @@ export default function HomePage() {
           <Logo width={90} height={60} fill="white" style={{ marginTop: 0, marginBottom: 0 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
-              {selectedBip?.name??'Gmina Testowa'}
-              <Text style={{fontSize:15, color:Colors.dark.subText, fontWeight:'600'}}>
-                {`\n${(selectedBip?.code.slice(0,2) ?? '11') + '-' + (selectedBip?.code.slice(2) ?? '222')} Testowo\nTestowa 11A`}
+              {selectedBip?.name ?? 'Gmina Testowa'}
+              <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
+                {`\n${(selectedBip?.code.slice(0, 2) ?? '11') + '-' + (selectedBip?.code.slice(2) ?? '222')} Testowo\nTestowa 11A`}
               </Text>
             </Text>
 
@@ -262,21 +318,72 @@ export default function HomePage() {
         </LinearGradient>
 
         {/* Clean White Cards Area – No Gradients */}
+        {isUpdateAvailable &&
+          <View style={{
+            backgroundColor: 'black',
+            marginTop: -20,
+                  borderTopLeftRadius: 15,
+                  borderTopRightRadius: 15,
+
+          }}>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'transparent',
+                width: '100%'
+              }}
+              activeOpacity={0.5}
+              onPress={() => {
+                const url =
+                  Platform.OS === 'ios' ? APP_STORE_LINK : GOOGLE_PLAY_STORE_LINK
+                Linking.openURL(url).catch(err =>
+                  console.error('Open store error', err)
+                )
+              }
+              }
+            >
+              <LinearGradient
+                colors={['#53779a', '#1DB954']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{
+                  padding: 10,
+                  paddingBottom: 25,
+                  borderTopLeftRadius: 15,
+                  borderTopRightRadius: 15,
+                  width: '100%',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  alignItems: 'center'
+                }}
+
+              >
+                <Text style={{ color: 'white', fontSize: 15, fontFamily: 'Poppins-Medium' }}>
+                  {t('update_available')}{' '}
+                </Text>
+                <MaterialIcons name='downloading' color={'white'} size={18}></MaterialIcons>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        }
+
         <View style={{
-          marginTop: -20,
+          marginTop: -15,
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           backgroundColor: theme.background,
           paddingHorizontal: 16,
           paddingTop: 30,
         }}>
-         
 
-          <OpeningHoursCard/>
+
+
+          <OpeningHoursCard />
           {/* <OfficeInfoCard/> */}
-          <BankAccountCard/>
+          <BankAccountCard />
 
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop:16, justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16, justifyContent: 'center' }}>
             {menuItems.map((item, index) => (
               <TouchableOpacity
                 key={index}

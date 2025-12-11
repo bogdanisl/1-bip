@@ -2,15 +2,16 @@
   "expo": {
     "name": "BIP Testowy",
     "slug": "bip-testowy",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.svg",
+    "icon": "./assets/images/splash-icon.png",
     "scheme": "bip-testowy",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alpanet.bip-testowy"
+      "bundleIdentifier": "com.alpanet.bip-testowy",
+      "buildNumber":"5"
     },
     "android": {
       "adaptiveIcon": {
