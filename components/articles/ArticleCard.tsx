@@ -5,10 +5,13 @@ import { Article } from "@/types/Article";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, Text } from "react-native";
 import { ReadMoreButton } from "../buttons/ReadMoreButton";
+import { Skeleton } from "../skeleton";
+import { useTranslation } from "react-i18next";
 
 export const ArticleCard = ({ article }: { article: Article }) => {
   const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
   var he = require('he');
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
@@ -25,9 +28,9 @@ export const ArticleCard = ({ article }: { article: Article }) => {
           {he.decode(article.title) || 'Artykuł bez tytułu'}
         </Text>
 
-        <View style={{ position: 'absolute', flexDirection:'row', top: 0, right: 0, alignItems: 'center' }}>
+        <View style={{ position: 'absolute', flexDirection: 'row', top: 0, right: 0, alignItems: 'center' }}>
           <MaterialIcons name="visibility" size={18} color={theme.subText} />
-          <Text style={{ color: theme.subText}}> {article.views ?? 0}</Text>
+          <Text style={{ color: theme.subText }}> {article.views ?? 0}</Text>
         </View>
       </View>
       {article.subtitle && (
@@ -40,13 +43,13 @@ export const ArticleCard = ({ article }: { article: Article }) => {
       <View style={[styles.infoRow, { marginTop: 10 }]}>
         <MaterialIcons name="schedule" size={18} color={theme.icon} />
         <Text style={[styles.infoText, { color: theme.text }]}>
-          {article.publishedAt?.date ? 'Dodano: ' + new Date(article.publishedAt.date).toLocaleDateString('pl-PL') : ''}
+          {article.publishedAt?.date ? t('added') + new Date(article.publishedAt.date).toLocaleDateString('pl-PL') : ''}
         </Text>
       </View>
       <View style={styles.infoRow}>
         <MaterialIcons name='person-add-alt-1' size={18} color={theme.icon} />
         <Text style={[styles.infoText, { color: theme.text }]}>
-          {article.acceptedBy ? 'Wprowadził: ' + article.acceptedBy : ''}
+          {article.acceptedBy ? t('added_by_2') + article.acceptedBy : ''}
         </Text>
       </View>
 
@@ -55,6 +58,24 @@ export const ArticleCard = ({ article }: { article: Article }) => {
       </View>
 
       <ReadMoreButton article={article} theme={theme} />
+    </View>
+  );
+};
+
+export const ArticleCardPreloader = () => {
+  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  return (
+    <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
+      <View style={{ flex: 1, paddingRight: 40, position: 'relative' }}>
+        <Skeleton width={'100%'} height={20}></Skeleton>
+      </View>
+      <Skeleton width={'70%'} height={15} style={{marginTop:10}}></Skeleton>
+      <View style={[styles.infoRow, { marginTop: 20 }]}>
+        <Skeleton width={'50%'} height={10}></Skeleton>
+      </View>
+      <View style={styles.infoRow}>
+        <Skeleton width={'50%'} height={10}></Skeleton>
+      </View>
     </View>
   );
 };

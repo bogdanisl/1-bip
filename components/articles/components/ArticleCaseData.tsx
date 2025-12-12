@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIMa
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/components/Br';
 import { Article } from '@/types/Article';
+import { useTranslation } from 'react-i18next';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export function CaseDataSection({ article, theme }: Props) {
-
+    const { t } = useTranslation();
     return (
         <View>
             <Br></Br>
@@ -23,7 +24,7 @@ export function CaseDataSection({ article, theme }: Props) {
                 <View style={{ marginVertical: 8 }}>
                     {article.resolutionType && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('rodzaj sprawy').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_type').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='format-quote' size={24} color={theme.tint} />
@@ -35,7 +36,7 @@ export function CaseDataSection({ article, theme }: Props) {
 
                     {article.resolutionPlace && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Miejsce załatwienia').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_place').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='location-on' size={24} color={theme.tint} />
@@ -50,7 +51,7 @@ export function CaseDataSection({ article, theme }: Props) {
                     {article.requiredDocuments && (
                         <>
                             <View style={{ marginBottom: 8 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Wymagane dokumenty').toUpperCase()}</Text>
+                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('required_documents').toUpperCase()}</Text>
                                 <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                         <MaterialIcons name='file-open' size={24} color={theme.tint} />
@@ -65,7 +66,7 @@ export function CaseDataSection({ article, theme }: Props) {
 
                     {article.pickupLocation && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Miejsce odbioru').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('pickup_location').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='location-on' size={24} color={theme.tint} />
@@ -80,7 +81,7 @@ export function CaseDataSection({ article, theme }: Props) {
 
                     {article.fees && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Opłaty').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('fees').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='monetization-on' size={24} color={theme.tint} />
@@ -95,7 +96,7 @@ export function CaseDataSection({ article, theme }: Props) {
 
                 {article.appealProcedure && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Tryb odwoławczy').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('appeal_procedure').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='edit' size={24} color={theme.tint} />
@@ -109,7 +110,7 @@ export function CaseDataSection({ article, theme }: Props) {
 
                 {article.comments && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('uwagi').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('comments').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='warning' size={24} color={theme.tint} />
@@ -122,7 +123,7 @@ export function CaseDataSection({ article, theme }: Props) {
                 )}
                 {article.legalBasis && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Podstawa prawna').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('legal_basis').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='gavel' size={24} color={theme.tint} />
@@ -135,7 +136,7 @@ export function CaseDataSection({ article, theme }: Props) {
                 )}
                 {article.resolutionContent && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('treść').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_content').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='message' size={24} color={theme.tint} />
@@ -148,7 +149,7 @@ export function CaseDataSection({ article, theme }: Props) {
                 )}
                 {article.approvedBy && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('akceptował').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('acceptedBy').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='verified-user' size={24} color={theme.tint} />
@@ -159,9 +160,9 @@ export function CaseDataSection({ article, theme }: Props) {
                         </View>
                     </View>
                 )}
-                 {article.acceptedBy && (
+                {article.acceptedBy && (
                     <View style={{ marginBottom: 8 }}>
-                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Zatwierdził').toUpperCase()}</Text>
+                        <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('approvedBy').toUpperCase()}</Text>
                         <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                             <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                 <MaterialIcons name='verified-user' size={24} color={theme.tint} />

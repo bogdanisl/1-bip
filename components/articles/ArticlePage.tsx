@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Platform, ScrollView, View } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { Article } from '@/types/Article';
@@ -23,7 +23,7 @@ export default function ArticlePage({ article }: Props) {
     if (!article) return null;
     return (
         <ScrollView style={{ backgroundColor: theme.background }}>
-            <View style={{ padding: 16, paddingTop: 130 }}>
+            <View style={{ padding: 16, paddingTop:Platform.OS=='android'?20: 130 }}>
                 <ArticleHeader article={article} theme={theme} />
 
                 {article.articleType == 1 && (

@@ -6,18 +6,24 @@ import {
   useColorScheme,
   Animated,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
-import { OpenHoursDTO } from '@/types/OpenHours';
+import { OpenHours, OpenHoursDTO } from '@/types/OpenHours';
 import { fetchOpenHours } from '@/utils/data';
+import { storage } from '@/utils/storage/asyncStorage';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useTranslation } from 'react-i18next';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;
 
 const OpeningHoursCard = () => {
   const colorScheme = useColorScheme();
+  const { t } = useTranslation();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [expanded, setExpanded] = useState(false);
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -26,52 +32,18 @@ const OpeningHoursCard = () => {
   const now = new Date();
   const [schedule, setSchedule] = useState<OpenHoursDTO[]>([])
   const polandTime = new Date(now.getTime() + (now.getTimezoneOffset() + 60) * 60000);
-  const currentMinutes = polandTime.getHours() * 60 + polandTime.getMinutes();
+  const currentMinutes = (polandTime.getHours() * 60 + polandTime.getMinutes());
   const dayOfWeek = polandTime.getDay();
-
-  const nowM = (polandTime.getHours() * 60)
-  // const openM = (Number(schedule[1].startAt.split(':')[0]) * 60);
-  //const endM = ((Number(schedule[1].endAt.split(':')[0]) * 60) + Number(schedule[1].endAt.split(':')[1]));
-  // if (currentMinutes >= openM && currentMinutes < endM) {
-  //   console.log({currentMinutes})
-  //   console.log({openM})
-  //   console.log({endM})
-  //   //console.log(nowM)
-  // }
-  // else {
-  //   console.log('closed')
-  // }
 
   useEffect(() => {
     const getHours = async () => {
-      const hours = await fetchOpenHours();
-      //console.log(hours)
-      if (hours) {
+      const hours = await storage.get<OpenHoursDTO[]>(`${selectedBip?.id}/hours`);
 
-        hours.map(h => {
-          console.log(h.startAt)
-          if (h.status != 0) {
-            const startAtSplit = h.startAt.split(':')
-            const endAtAtSplit = h.startAt.split(':')
-            const startAtM = Number(startAtSplit[0]) + Number(startAtSplit[1])
-            const endAtM = Number(endAtAtSplit[0]) + Number(endAtAtSplit[1])
-            const hour: OpenHoursDTO = {
-              id: h.id,
-              name: h.name,
-              slug: h.slug,
-              startAt: h.startAt,
-              endAt: h.endAt,
-              startM: startAtM,
-              endAtM: endAtM,
-              status: h.status
-            }
-            schedule?.push(hour)
-          }
-        })
-      }
+        setSchedule(hours || [])
+
     }
     getHours();
-  }, [])
+  }, [selectedBip])
 
 
   const today = schedule.find((s) => s.id === dayOfWeek);
@@ -102,24 +74,23 @@ const OpeningHoursCard = () => {
     }
   };
   const getSubtitle = (): string => {
-    if (isWeekend) return 'Wrócimy w poniedziałek o 06:30';
+    if (isWeekend) return t('opens_at_day') + t('monday').toLowerCase() + ` o ${schedule[0].startAt}`;
     if (!today) return '';
 
     if (isOpenNow) {
-      return `Zamknięcie o ${today.endAt}`;
+      return t('closing_at',{closesAt:today.endAt}) ;
     }
     if (currentMinutes < today.startM) {
-      return `Otwarcie dziś o ${today.startAt}`;
+      return t('opens_at',{opensAt:today.startAt});
     }
 
-    // Ищем следующий рабочий день
     for (let i = 1; i <= 7; i++) {
       const nextDayNum = (dayOfWeek + i) % 7 || 7;
       if (nextDayNum >= 1 && nextDayNum <= 5) {
         const next = schedule.find(s => s.id === nextDayNum);
         if (next) {
-          const dayName = nextDayNum === 1 && dayOfWeek >= 5 ? 'poniedziałek' : next.name.toLowerCase();
-          return `Otwarcie w ${dayName} o ${next.startAt}`;
+          const dayName = nextDayNum === 1 && dayOfWeek >= 5 ? 'monday' : next.slug.toLowerCase();
+          return t('opens_at_day') + t(dayName).toLowerCase() + ` o ${next.startAt}`;
         }
       }
     }
@@ -132,20 +103,20 @@ const OpeningHoursCard = () => {
   });
 
   const getMainStatus = (): { text: string; isOpen: boolean } => {
-    if (isWeekend) return { text: 'Zamknięte w weekend', isOpen: false };
-    if (!today) return { text: 'Zamknięte', isOpen: false };
+    //console.log(schedule.length)
+    if (isWeekend) return { text: 'close', isOpen: false };
+    if (!today) return { text: 'close', isOpen: false };
 
     if (isOpenNow) {
-      return { text: 'Otwarte', isOpen: true };
+      return { text: 'open', isOpen: true };
     }
     if (currentMinutes < today.startM) {
-      return { text: 'Zamknięte', isOpen: false };
+      return { text: 'close', isOpen: false };
     }
-
-    // Закрыто после рабочего дня → показываем следующий день
-    return { text: 'Zamknięte', isOpen: false };
+    return { text: 'close', isOpen: false };
   };
 
+  if(schedule.length == 0) return null;
 
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
@@ -158,7 +129,6 @@ const OpeningHoursCard = () => {
             color={theme.tint}
           />
           <View style={{ flex: 1 }}>
-            {/* Основной статус — большой и жирный */}
             <Text style={[
               styles.statusText,
               {
@@ -167,7 +137,7 @@ const OpeningHoursCard = () => {
                 fontSize: 16,
               }
             ]}>
-              {getMainStatus().text}
+              {t(getMainStatus().text)}
             </Text>
 
             {/* Серый подтекст снизу */}
@@ -209,7 +179,7 @@ const OpeningHoursCard = () => {
                         { color: theme.text },
                       ]}
                     >
-                      {item.name.toUpperCase()}
+                      {t(item.slug.toLowerCase()).toUpperCase()}
                     </Text>
                   </View>
 
@@ -217,12 +187,12 @@ const OpeningHoursCard = () => {
                     <MaterialIcons
                       name="access-time"
                       size={20}
-                      color={isTodayOpen ? 'white' : theme.icon}
+                      color={isToday ? 'white' : theme.icon}
                     />
                     <Text
                       style={[
                         styles.timeText,
-                        { color: isTodayOpen ? 'white' : theme.text },
+                        { color: isToday ? 'white' : theme.text },
                       ]}
                     >
                       {item.startAt} – {item.endAt}
@@ -285,7 +255,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight:  Platform.OS=='android'?'700':'600',
     letterSpacing: 0.4,
   },
   timeContainer: {
@@ -298,7 +268,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: Platform.OS=='android'?'700':'600',
   },
 });
 

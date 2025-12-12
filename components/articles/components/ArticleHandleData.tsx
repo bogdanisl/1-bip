@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIMa
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/components/Br';
 import { Article } from '@/types/Article';
+import { useTranslation } from 'react-i18next';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export function HandleDataSection({ article, theme }: Props) {
-
+    const { t }= useTranslation();
     return (
         <View>
             <Br></Br>
@@ -23,7 +24,7 @@ export function HandleDataSection({ article, theme }: Props) {
                 <View style={{ marginVertical: 8 }}>
                     {article.resolutionNumber && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Numer uchwały').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_number').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='view-list' size={24} color={theme.tint} />
@@ -35,7 +36,7 @@ export function HandleDataSection({ article, theme }: Props) {
 
                     {article.resolutionDate && (
                         <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('z dnia').toUpperCase()}</Text>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_date').toUpperCase()}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
                                 <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                     <MaterialIcons name='calendar-month' size={24} color={theme.tint} />
@@ -52,7 +53,7 @@ export function HandleDataSection({ article, theme }: Props) {
                     {article.resolutionSubject && (
                         <>
                             <View style={{ marginBottom: 8 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('W sprawie').toUpperCase()}</Text>
+                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_subject').toUpperCase()}</Text>
                                 <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                         <MaterialIcons name='format-quote' size={24} color={theme.tint} />
@@ -67,7 +68,7 @@ export function HandleDataSection({ article, theme }: Props) {
 
                     {article.resolutionText && (
                         <View style={{ marginBottom: 8 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{('Obowiązuję').toUpperCase()}</Text>
+                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_text').toUpperCase()}</Text>
                                 <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
                                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
                                         <MaterialIcons name='done' size={24} color={theme.tint} />

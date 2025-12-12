@@ -16,12 +16,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { Bip } from '@/types/Bip';
+import { updateAllData } from '@/utils/storage/updateData';
 
-type City = {
-    id: string;
-    code: string;
-    name: string;
-};
+
 
 export default function SelectBipScreen() {
     const { t } = useTranslation();
@@ -29,7 +27,7 @@ export default function SelectBipScreen() {
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { cities: citiesJson } = useLocalSearchParams();
 
-    const cities: City[] = citiesJson ? JSON.parse(citiesJson as string) : [];
+    const cities: Bip[] = citiesJson ? JSON.parse(citiesJson as string) : [];
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
     const toggleCity = (id: string) => {
@@ -56,11 +54,12 @@ export default function SelectBipScreen() {
         }
 
         // Navigate back to main screen (or home)
+        updateAllData();
         router.replace('./../../'); // or router.replace('./../../') if you're deeper
         // Alternative: router.back() if you want simple back
     };
 
-    const renderItem = ({ item }: { item: City }) => {
+    const renderItem = ({ item }: { item: Bip }) => {
         const isSelected = selectedIds.has(item.id);
 
         return (

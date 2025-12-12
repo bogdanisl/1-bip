@@ -30,7 +30,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
     return (
         <View>
             <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 }}>
-                {('Dokumenty').toUpperCase()}
+                {t('documents').toUpperCase()}
             </Text>
             <Br />
             {attachments.map(att => (
@@ -46,7 +46,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
                         {att.fileName}.{att.extension}
                         {(att.fileSize) && (
                             <Text style={{ fontSize: 13, color: theme.subText }}>
-                                {`\n${att.fileSize ? `Rozmiar: ${formatFileSize(att.fileSize)}` : ''}, ${att.language ? t('language') + ': ' + att.language : ''}`}
+                                {`\n${att.fileSize ? `${t('size')}: ${formatFileSize(att.fileSize)}` : ''}, ${att.language ? t('language') + ': ' + att.language : ''}`}
                             </Text>
                         )}
                     </Text>

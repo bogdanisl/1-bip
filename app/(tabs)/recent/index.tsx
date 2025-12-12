@@ -16,6 +16,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { fetchArticles } from '@/utils/articles';
 
 const LIMIT = 40;
+const SKELETON_COUNT = 6;
 
 const RecentPage = () => {
   const colorScheme = useColorScheme();
@@ -43,7 +44,6 @@ const RecentPage = () => {
       if (append) {
         setIsLoadingMore(true);
       }
-
       const fetched = await fetchArticles(offsetToLoad, LIMIT);
 
       if (fetched) {
@@ -95,7 +95,7 @@ const RecentPage = () => {
   };
 
   const renderArticle = ({ item }: { item: Article }) => (
-    <ArticleCard article={item} />
+    <ArticleCard article={item}/>
   );
 
   return (

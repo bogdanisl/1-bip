@@ -6,9 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import { useTranslation } from 'react-i18next';
 import '../i18n'
+import { updateAllData, updateData } from '@/utils/storage/updateData';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 export default function App() {
-  const { t } =useTranslation() 
+  const { t } = useTranslation()
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -20,6 +23,7 @@ export default function App() {
   const [hasBip, setHasBip] = useState<boolean | null>(null); // null = loading
 
   useEffect(() => {
+    console.log('index')
     const checkBip = async () => {
       try {
         const value = await AsyncStorage.getItem('selectedBipIds');
@@ -30,11 +34,15 @@ export default function App() {
         setHasBip(false);
       }
     };
-
     if (fontsLoaded) {
       checkBip();
     }
+    updateAllData();
   }, [fontsLoaded]);
+
+  useEffect(()=>{
+    console.log('lol kek')
+  },[])
 
   // Still loading fonts or checking storage
   if (!fontsLoaded || hasBip === null) {

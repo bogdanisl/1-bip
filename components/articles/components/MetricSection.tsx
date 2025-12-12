@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Animated, Platform, UIManager } from 'rea
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/components/Br';
 import { Article } from '@/types/Article';
+import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
@@ -18,8 +20,9 @@ interface Props {
 export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
     const animatedHeight = useRef(new Animated.Value(0)).current;
     const arrowRotation = useRef(new Animated.Value(0)).current;
+    const [lang, setLang] = useState('pl-PL');
     const [expanded, setExpanded] = useState(isOpen);
-
+    const { t } = useTranslation()
     useEffect(() => {
         const toValue = isOpen ? 1 : 0;
 
@@ -44,6 +47,14 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
         });
     }, [isOpen]);
 
+    useEffect(()=>{
+        const setLanguage = async ()=>{
+            const saved = await AsyncStorage.getItem('app_language')
+            setLang(saved || 'en');
+        }
+        setLanguage();
+    },[])
+
     const rotation = arrowRotation.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '180deg'],
@@ -64,7 +75,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                 }}
             >
                 <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800' }}>
-                    {('Metryka Wpisu'.toUpperCase())}
+                    {t('metric_section').toUpperCase()}
                 </Text>
 
                 <Animated.View style={{ transform: [{ rotate: rotation }] }}>
@@ -74,7 +85,6 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
 
             <Br />
 
-            {/* АНИМИРОВАННАЯ ВЫСОТА */}
             <Animated.View
                 style={{
                     height: animatedHeight.interpolate({
@@ -84,13 +94,71 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                     overflow: 'hidden',
                 }}
             >
-                {/* Контент рендерится только при expanded */}
-                    <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 10 }}>
 
-                        {article.author && (
+                    {article.author && (
+                        <View style={{ marginBottom: 12 }}>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
+                                {t('author').toUpperCase()}
+                            </Text>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 20,
+                                        backgroundColor: theme.background_2,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        marginRight: 10,
+                                    }}
+                                >
+                                    <MaterialIcons name="edit" size={24} color={theme.tint} />
+                                </View>
+
+                                <Text style={{ color: theme.text, fontSize: 15 }}>{article.author}</Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {article.createdAt && (
+                        <View style={{ marginBottom: 12 }}>
+                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
+                                {t('created_at').toUpperCase()}
+                            </Text>
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 20,
+                                        backgroundColor: theme.background_2,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        marginRight: 10,
+                                    }}
+                                >
+                                    <MaterialIcons name="calendar-month" size={24} color={theme.tint} />
+                                </View>
+
+                                <Text style={{ fontSize: 14, color: theme.text }}>
+                                    {new Date(article.createdAt.date!).toLocaleDateString('pl-PL', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                    })}
+                                </Text>
+                            </View>
+                        </View>
+                    )}
+
+                    {article.acceptedBy && (
+                        <>
                             <View style={{ marginBottom: 12 }}>
                                 <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                    {('Źródło informacji').toUpperCase()}
+                                    {t('acceptedBy').toUpperCase()}
                                 </Text>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -105,18 +173,28 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                                             marginRight: 10,
                                         }}
                                     >
-                                        <MaterialIcons name="edit" size={24} color={theme.tint} />
+                                        <MaterialIcons name="person-add-alt-1" size={24} color={theme.tint} />
                                     </View>
 
-                                    <Text style={{ color: theme.text, fontSize: 15 }}>{article.author}</Text>
+                                    <Text style={{ color: theme.text, fontSize: 15 }}>
+                                        {article.acceptedBy}
+                                        {article.createdAt && (
+                                            <Text style={{ fontSize: 13, color: theme.subText }}>
+                                                {'\n'}
+                                                {new Date(article.createdAt.date!).toLocaleDateString(lang, {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                })}
+                                            </Text>
+                                        )}
+                                    </Text>
                                 </View>
                             </View>
-                        )}
 
-                        {article.createdAt && (
                             <View style={{ marginBottom: 12 }}>
                                 <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                    {('Data utworzenia').toUpperCase()}
+                                    {t('approvedBy').toUpperCase()}
                                 </Text>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -131,96 +209,27 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                                             marginRight: 10,
                                         }}
                                     >
-                                        <MaterialIcons name="calendar-month" size={24} color={theme.tint} />
+                                        <MaterialIcons name="verified-user" size={24} color={theme.tint} />
                                     </View>
 
-                                    <Text style={{ fontSize: 14, color: theme.text }}>
-                                        {new Date(article.createdAt.date!).toLocaleDateString('pl-PL', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                        })}
+                                    <Text style={{ color: theme.text, fontSize: 15 }}>
+                                        {article.approvedBy || article.acceptedBy}
+                                        {article.publishedAt && (
+                                            <Text style={{ fontSize: 13, color: theme.subText }}>
+                                                {'\n'}
+                                                {new Date(article.publishedAt.date!).toLocaleDateString(lang, {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                })}
+                                            </Text>
+                                        )}
                                     </Text>
                                 </View>
                             </View>
-                        )}
-
-                        {article.acceptedBy && (
-                            <>
-                                <View style={{ marginBottom: 12 }}>
-                                    <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                        {('WPROWADZIŁ DO SYSTEMU').toUpperCase()}
-                                    </Text>
-
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <View
-                                            style={{
-                                                width: 40,
-                                                height: 40,
-                                                borderRadius: 20,
-                                                backgroundColor: theme.background_2,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                marginRight: 10,
-                                            }}
-                                        >
-                                            <MaterialIcons name="person-add-alt-1" size={24} color={theme.tint} />
-                                        </View>
-
-                                        <Text style={{ color: theme.text, fontSize: 15 }}>
-                                            {article.acceptedBy}
-                                            {article.createdAt && (
-                                                <Text style={{ fontSize: 13, color: theme.subText }}>
-                                                    {'\n'}
-                                                    {new Date(article.createdAt.date!).toLocaleDateString('pl-PL', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric',
-                                                    })}
-                                                </Text>
-                                            )}
-                                        </Text>
-                                    </View>
-                                </View>
-
-                                <View style={{ marginBottom: 12 }}>
-                                    <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                        {('Zatwierdził do publikacji').toUpperCase()}
-                                    </Text>
-
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <View
-                                            style={{
-                                                width: 40,
-                                                height: 40,
-                                                borderRadius: 20,
-                                                backgroundColor: theme.background_2,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                marginRight: 10,
-                                            }}
-                                        >
-                                            <MaterialIcons name="verified-user" size={24} color={theme.tint} />
-                                        </View>
-
-                                        <Text style={{ color: theme.text, fontSize: 15 }}>
-                                            {article.approvedBy || article.acceptedBy}
-                                            {article.publishedAt && (
-                                                <Text style={{ fontSize: 13, color: theme.subText }}>
-                                                    {'\n'}
-                                                    {new Date(article.publishedAt.date!).toLocaleDateString('pl-PL', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric',
-                                                    })}
-                                                </Text>
-                                            )}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </>
-                        )}
-                    </View>
+                        </>
+                    )}
+                </View>
             </Animated.View>
         </View>
     );

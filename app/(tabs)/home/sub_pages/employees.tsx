@@ -8,37 +8,39 @@ import { Employee } from '@/types/Employee';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { fetchEmployees } from '@/utils/data';
+import { storage } from '@/utils/storage/asyncStorage';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 export default function EmployeesPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const params = useLocalSearchParams<{ q?: string }>();
-    const [employees,setEmplpoyees] = useState<Employee[]>([])
+    const [employees, setEmplpoyees] = useState<Employee[]>([])
+    const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
     const searchText = params?.q?.toLowerCase() || "";
     //Agnconsole.log(searchText)
     const handlePress = (employee: Employee) => {
         // Empty function for now
-        router.push(`../sub_pages/employee/${employee.id}`)
-        console.log('Pressed employee:', employee.name);
+        router.push(`../../../(tabs)/home/sub_pages/employee/${employee.id}`)
+      //  console.log('Pressed employee:', employee.name);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        const getEmployee = async()=>{
-            const fetchedEmployees = await fetchEmployees();
-            if(fetchedEmployees)
-            {
+        const getEmployee = async () => {
+            const fetchedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
+            if (fetchedEmployees) {
                 setEmplpoyees(fetchedEmployees)
             }
         }
         getEmployee();
-    },[])
+    }, [])
 
     const filteredSpeakers = employees.filter((employee) => {
         if (!searchText) {
             return true;
         }
-        return employee.name? employee.name.toLowerCase().includes(searchText):employee.surname?.toLowerCase().includes(searchText);
+        return employee.name ? employee.name.toLowerCase().includes(searchText) : employee.surname?.toLowerCase().includes(searchText);
     });
 
     const renderEmployee = ({ item }: { item: Employee }) => (
@@ -48,7 +50,7 @@ export default function EmployeesPage() {
         >
             <View style={[styles.row, { justifyContent: 'space-between', alignItems: 'center' }]}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background, justifyContent:'center', alignItems:'center', marginRight: 8 }}>
+                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
                         <MaterialIcons name="person" size={24} color={theme.tint} />
                     </View>
                     <View>

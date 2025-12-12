@@ -35,7 +35,7 @@
     "login_title": "Login",
     "password": "Password",
     "email": "Email",
-    "recents": "Ostatnie",
+    "recents": "Latest",
     "code_copied": "Skopiowano!",
     "code_copied_desc": "Numer został skopiowany do schowka",
     "home": {
@@ -71,7 +71,7 @@
     "no_cities_found_for_code": "Not found any BIP you can connect",
     "change_bip_connection": "Change connected BIP",
     "change_bip": "Change BIP",
-    "search_article": "Seatch article",
+    "search_article": "Search article",
     "preview_not_supported": "Preview is not possible",
     "size": "Size",
     "format": "Format",

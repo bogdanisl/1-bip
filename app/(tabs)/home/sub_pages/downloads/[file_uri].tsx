@@ -40,12 +40,13 @@ const PdfViewerPage = () => {
   const { file_uri } = useLocalSearchParams<{ file_uri: string }>();
 
   const fullUrl = `https://www.bip.alpanet.pl/dokumenty/${file_uri}`;
+  const pdfUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(fullUrl)}`;
+
   const fileName = (file_uri?.split('/').pop() || 'file').split('?')[0];
   const extension = fileName.split('.').pop()?.toLowerCase() || '';
 
   const isPreviewSupported = SUPPORTED_PREVIEW_EXTENSIONS.includes(extension);
 
-  // === Твой шэринг без изменений ===
   const handleShareAndSave = async () => {
     if (!file_uri) return;
     setIsSharingLoading(true);
@@ -78,11 +79,13 @@ const PdfViewerPage = () => {
     }
   };
 
+
   useEffect(() => {
     if (!file_uri) router.back();
   }, [file_uri]);
 
   if (!file_uri) return null;
+
 
   return (
     <>
@@ -95,22 +98,22 @@ const PdfViewerPage = () => {
               style={{ height: 34, width: 34, justifyContent: 'center', alignItems: 'center' }}
               onPress={handleShareAndSave}
             >
-                <MaterialIcons
-                  name={Platform.OS === 'ios' ? 'ios-share' : 'share'}
-                  size={24}
-                  color={ isSharingLoading? themeColors.border :isLiquidGlassAvailable() ?themeColors.text : themeColors.tint}
-                  style={{ paddingLeft: 2, paddingBottom: 2 }}
-                />
+              <MaterialIcons
+                name={Platform.OS === 'ios' ? 'ios-share' : 'share'}
+                size={24}
+                color={isSharingLoading ? themeColors.border : isLiquidGlassAvailable() ? themeColors.text : themeColors.tint}
+                style={{ paddingLeft: 2, paddingBottom: 2 }}
+              />
             </TouchableOpacity>
           ),
         }}
       />
 
-      <View style={[styles.container,{paddingTop:isLiquidGlassAvailable()?70:0}]}>
+      <View style={[styles.container, { paddingTop: isLiquidGlassAvailable() ? 70 : 0 }]}>
         {isPreviewSupported ? (
           /* WebView — как и было */
           <WebView
-            source={{ uri: fullUrl }}
+            source={{ uri: Platform.OS == 'android' ? pdfUrl : fullUrl }}
             style={{ flex: 1 }}
             allowsFullscreenVideo
             javaScriptEnabled

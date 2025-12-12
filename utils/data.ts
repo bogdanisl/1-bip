@@ -1,9 +1,10 @@
 import { Employee } from "@/types/Employee";
 import { OpenHours } from "@/types/OpenHours";
 
-export async function fetchOpenHours(): Promise<OpenHours[] | null> {
+export async function fetchOpenHours(url:string): Promise<OpenHours[] | null> {
     try {
-        const response = await fetch(`https://www.bip.alpanet.pl/api/v1/hour`, {
+        console.log(`${url}/api/v1/hour`)
+        const response = await fetch(`${url}/api/v1/hour`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,9 +25,9 @@ export async function fetchOpenHours(): Promise<OpenHours[] | null> {
     }
 }
 
-export async function fetchEmployees(): Promise<Employee[] | null> {
+export async function fetchEmployees(url:string): Promise<Employee[] | null> {
     try {
-        const response = await fetch(`https://www.bip.alpanet.pl/api/v1/employee`, {
+        const response = await fetch(`${url}/api/v1/employee`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

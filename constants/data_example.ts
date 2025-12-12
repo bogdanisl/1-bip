@@ -3,13 +3,8 @@ import { Article } from "@/types/Article";
 import { Employee } from "@/types/Employee";
 
 export const FAKE_CITIES = [
-  { id: '1', code: '42100', name: 'Gmina Testowa' },
-  { id: '2', code: '42300', name: 'Gmina Testowo' },
-  { id: '3', code: '42400', name: 'Gmina Test' },
-  { id: '4', code: '42400', name: 'Gmina Test 2' },
-  { id: '5', code: '42400', name: 'Gmina Test 3' },
-  { id: '6', code: '42200', name: 'Gmina Testowska' },
-  { id: '7', code: '42500', name: 'Gmina Testowadło' },
+  { id: '1', code: '42400', name: 'Urząd Gminy Testowej', url: 'https://www.bip.alpanet.pl' },
+  { id: '2', code: '42400', name:'Nieaktywny Urząd Gminy', url:''}
 ];
 
 
@@ -228,18 +223,18 @@ export const FAKE_CITIES = [
 // ];
 
 export const exampleEmployees: Employee[] = [
-  { id: 1, name: 'Jan Kowalski', position: 'Dyrektor', phone: 123456789, extension: 500, email: 'jan.kowalski@example.com', surname:null},
-  { id: 2, name: 'Anna Nowak', position: 'Sekretarz', phone: 234567890, email: 'anna.nowak@example.com', surname:null},
-  { id: 3, name: 'Piotr Wiśniewski', position: 'Specjalista ds. administracji', phone: 345678901, email: 'piotr.wisniewski@example.com', surname:null},
-  { id: 4, name: 'Ewa Kaczmarek', position: 'Księgowa', phone: 456789012, email: 'ewa.kaczmarek@example.com', surname:null},
-  { id: 5, name: 'Tomasz Zieliński', position: 'Radca prawny', phone: 567890123, email: 'tomasz.zielinski@example.com', surname:null},
-  { id: 6, name: 'Karolina Lewandowska', position: 'Referent', phone: 678901234, email: 'karolina.lewandowska@example.com', surname:null},
-  { id: 7, name: 'Michał Woźniak', position: 'Informatyk', phone: 789012345, email: 'michal.wozniak@example.com', surname:null},
-  { id: 8, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname:null},
-  { id: 9, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname:null},
-  { id: 10, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname:null},
-  { id: 11, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname:null},
-  { id: 12, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname:null},
+  { id: 1, name: 'Jan Kowalski', position: 'Dyrektor', phone: 123456789, extension: 500, email: 'jan.kowalski@example.com', surname: null },
+  { id: 2, name: 'Anna Nowak', position: 'Sekretarz', phone: 234567890, email: 'anna.nowak@example.com', surname: null },
+  { id: 3, name: 'Piotr Wiśniewski', position: 'Specjalista ds. administracji', phone: 345678901, email: 'piotr.wisniewski@example.com', surname: null },
+  { id: 4, name: 'Ewa Kaczmarek', position: 'Księgowa', phone: 456789012, email: 'ewa.kaczmarek@example.com', surname: null },
+  { id: 5, name: 'Tomasz Zieliński', position: 'Radca prawny', phone: 567890123, email: 'tomasz.zielinski@example.com', surname: null },
+  { id: 6, name: 'Karolina Lewandowska', position: 'Referent', phone: 678901234, email: 'karolina.lewandowska@example.com', surname: null },
+  { id: 7, name: 'Michał Woźniak', position: 'Informatyk', phone: 789012345, email: 'michal.wozniak@example.com', surname: null },
+  { id: 8, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
+  { id: 9, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
+  { id: 10, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
+  { id: 11, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
+  { id: 12, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
 ];
 
 export const attachmentExamples: Attachment[] = [

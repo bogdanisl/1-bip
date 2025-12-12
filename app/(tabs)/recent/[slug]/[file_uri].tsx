@@ -108,7 +108,6 @@ const PdfViewerPage = () => {
 
       <View style={[styles.container,{paddingTop:isLiquidGlassAvailable()?70:0}]}>
         {isPreviewSupported ? (
-          /* WebView — как и было */
           <WebView
             source={{ uri: fullUrl }}
             style={{ flex: 1 }}
@@ -123,7 +122,6 @@ const PdfViewerPage = () => {
             )}
           />
         ) : (
-          /* Экран для неподдерживаемых файлов */
           <View style={styles.unsupportedContainer}>
             <Entypo name="attachment" size={80} color={themeColors.text + '88'} />
             <Text style={[styles.fileName, { color: themeColors.text }]}>
@@ -145,6 +143,7 @@ const PdfViewerPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'red'
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,

@@ -18,14 +18,14 @@ export default function EmployeesPage() {
     const handlePress = (employee: Employee) => {
         // Empty function for now
         router.push(`../sub_pages/employee/${employee.id}`)
-        console.log('Pressed employee:', employee.fullName);
+        console.log('Pressed employee:', employee.name);
     };
 
     const filteredSpeakers = exampleEmployees.filter((employee) => {
         if (!searchText) {
             return true;
         }
-        return employee.fullName.toLowerCase().includes(searchText);
+        return employee.name?employee.name.toLowerCase().includes(searchText):employee.surname?employee.surname.toLowerCase().includes(searchText):'';
     });
 
     const renderEmployee = ({ item }: { item: Employee }) => (
@@ -38,8 +38,8 @@ export default function EmployeesPage() {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <MaterialIcons name="person" size={24} color={theme.tint} style={{ marginRight: 12 }} />
                     <View>
-                        <Text style={[styles.name, { color: theme.text }]}>{item.fullName}</Text>
-                        <Text style={[styles.function, { color: theme.subText }]}>{item.function}</Text>
+                        <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
+                        <Text style={[styles.function, { color: theme.subText }]}>{item.position}</Text>
                     </View>
                 </View>
                 <MaterialIcons name="chevron-right" size={24} color={theme.subText} />

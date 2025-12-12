@@ -53,7 +53,7 @@ export default function ChangeRegister() {
           paddingVertical: 12,
           padding: 16,
           backgroundColor: theme.background_2,
-          shadowColor: theme.text,
+          shadowColor: Colors.light.text,
           shadowOpacity: 0.1,
           shadowRadius: 6,
           shadowOffset: { width: 0, height: 2 },

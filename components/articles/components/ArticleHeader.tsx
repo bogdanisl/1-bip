@@ -32,7 +32,7 @@ export function ArticleHeader({ article, theme }: Props) {
 
 
             {/* SUBTITLE */}
-            {getSubTitle(article, t) ? (
+            {article.subtitle? (
                 <Text style={{ color: theme.subText, marginTop: 8, fontSize: 18 }}>
                     {he.decode(article.subtitle)}
                 </Text>
