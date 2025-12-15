@@ -1,8 +1,10 @@
+import { useSelectedBipStore } from "@/hooks/use-selected-bip";
 import { Article } from "@/types/Article";
 
-export async function fetchArticles(offset:number,limit:number): Promise<Article[]> {
-    try{    
-        const response = await fetch(`https://www.bip.alpanet.pl/api/v1/article/list`, {
+export async function fetchArticles(offset:number,limit:number, url:string): Promise<Article[]> {
+    
+    try{
+        const response = await fetch(`${url}/api/v1/article/list`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -12,6 +14,7 @@ export async function fetchArticles(offset:number,limit:number): Promise<Article
                 limit: limit,
             }),
         });
+           console.log(`${url}/api/v1/article/list`)
         //console.log('fetchArticles response: ',response)
         if (!response.ok) {
           throw new Error(`Failed to fetch articles: ${response.status}`);

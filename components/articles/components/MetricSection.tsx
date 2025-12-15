@@ -50,9 +50,11 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
     useEffect(()=>{
         const setLanguage = async ()=>{
             const saved = await AsyncStorage.getItem('app_language')
+            console.log(saved);
             setLang(saved || 'en');
         }
         setLanguage();
+        
     },[])
 
     const rotation = arrowRotation.interpolate({
@@ -144,7 +146,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                                 </View>
 
                                 <Text style={{ fontSize: 14, color: theme.text }}>
-                                    {new Date(article.createdAt.date!).toLocaleDateString('pl-PL', {
+                                    {new Date(article.createdAt.date!).toLocaleDateString(lang, {
                                         year: 'numeric',
                                         month: 'long',
                                         day: 'numeric',

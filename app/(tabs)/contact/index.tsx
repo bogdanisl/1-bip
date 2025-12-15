@@ -200,7 +200,7 @@ const ContactHeader = () => {
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: 'transparent' }}>
 
-        {selectedBip ? (
+        {selectedBip?.id!='-1' ? (
           <>
             <View style={[styles.section, { marginBottom: 20 }]}>
 

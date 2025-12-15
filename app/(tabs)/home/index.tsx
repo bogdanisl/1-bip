@@ -34,6 +34,10 @@ import BankAccountCard from './sub_pages/bank_accounts';
 import * as Application from 'expo-application'
 import { checkVersion } from '@/utils/versionControl';
 import { VersionResponse } from '@/types/VersionResponse';
+import { OfficeData } from '@/types/OfficeData';
+import { officeDataExample } from '@/constants/data_example';
+import { fetchOfficeData } from '@/utils/data';
+import { storage } from '@/utils/storage/asyncStorage';
 
 const { width } = Dimensions.get('window');
 const GOOGLE_PLAY_STORE_LINK = 'https://play.google.com/store/apps/details?id=com.anonymous.Alpanet&hl=pl'
@@ -54,14 +58,16 @@ export default function HomePage() {
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false)
+  const [officeData, setOfficeData] = useState<OfficeData | null>(null)
   //const [selectedBip, setSelectedBip] = useState<Bip | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [lang, setLang] = useState('pl-PL');
 
   const [SavedBipsArray, setSavedBipsArray] = useState<Bip[] | null>(null);
   const today = new Date();
-  const dayName = today.toLocaleDateString('pl-PL', { weekday: 'long' });
-  const dateStr = today.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' });
+  const dayName = today.toLocaleDateString(lang, { weekday: 'long' });
+  const dateStr = today.toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' });
 
   const menuItems = [
     { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
@@ -70,16 +76,14 @@ export default function HomePage() {
     //{ title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
     { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/sub_pages/downloads' },
     { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/sub_pages/editors' },
-    { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/sub_pages/visit_statistics' },
-    { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register' },
+    // { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/sub_pages/visit_statistics' },
+    // { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register' },
   ];
 
   const handlePress = (route: RelativePathString) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.push(route);
   };
-
-
 
   async function promptUpdate(result: VersionResponse) {
     if (!result) {
@@ -122,7 +126,6 @@ export default function HomePage() {
 
   }
 
-
   const onRefresh = useCallback(() => {
     setRefreshing(true);
 
@@ -153,15 +156,40 @@ export default function HomePage() {
             setSavedBipsArray(null);
           }
         }
+        else {
+
+        }
       } catch (error) {
         console.error('Failed to load selected BIP:', error);
       } finally {
         setLoading(false);
       }
     };
+    const setLanguage = async () => {
+      const saved = await AsyncStorage.getItem('app_language')
+      //console.log({saved});
+      setLang(saved || 'en');
+    }
+    setLanguage();
     loadSelectedBip();
     checkUpdate();
   }, []);
+
+  useEffect(() => {
+    const loadOfficeData = async () => {
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (data) {
+        setOfficeData(data);
+      }
+      else if(selectedBip?.id=='-1'){
+        setOfficeData(officeDataExample);
+      }
+      else{
+        setOfficeData(null);
+      }
+    }
+    loadOfficeData();
+  }, [selectedBip])
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
@@ -195,7 +223,7 @@ export default function HomePage() {
             resizeMode='contain'
           />
           {/* Weather + Search */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop: insets.top + 300 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, marginTop: insets.top + 310 }}>
             <View style={{ flexDirection: 'row', gap: 8 }}>
               {(SavedBipsArray ? SavedBipsArray.length > 1 : false) && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
@@ -230,17 +258,10 @@ export default function HomePage() {
 
                   </TouchableOpacity>
 
-                  {/* Uncomment if you want the AQI pill back later */}
-                  {/* <View style={{ backgroundColor: '#00d4aa', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 13 }}>AQI 18</Text>
-    </View> */}
                 </View>
               )}
               <TouchableOpacity
                 onPress={() => {
-                  // your action, e.g. open city list, refresh, etc.
-
-
                 }}
                 style={{
                   flexDirection: 'row',
@@ -251,11 +272,10 @@ export default function HomePage() {
                   maxWidth: 200,
                   maxHeight: 45,
                   borderRadius: 25,
-                  gap: 6,                    // space between icon and text
+                  gap: 6,
                 }}
                 activeOpacity={0.7}
               >
-                {/* Optional location icon – looks great with temperature */}
                 <Text style={{ color: 'white', fontSize: 15 }}>
                   2°
                 </Text>
@@ -290,9 +310,9 @@ export default function HomePage() {
           <Logo width={90} height={60} fill="white" style={{ marginTop: 0, marginBottom: 0 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
-              {selectedBip?.name ?? 'Gmina Testowa'}
+              {officeData?.name || 'Brak danych.'}
               <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
-                {`\n${(selectedBip?.code.slice(0, 2) ?? '11') + '-' + (selectedBip?.code.slice(2) ?? '222')} Testowo\nTestowa 11A`}
+                {`\n${officeData?.postalCode || ''} ${officeData?.city || ''}\n${officeData?.address || ''}`}
               </Text>
             </Text>
 
@@ -317,13 +337,12 @@ export default function HomePage() {
           </View>
         </LinearGradient>
 
-        {/* Clean White Cards Area – No Gradients */}
         {isUpdateAvailable &&
           <View style={{
             backgroundColor: 'black',
             marginTop: -20,
-                  borderTopLeftRadius: 15,
-                  borderTopRightRadius: 15,
+            borderTopLeftRadius: 15,
+            borderTopRightRadius: 15,
 
           }}>
 
@@ -376,8 +395,6 @@ export default function HomePage() {
           paddingHorizontal: 16,
           paddingTop: 30,
         }}>
-
-
 
           <OpeningHoursCard />
           {/* <OfficeInfoCard/> */}

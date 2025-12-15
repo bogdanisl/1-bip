@@ -122,5 +122,15 @@
   "legal_basis":"Podstawa prawna",
   "appeal_procedure":"Tryb odwoławczy",
   "comments":"Uwagi",
-  "resolution_content":"Treść"
+  "resolution_content":"Treść",
+  "search_in_app":"Szukaj w aplikacji...",
+  "unsupported_bip":"BIP \"{{name}}\" nie jest obsługiwany przez aplikację.\n\nSpróbuj połączyć się z innym BIP'em, albo spróbuj później",
+  "empty_list":"Jeszcze nie dodano żadnych artykułów. Sprawdź później.",
+  "no_data":"Brak danych do wyświetlenia.",
+  "office_name":"Nazwa urzędu",
+  "address":"Adres",
+  "postal_code":"Kod pocztowy",
+  "city":"Miasto",
+  "province":"Województwo",
+  "district":"Powiat"
 }

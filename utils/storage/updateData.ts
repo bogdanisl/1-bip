@@ -1,5 +1,5 @@
 import { Bip } from "@/types/Bip";
-import { fetchEmployees, fetchOpenHours } from "../data";
+import { fetchEmployees, fetchOfficeData, fetchOpenHours } from "../data";
 import { storage } from "./asyncStorage";
 import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
 import { Employee } from "@/types/Employee";
@@ -37,6 +37,12 @@ export async function updateData(bip: Bip) {
         storage.remove(`${bip.id}/employees`);
         storage.set<Employee[]>(`${bip.id}/employees`,employees)
     }
+
+    const officeData = await fetchOfficeData(bip.url);
+    if(officeData){
+        storage.remove(`${bip.id}/officeData`);
+        storage.set(`${bip.id}/officeData`,officeData)
+    }
 }
 
 export async function updateAllData(){
@@ -44,6 +50,8 @@ export async function updateAllData(){
     if(saved){
         saved.map(bip=>{
             try{
+                console.log('updating bipd id :' + bip.id)
+                if(bip.id!='-1' && bip.url != '') 
                 updateData(bip);
             }
             catch(err){

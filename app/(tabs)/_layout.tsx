@@ -33,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="recent"
         options={{
-          title: t('recent'),
+          title: t('recents'),
           tabBarIcon: ({ color }) => <FontAwesome size={28} name='clock-o' color={color} />,
         }}
       />

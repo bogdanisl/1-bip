@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,10 @@ import { Colors } from '@/constants/theme';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/components/buttons/ItemButton';
+import { storage } from '@/utils/storage/asyncStorage';
+import { OfficeData } from '@/types/OfficeData';
+import { officeDataExample } from '@/constants/data_example';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 2;
@@ -21,23 +25,44 @@ const BankAccountCard = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [expanded, setExpanded] = useState(false);
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const arrowRotation = useRef(new Animated.Value(0)).current;
 
-  const accountNumber = '11 2222 3333 4444 5555 6666 7777 8888';
+  const [accountNumber, setAccountNumber] = useState<string | null>(null);
+  const [bankName, setBankName] = useState<string | null>(null);
 
   const copyToClipboard = async () => {
-    await Clipboard.setStringAsync(accountNumber);
+    await Clipboard.setStringAsync(accountNumber!);
     showMessage({
       message: t('code_copied') || 'Skopiowano!',
-      description: accountNumber,
+      description: accountNumber!,
       type: 'success',
       icon: 'success',
       duration: 2800,
     });
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (!data && selectedBip?.id == '-1') {
+        setAccountNumber(officeDataExample.bankAccount!);
+        setBankName(officeDataExample.bankName!);
+        return;
+      }
+      else if (!data) {
+        setAccountNumber(null);
+        setBankName(null);
+        return;
+      }
+      setAccountNumber(data.bankAccount || null);
+      setBankName(data.bankName || null);
+    }
+    getData();
+  }, [selectedBip])
 
   const toggleExpand = () => {
     const toValue = expanded ? 0 : ROW_HEIGHT * (ROW_COUNT + 1);
@@ -67,6 +92,9 @@ const BankAccountCard = () => {
     outputRange: ['0deg', '180deg'],
   });
 
+  if (!accountNumber || !bankName) {
+    return <></>;
+  }
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
       {/* Header */}
@@ -89,11 +117,11 @@ const BankAccountCard = () => {
 
       {/* Expandable Content */}
       <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
-        <View style={{ paddingBottom: 12, paddingHorizontal:10 }}>
+        <View style={{ paddingBottom: 12, paddingHorizontal: 10 }}>
           {expanded && (
             <>
               {/* Bank Name Row */}
-              <FileItem name={'Bank Testowy'} leftIconName={'account-balance'} style={{marginBottom:8}} disabled/>
+              <FileItem name={bankName} leftIconName={'account-balance'} style={{ marginBottom: 8 }} disabled />
               {/* Account Number Row - Clickable */}
               <FileItem name={accountNumber} leftIconName={'credit-card'} rightIconName='content-copy' onPress={copyToClipboard} />
             </>

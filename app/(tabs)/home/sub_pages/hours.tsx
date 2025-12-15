@@ -15,6 +15,7 @@ import { fetchOpenHours } from '@/utils/data';
 import { storage } from '@/utils/storage/asyncStorage';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
+import { openHoursExample } from '@/constants/data_example';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;
@@ -38,9 +39,15 @@ const OpeningHoursCard = () => {
   useEffect(() => {
     const getHours = async () => {
       const hours = await storage.get<OpenHoursDTO[]>(`${selectedBip?.id}/hours`);
-
-        setSchedule(hours || [])
-
+      if(hours){
+        setSchedule(hours);
+      }
+      else if(selectedBip?.id=='-1'){
+        setSchedule(openHoursExample);
+      }
+      else{
+        setSchedule([]);
+      }
     }
     getHours();
   }, [selectedBip])
@@ -78,10 +85,10 @@ const OpeningHoursCard = () => {
     if (!today) return '';
 
     if (isOpenNow) {
-      return t('closing_at',{closesAt:today.endAt}) ;
+      return t('closing_at', { closesAt: today.endAt });
     }
     if (currentMinutes < today.startM) {
-      return t('opens_at',{opensAt:today.startAt});
+      return t('opens_at', { opensAt: today.startAt });
     }
 
     for (let i = 1; i <= 7; i++) {
@@ -116,7 +123,7 @@ const OpeningHoursCard = () => {
     return { text: 'close', isOpen: false };
   };
 
-  if(schedule.length == 0) return null;
+  if (schedule.length == 0) return null;
 
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
@@ -255,7 +262,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: 15,
-    fontWeight:  Platform.OS=='android'?'700':'600',
+    fontWeight: Platform.OS == 'android' ? '700' : '600',
     letterSpacing: 0.4,
   },
   timeContainer: {
@@ -268,7 +275,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 15,
-    fontWeight: Platform.OS=='android'?'700':'600',
+    fontWeight: Platform.OS == 'android' ? '700' : '600',
   },
 });
 

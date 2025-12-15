@@ -1,10 +1,13 @@
 import { Attachment } from "@/types/Attachment";
 import { Article } from "@/types/Article";
 import { Employee } from "@/types/Employee";
+import { OfficeData } from "@/types/OfficeData";
+import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
 
 export const FAKE_CITIES = [
   { id: '1', code: '42400', name: 'Urząd Gminy Testowej', url: 'https://www.bip.alpanet.pl' },
-  { id: '2', code: '42400', name:'Nieaktywny Urząd Gminy', url:''}
+  { id: '2', code: '42400', name: 'Nieaktywny Urząd Gminy', url: '' },
+  { id: '-1', code: '42400', name: 'To jest przykładowy BIP', url: '' }
 ];
 
 
@@ -231,10 +234,6 @@ export const exampleEmployees: Employee[] = [
   { id: 6, name: 'Karolina Lewandowska', position: 'Referent', phone: 678901234, email: 'karolina.lewandowska@example.com', surname: null },
   { id: 7, name: 'Michał Woźniak', position: 'Informatyk', phone: 789012345, email: 'michal.wozniak@example.com', surname: null },
   { id: 8, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
-  { id: 9, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
-  { id: 10, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
-  { id: 11, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
-  { id: 12, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
 ];
 
 export const attachmentExamples: Attachment[] = [
@@ -278,5 +277,89 @@ export const attachmentExamples: Attachment[] = [
   }
 ]
 
+export const officeDataExample: OfficeData =
+{
+  name: "Urząd Demonstracyjny",
+  NIP: "99 99 99 99",
+  REGON: "98 98 9888 9",
+  bankAccount: "1111 2222 3333 4444 5555 6666 7777",
+  bankName: "Bank Przykładowy S.A.",
+  address: "Przykładowa 1",
+  postalCode: "00-000",
+  city: "Przykładowo",
+  province: "Przykładowe",
+  district: "Przykładowy",
+  phone: "123-456-789",
+  email: "example@alpanet.pl",
+  website: "https://www.alpanet.pl"
+};
+
+export const openHoursExample: OpenHoursDTO[] = [
+  {
+    id: 0,
+    name: "Poniedziałek",
+    slug: "monday",
+    startAt: "07:00",
+    endAt: "16:00",
+    status: 0,
+    startM: 420,
+    endAtM: 960
+  },
+  {
+    id: 1,
+    name: "Wtorek",
+    slug: "Tuesday",
+    startAt: "08:00",
+    endAt: "16:00",
+    status: 0,
+    startM: 480,
+    endAtM: 960
+  }, {
+    id: 2,
+    name: "Środa",
+    slug: "Wednesday",
+    startAt: "08:00",
+    endAt: "16:00",
+    status: 0, 
+    startM: 480,
+    endAtM: 960
+  }, {
+    id: 3,
+    name: "Czwartek",
+    slug: "thursday",
+    startAt: "08:00",
+    endAt: "16:00",
+    status: 0,
+    startM: 480,
+    endAtM: 960
+  }, {
+    id: 4,
+    name: "Piątek",
+    slug: "friday",
+    startAt: "08:00",
+    endAt: "13:00",
+    status: 0,
+    startM: 480,
+    endAtM: 780
+  }, {
+    id: 5,
+    name: "Sobota",
+    slug: "saturday",
+    startAt: "",
+    endAt: "",
+    status: 1,
+    startM: 0,
+    endAtM: 0
+  }, {
+    id: 6,
+    name: "Niedziela",
+    slug: "sunday",
+    startAt: "",
+    endAt: "",
+    status: 1,
+    startM: 0,
+    endAtM: 0
+  }
+]
 
 

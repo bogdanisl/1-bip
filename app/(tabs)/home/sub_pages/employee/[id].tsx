@@ -31,6 +31,12 @@ export default function EmployeeDetailPage() {
                     setEmployee(found);
                 }
             }
+            else if(selectedBip?.id=='-1'){
+                const found = exampleEmployees.find((e) => e.id === employeeId);
+                if (found) {
+                    setEmployee(found);
+                }
+            }
         }
         findEmployee();
     }, [])

@@ -3,6 +3,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import {
   RefreshControl,
   useColorScheme,
+  Text,
+  View
 } from 'react-native';
 import Animated, {
   LinearTransition,
@@ -14,6 +16,9 @@ import type { Article } from '@/types/Article';
 import { ArticleCard } from '@/components/articles/ArticleCard';
 import { useLocalSearchParams } from 'expo-router';
 import { fetchArticles } from '@/utils/articles';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LIMIT = 40;
 const SKELETON_COUNT = 6;
@@ -22,11 +27,15 @@ const RecentPage = () => {
   const colorScheme = useColorScheme();
   const [articles, setArticles] = useState<Article[]>([]);
   const [offset, setOffset] = useState(0);
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [isRefreshing, setIsRefreshing] = useState(false); // <-- refresh
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [lang, setLang] = useState('pl-PL');
 
+
+  const { t } = useTranslation();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const params = useLocalSearchParams<{ q?: string }>();
   const searchText = params?.q?.toLowerCase() || "";
@@ -38,14 +47,26 @@ const RecentPage = () => {
 
   // === Загрузка статей (offset,limit) ===
   const loadArticles = useCallback(
-    async (offsetToLoad: number, append = false) => {
-      if (isLoadingMore || isRefreshing) return;
-
+    async (offsetToLoad: number, append = false, url: string) => {
+      if (isLoadingMore || isRefreshing) {
+        return;
+      };
       if (append) {
         setIsLoadingMore(true);
       }
-      const fetched = await fetchArticles(offsetToLoad, LIMIT);
-
+      if (selectedBip == null) {
+        setIsLoadingMore(false);
+        setIsRefreshing(false);
+        setArticles([]);
+        return
+      }
+      if (url == '' || url == undefined || url == null) {
+        setArticles([]);
+        setIsLoadingMore(false);
+        setIsRefreshing(false);
+        return;
+      }
+      const fetched = await fetchArticles(offsetToLoad, LIMIT, url);
       if (fetched) {
         if (fetched.length < LIMIT) {
           setHasMore(false);
@@ -56,10 +77,17 @@ const RecentPage = () => {
         );
 
         setOffset(offsetToLoad);
+        setIsLoadingMore(false);
+        setIsRefreshing(false);
       }
-
+      else {
+        setArticles([])
+        setIsLoadingMore(false);
+        setIsRefreshing(false);
+      }
       if (append) {
         setIsLoadingMore(false);
+        setIsRefreshing(false);
       }
     },
     [isLoadingMore, isRefreshing]
@@ -67,15 +95,39 @@ const RecentPage = () => {
 
   // === Primary load ===
   useEffect(() => {
-    loadArticles(0, false);
-  }, []);
+    const setLanguage = async () => {
+      const saved = await AsyncStorage.getItem('app_language')
+      console.log({saved});
+      setLang(saved || 'en');
+    }
+    setLanguage();
+    
+    if (selectedBip?.id == '-1') {
+      setArticles([]); // TODO: load example articles
+      return;
+    }
+    if(selectedBip && selectedBip.url != '' && selectedBip.id != '-1'){
+      loadArticles(0, false, selectedBip?.url);
+    }
+    else{
+      setArticles([]);
+    }
+    //console.log({ selectedBip });
+  }, [selectedBip]);
 
   // === Pull-to-refresh ===
   const handleRefresh = async () => {
     setIsRefreshing(true);
 
-    setHasMore(true);       // Сбросить "конец списка"
-    const freshData = await fetchArticles(0, LIMIT);
+    setHasMore(true);
+    if (selectedBip == null || selectedBip.url == '' || selectedBip.id=='-1') {
+      setTimeout(()=>{
+        setIsRefreshing(false);
+        setHasMore(false)
+      },1000);
+      return;
+    }
+    const freshData = await fetchArticles(0, LIMIT, selectedBip.url);
 
     if (freshData) {
       setArticles(freshData);
@@ -84,18 +136,17 @@ const RecentPage = () => {
         setHasMore(false);
       }
     }
-
     setIsRefreshing(false);
   };
 
   // === Load more ===
   const handleLoadMore = () => {
     if (isLoadingMore || isRefreshing || !hasMore) return;
-    loadArticles(offset + LIMIT, true);
+    loadArticles(offset + LIMIT, true, selectedBip?.url || '');
   };
 
   const renderArticle = ({ item }: { item: Article }) => (
-    <ArticleCard article={item}/>
+    <ArticleCard article={item} lang={lang} />
   );
 
   return (
@@ -113,7 +164,19 @@ const RecentPage = () => {
 
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.3}
-
+      ListEmptyComponent={
+        <>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, alignContent: 'center' }}>
+            {selectedBip?.url == '' ?
+              (
+                <Text style={{ color: theme.text, textAlign: 'center', fontSize: 18 }}>{t('unsupported_bip', { name: selectedBip.name })}</Text>
+              ) : (
+                <Text style={{ color: theme.text, textAlign: 'center' }}>{t('empty_list')}</Text>
+              )
+            }
+          </View>
+        </>
+      }
       refreshControl={
         <RefreshControl
           refreshing={isRefreshing}
