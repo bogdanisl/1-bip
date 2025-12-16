@@ -27,15 +27,18 @@ export default function EmployeesPage() {
 
     useEffect(() => {
         const getEmployee = async () => {
-            const fetchedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
-            if (fetchedEmployees) {
-                setEmplpoyees(fetchedEmployees)
+            if(selectedBip == null){
+                setEmplpoyees(exampleEmployees)
+                return;
             }
-            else if(selectedBip?.id=='-1'){
-                setEmplpoyees(exampleEmployees);
+            const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
+            if (savedEmployees) {
+                setEmplpoyees(savedEmployees)
+                return;
             }
             else{
                 setEmplpoyees([]);
+                return;
             }
         }
         getEmployee();

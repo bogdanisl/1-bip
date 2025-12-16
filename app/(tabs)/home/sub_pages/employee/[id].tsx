@@ -24,15 +24,16 @@ export default function EmployeeDetailPage() {
 
     useEffect(() => {
         const findEmployee = async () => {
-            const employees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
-            if (employees) {
-                const found = employees.find((e) => e.id === employeeId);
+            if (selectedBip == null) {
+                const found = exampleEmployees.find((e) => e.id === employeeId);
                 if (found) {
                     setEmployee(found);
                 }
+                return;
             }
-            else if(selectedBip?.id=='-1'){
-                const found = exampleEmployees.find((e) => e.id === employeeId);
+            const employees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
+            if (employees) {
+                const found = employees.find((e) => e.id === employeeId);
                 if (found) {
                     setEmployee(found);
                 }
@@ -70,7 +71,7 @@ export default function EmployeeDetailPage() {
             style={[
                 styles.infoCard,
                 {
-                    backgroundColor: Platform.OS=='android'?theme.background_2:isLiquidGlassAvailable()?theme.background:theme.background_2,
+                    backgroundColor: Platform.OS == 'android' ? theme.background_2 : isLiquidGlassAvailable() ? theme.background : theme.background_2,
                     flexDirection: 'row',
                     alignItems: 'center',          // This is the key: vertically centers all children
                     paddingVertical: 12,          // Optional: consistent height
@@ -83,7 +84,7 @@ export default function EmployeeDetailPage() {
             ]}
         >
             {/* Icon on the left */}
-            <View style={[styles.iconCircle, { backgroundColor: Platform.OS=='android'?theme.background:isLiquidGlassAvailable()?theme.background_2:theme.background }]}>
+            <View style={[styles.iconCircle, { backgroundColor: Platform.OS == 'android' ? theme.background : isLiquidGlassAvailable() ? theme.background_2 : theme.background }]}>
                 <MaterialIcons name={icon} size={20} color={theme.tint} />
             </View>
 

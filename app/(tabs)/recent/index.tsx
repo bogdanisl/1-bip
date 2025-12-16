@@ -19,6 +19,7 @@ import { fetchArticles } from '@/utils/articles';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ArticlesListExample } from '@/constants/data_example';
 
 const LIMIT = 40;
 const SKELETON_COUNT = 6;
@@ -57,7 +58,7 @@ const RecentPage = () => {
       if (selectedBip == null) {
         setIsLoadingMore(false);
         setIsRefreshing(false);
-        setArticles([]);
+        setArticles(ArticlesListExample);
         return
       }
       if (url == '' || url == undefined || url == null) {
@@ -97,20 +98,21 @@ const RecentPage = () => {
   useEffect(() => {
     const setLanguage = async () => {
       const saved = await AsyncStorage.getItem('app_language')
-      console.log({saved});
+      //console.log({saved});
       setLang(saved || 'en');
     }
     setLanguage();
-    
-    if (selectedBip?.id == '-1') {
-      setArticles([]); // TODO: load example articles
+
+    if (selectedBip == null) {
+      setArticles(ArticlesListExample);
       return;
     }
-    if(selectedBip && selectedBip.url != '' && selectedBip.id != '-1'){
+    if(selectedBip != null && selectedBip.url != ''){
       loadArticles(0, false, selectedBip?.url);
+      return;
     }
     else{
-      setArticles([]);
+      //setArticles([]);
     }
     //console.log({ selectedBip });
   }, [selectedBip]);
@@ -118,17 +120,16 @@ const RecentPage = () => {
   // === Pull-to-refresh ===
   const handleRefresh = async () => {
     setIsRefreshing(true);
-
     setHasMore(true);
     if (selectedBip == null || selectedBip.url == '' || selectedBip.id=='-1') {
       setTimeout(()=>{
         setIsRefreshing(false);
+        setArticles(ArticlesListExample);
         setHasMore(false)
       },1000);
       return;
     }
     const freshData = await fetchArticles(0, LIMIT, selectedBip.url);
-
     if (freshData) {
       setArticles(freshData);
       setOffset(0);

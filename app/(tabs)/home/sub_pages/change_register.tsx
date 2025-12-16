@@ -33,11 +33,6 @@ export default function ChangeRegister() {
 
   const url = urlMap[slug] || 'https://www.bip.alpanet.pl/rejestr_zmian';
 
-  useEffect(() => {
-    // Optional: log for debugging
-    console.log('Opening WebView:', slug, '→', url);
-  }, [slug]);
-
   return (
     <View style={{ flex: 1, backgroundColor: theme.text }}>
       {/* Optional: Show title in header (Expo Router handles it automatically from filename) */}

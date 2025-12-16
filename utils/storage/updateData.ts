@@ -3,7 +3,9 @@ import { fetchEmployees, fetchOfficeData, fetchOpenHours } from "../data";
 import { storage } from "./asyncStorage";
 import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
 import { Employee } from "@/types/Employee";
-
+import { fetchDownloads } from "../articles";
+import { OfficeData } from "@/types/OfficeData";
+import { Document } from '@/types/Article'
 
 export async function updateData(bip: Bip) {
     const hours = await fetchOpenHours(bip.url);
@@ -41,16 +43,23 @@ export async function updateData(bip: Bip) {
     const officeData = await fetchOfficeData(bip.url);
     if(officeData){
         storage.remove(`${bip.id}/officeData`);
-        storage.set(`${bip.id}/officeData`,officeData)
+        storage.set<OfficeData>(`${bip.id}/officeData`,officeData)
+    }
+
+    const downloads = await fetchDownloads(bip.url);
+    if(downloads){
+        storage.remove(`${bip.id}/downloads`)
+        storage.set<Document[]>(`${bip.id}/downloads`,downloads);
     }
 }
 
 export async function updateAllData(){
+    console.log('update data')
     const saved = await storage.get<Bip[]>(`selectedBipCities`);
     if(saved){
         saved.map(bip=>{
             try{
-                console.log('updating bipd id :' + bip.id)
+                //console.log('updating bipd id :' + bip.id)
                 if(bip.id!='-1' && bip.url != '') 
                 updateData(bip);
             }

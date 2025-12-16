@@ -23,7 +23,7 @@ export default function App() {
   const [hasBip, setHasBip] = useState<boolean | null>(null); // null = loading
 
   useEffect(() => {
-    console.log('index')
+    //console.log('index')
     const checkBip = async () => {
       try {
         const value = await AsyncStorage.getItem('selectedBipIds');
@@ -39,10 +39,6 @@ export default function App() {
     }
     updateAllData();
   }, [fontsLoaded]);
-
-  useEffect(()=>{
-    console.log('lol kek')
-  },[])
 
   // Still loading fonts or checking storage
   if (!fontsLoaded || hasBip === null) {

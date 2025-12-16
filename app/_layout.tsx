@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
+  
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <FlashMessage position={'top'} style={{ paddingTop: Platform.OS === 'android' ? 30 : 0 }} />

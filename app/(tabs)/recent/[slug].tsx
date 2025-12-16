@@ -2,6 +2,7 @@ import ArticlePage from '@/components/articles/ArticlePage';
 import { Skeleton } from '@/components/skeleton';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme.web';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { Article } from '@/types/Article';
 import { fetchArticle } from '@/utils/articles';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -11,19 +12,30 @@ import { Stack } from 'expo-router/stack';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, Share, Platform, View } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 
 export default function ArticleShow() {
   const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
   const { t } = useTranslation();
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
 
   const handlePress = async () => {
     try {
+      if (selectedBip == null) {
+        showMessage({
+          message: t('sharing_not_available_example_bip'),
+          icon: 'auto',
+          type: "warning",
+        });
+        return;
+      };
       await Share.share({
         message: `${t('check_this_message')}: https://www.bip.alpanet.pl/artykuly/${slug}`,
-        url: `https://www.bip.alpanet.pl/artykuly/${slug}`,
+        url: `${selectedBip?.url}/artykuly/${slug}`,
         title: 'Awesome website',
       });
     } catch (error) {
@@ -33,9 +45,8 @@ export default function ArticleShow() {
 
   const getArticle = async () => {
     setLoading(true);
-    const fetchedArticle = await fetchArticle(Number(slug));
+    const fetchedArticle = await fetchArticle(Number(slug), selectedBip? selectedBip.url : 'example');
     setLoading(false);
-
     if (fetchedArticle) {
       setArticle(fetchedArticle);
     } else {
@@ -51,11 +62,11 @@ export default function ArticleShow() {
 
   if (!article && loading) {
     return (
-      <View style={{ padding: 16, paddingTop:Platform.OS=='android'?20:130 }}>
-        <Skeleton width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} /> 
-        <Skeleton width="60%" height={20} borderRadius={4} style={{ marginBottom: 24 }} /> 
+      <View style={{ padding: 16, paddingTop: Platform.OS == 'android' ? 20 : 130 }}>
+        <Skeleton width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} />
+        <Skeleton width="60%" height={20} borderRadius={4} style={{ marginBottom: 24 }} />
         <Skeleton width="100%" height={200} borderRadius={8} style={{ marginBottom: 16 }} />
-        <Skeleton width="100%" height={16} borderRadius={4} style={{ marginBottom: 8 }} /> 
+        <Skeleton width="100%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
         <Skeleton width="90%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
         <Skeleton width="95%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
         <Skeleton width="80%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />

@@ -50,7 +50,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
     useEffect(()=>{
         const setLanguage = async ()=>{
             const saved = await AsyncStorage.getItem('app_language')
-            console.log(saved);
+            //console.log(saved);
             setLang(saved || 'en');
         }
         setLanguage();

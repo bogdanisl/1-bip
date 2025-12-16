@@ -26,7 +26,7 @@ const FileItem: React.FC<FileItemProps> = ({
     const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
     return (
         <TouchableOpacity
-            style={[styles.container,{backgroundColor:theme.background, shadowColor:theme.text, shadowOpacity:isLiquidGlassAvailable()?0:0}, style]}
+            style={[styles.container,{backgroundColor:theme.background, shadowColor:'#000', shadowOpacity:isLiquidGlassAvailable()?0:0}, style]}
             {...touchableProps}
         >
             {/* Left Icon */}

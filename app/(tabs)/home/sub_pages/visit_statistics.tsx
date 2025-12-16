@@ -35,7 +35,7 @@ export default function ChangeRegister() {
 
   useEffect(() => {
     // Optional: log for debugging
-    console.log('Opening WebView:', slug, '→', url);
+    //console.log('Opening WebView:', slug, '→', url);
   }, [slug]);
 
   return (

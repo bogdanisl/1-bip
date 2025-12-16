@@ -113,7 +113,7 @@ const ContactForm: React.FC<{
           body: JSON.stringify(payload),
         });
 
-        console.log(res)
+        //console.log(res)
         if (!res.ok) throw new Error('Błąd wysyłania formularza.');
 
 
@@ -220,7 +220,7 @@ const ContactForm: React.FC<{
               >
                 {consentData && <AntDesign name="check" size={14} color={themeColors.background} />}
               </View>
-              <Text style={{ color: themeColors.text }}>{t('contact_consent_1',{company: selectedBip?selectedBip.name:'ALPANET - Polskie Systemy Internetowe'})}</Text>
+              <Text style={{ color: themeColors.text, paddingRight:50 }}>{t('contact_consent_1',{company: selectedBip?selectedBip.name:'ALPANET - Polskie Systemy Internetowe'})}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -241,7 +241,7 @@ const ContactForm: React.FC<{
               >
                 {consentPrivacy && <AntDesign name="check" size={14} color={themeColors.background} />}
               </View>
-              <Text style={{ color: themeColors.text }}>{t('contact_consent_2')}</Text>
+              <Text style={{ color: themeColors.text, paddingRight:50 }}>{t('contact_consent_2')}</Text>
             </TouchableOpacity>
             {consentError ? <Text style={styles.errorText}>{consentError}</Text> : null}
           </View>
@@ -304,7 +304,6 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     marginLeft: 20,
     fontSize: 16,
-    fontWeight: '600',
   },
   counter: {
     fontSize: 12,
@@ -344,7 +343,7 @@ const styles = StyleSheet.create({
   submitText: {
     textAlign: 'center',
     color: '#fff',
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 16,
   },
 });

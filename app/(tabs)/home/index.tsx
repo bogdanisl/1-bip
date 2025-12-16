@@ -157,7 +157,7 @@ export default function HomePage() {
           }
         }
         else {
-
+          setSavedBipsArray(null);
         }
       } catch (error) {
         console.error('Failed to load selected BIP:', error);
@@ -168,7 +168,7 @@ export default function HomePage() {
     const setLanguage = async () => {
       const saved = await AsyncStorage.getItem('app_language')
       //console.log({saved});
-      setLang(saved || 'en');
+      setLang(saved || 'pl');
     }
     setLanguage();
     loadSelectedBip();
@@ -177,14 +177,15 @@ export default function HomePage() {
 
   useEffect(() => {
     const loadOfficeData = async () => {
+      if (selectedBip == null) {
+        setOfficeData(officeDataExample);
+        return;
+      }
       const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
       if (data) {
         setOfficeData(data);
       }
-      else if(selectedBip?.id=='-1'){
-        setOfficeData(officeDataExample);
-      }
-      else{
+      else {
         setOfficeData(null);
       }
     }
@@ -260,7 +261,7 @@ export default function HomePage() {
 
                 </View>
               )}
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                 }}
                 style={{
@@ -281,7 +282,7 @@ export default function HomePage() {
                 </Text>
                 <MaterialIcons name='snowing' size={20} color="white" />
 
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {/* Existing search button – unchanged */}
             <TouchableOpacity
@@ -324,7 +325,7 @@ export default function HomePage() {
                 resizeMode="contain"
               />
               <Image
-                source={require('@/assets/images/Logo_gmina.webp')}
+                source={require('@/assets/images/Logo_demo.webp')}
                 style={{
                   width: 60,
                   height: 60,
@@ -340,9 +341,9 @@ export default function HomePage() {
         {isUpdateAvailable &&
           <View style={{
             backgroundColor: 'black',
-            marginTop: -20,
-            borderTopLeftRadius: 15,
-            borderTopRightRadius: 15,
+            marginTop: -30,
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
 
           }}>
 
@@ -367,9 +368,9 @@ export default function HomePage() {
                 end={{ x: 1, y: 1 }}
                 style={{
                   padding: 10,
-                  paddingBottom: 25,
-                  borderTopLeftRadius: 15,
-                  borderTopRightRadius: 15,
+                  paddingBottom: 35,
+                  borderTopLeftRadius: 30,
+                  borderTopRightRadius: 30,
                   width: '100%',
                   flexDirection: 'row',
                   justifyContent: 'center',
@@ -388,12 +389,12 @@ export default function HomePage() {
         }
 
         <View style={{
-          marginTop: -15,
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
+          marginTop: -25,
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
           backgroundColor: theme.background,
           paddingHorizontal: 16,
-          paddingTop: 30,
+          paddingTop: 20,
         }}>
 
           <OpeningHoursCard />

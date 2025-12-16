@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { Bip } from '@/types/Bip';
 import { updateAllData } from '@/utils/storage/updateData';
+import { storage } from '@/utils/storage/asyncStorage';
 
 
 
@@ -41,6 +42,8 @@ export default function SelectBipScreen() {
         const selected = cities.filter(c => selectedIds.has(c.id));
 
         try {
+            await storage.remove(`1/hours`)
+            await storage.remove(`1/employees`)
             // Save selected city IDs (or full objects — up to you)
             const selectedIdsArray = Array.from(selectedIds); // Set → Array
             await AsyncStorage.setItem('selectedBipIds', JSON.stringify(selectedIdsArray));
@@ -54,8 +57,10 @@ export default function SelectBipScreen() {
         }
 
         // Navigate back to main screen (or home)
-        updateAllData();
-        router.replace('./../../'); // or router.replace('./../../') if you're deeper
+        await updateAllData();
+        setTimeout(()=>{
+            router.replace('./../../'); // or router.replace('./../../') if you're deeper
+        },400)
         // Alternative: router.back() if you want simple back
     };
 

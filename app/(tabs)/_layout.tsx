@@ -1,4 +1,5 @@
 import { HapticTab } from "@/components/haptic-tab";
+import { useSelectedBipStore } from "@/hooks/use-selected-bip";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
@@ -9,7 +10,7 @@ import { Platform, useColorScheme } from 'react-native';
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { t } = useTranslation()
-  const isAuthorized = false
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   return (
     (Platform.OS=='android')?(
@@ -26,8 +27,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: t('home_tab'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+          title: selectedBip?t('home_tab'):t('demo'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name={selectedBip?"home":'bolt'} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -56,8 +57,8 @@ export default function TabLayout() {
     ):(
       <NativeTabs tintColor={'#b50315'} disableTransparentOnScrollEdge>
       <NativeTabs.Trigger name="home">
-        <Label>{t('home_tab')}</Label>
-        <Icon  sf={{ default:'house',selected:'house.fill'}}drawable="ic_house" />
+        <Label>{selectedBip?t('home_tab'):t('demo')}</Label>
+        <Icon  sf={{ default:selectedBip?'house':'bolt',selected:selectedBip?'house.fill':'bolt.fill'}}drawable="ic_house" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="recent">
         <Label>{t('recents')}</Label>

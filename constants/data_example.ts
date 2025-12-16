@@ -1,13 +1,14 @@
 import { Attachment } from "@/types/Attachment";
-import { Article } from "@/types/Article";
+import { Article, Document } from "@/types/Article";
 import { Employee } from "@/types/Employee";
 import { OfficeData } from "@/types/OfficeData";
 import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
 
+
 export const FAKE_CITIES = [
+  // { id: '-1', code: '42400', name: 'To jest przykładowy BIP', url: '' },
   { id: '1', code: '42400', name: 'Urząd Gminy Testowej', url: 'https://www.bip.alpanet.pl' },
-  { id: '2', code: '42400', name: 'Nieaktywny Urząd Gminy', url: '' },
-  { id: '-1', code: '42400', name: 'To jest przykładowy BIP', url: '' }
+  //{ id: '2', code: '42400', name: 'Nieaktywny Urząd Gminy', url: '' },
 ];
 
 
@@ -236,44 +237,43 @@ export const exampleEmployees: Employee[] = [
   { id: 8, name: 'Agnieszka Piotrowska', position: 'Asystent', phone: 890123456, email: 'agnieszka.piotrowska@example.com', surname: null },
 ];
 
-export const attachmentExamples: Attachment[] = [
+export const attachmentExamples: Document[] = [
   {
-    id: 501,
-    name: "Lorem-ipsum-dolor-sit-amet_26",
-    extension: "pdf",
-    size: 285743,
-    language: "pl"
+    id: 201,
+    articleId: 0,
+    articleType: 'artspis',
+    fileName: 'regulamin-konsultacji',
+    extension: 'pdf',
+    description: '',
+    fullPath: '/dokumenty/regulamin-konsultacji.pdf',
+    fileSize: 20480,
+    language: 'pl',
+    position: 0
   },
   {
-    id: 502,
-    name: "Lorem-ipsum-dolor-sit-amet_2",
-    extension: "doc",
-    size: 56789,
-    language: "pl"
+    id: 202,
+    articleId: 0,
+    articleType: 'artspis',
+    fileName: 'wzorzec-wniosku',
+    extension: 'doc',
+    description: '',
+    fullPath: '/dokumenty/regulamin-konsultacji.pdf',
+    fileSize: 15360,
+    language: 'pl',
+    position: 0
   }
   ,
   {
-    id: 503,
-    name: "duzy-pdf-2",
-    extension: "pdf",
-    size: 56789,
-    language: "pl"
-  }
-  ,
-  {
-    id: 504,
-    name: "Lorem-ipsum-dolor-sit-amet_2",
-    extension: "png",
-    size: 56789,
-    language: "pl"
-  }
-  ,
-  {
-    id: 505,
-    name: "ARCHIWA",
-    extension: "rar",
-    size: 56789,
-    language: "pl"
+    id: 203,
+    articleId: 301,
+    articleType: 'artspis',
+    fileName: 'harmonogram-odbioru-odpadow',
+    extension: 'xlsx',
+    description: '',
+    fullPath: '/dokumenty/regulamin-konsultacji.pdf',
+    fileSize: 20480,
+    language: 'pl',
+    position: 0
   }
 ]
 
@@ -284,11 +284,11 @@ export const officeDataExample: OfficeData =
   REGON: "98 98 9888 9",
   bankAccount: "1111 2222 3333 4444 5555 6666 7777",
   bankName: "Bank Przykładowy S.A.",
-  address: "Przykładowa 1",
-  postalCode: "00-000",
-  city: "Przykładowo",
-  province: "Przykładowe",
-  district: "Przykładowy",
+  address: "ul. 11 Listopada 6B",
+  postalCode: "42-400",
+  city: "Zawiercie",
+  province: "Śląskie",
+  district: "Zawierciański",
   phone: "123-456-789",
   email: "example@alpanet.pl",
   website: "https://www.alpanet.pl"
@@ -320,7 +320,7 @@ export const openHoursExample: OpenHoursDTO[] = [
     slug: "Wednesday",
     startAt: "08:00",
     endAt: "16:00",
-    status: 0, 
+    status: 0,
     startM: 480,
     endAtM: 960
   }, {
@@ -341,25 +341,297 @@ export const openHoursExample: OpenHoursDTO[] = [
     status: 0,
     startM: 480,
     endAtM: 780
-  }, {
-    id: 5,
-    name: "Sobota",
-    slug: "saturday",
-    startAt: "",
-    endAt: "",
-    status: 1,
-    startM: 0,
-    endAtM: 0
-  }, {
-    id: 6,
-    name: "Niedziela",
-    slug: "sunday",
-    startAt: "",
-    endAt: "",
-    status: 1,
-    startM: 0,
-    endAtM: 0
   }
 ]
 
+export const ArticlesListExample: Article[] = [
+  {
+    id: 301,
+    slug: 'uchwala-nr-xxiii-145-2025-w-sprawie-przyjecia-programu-wspolpracy-z-organizacjami-pozarzadowymi',
+    title: "Uchwała Nr XXIII/145/2025 w sprawie przyjęcia programu współpracy z organizacjami pozarządowymi",
+    views: 87,
+    producedAt: {
+      date: "2025-10-15 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 1, // uchwała
+    subtitle: null,
+    acceptedBy: "Przewodniczący Rady Gminy",
+    publishedAt: {
+      date: "2025-10-18 09:30:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 300,
+    slug: 'informacja-o-terminach-przyjmowania-interesantow-w-urzedzie-gminy',
+    title: "Informacja o terminach przyjmowania interesantów w Urzędzie Gminy",
+    views: 412,
+    producedAt: {
+      date: "2025-10-10 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 0,
+    subtitle: "Godziny pracy urzędu oraz dyżury kierownictwa",
+    acceptedBy: "Sekretarz Gminy",
+    publishedAt: {
+      date: "2025-10-10 12:15:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 299,
+    slug: 'sprawa-wydanie-zaswiadczenia-o-niezaleganiu-w-podatkach-lokalnych',
+    title: "Sprawa: wydanie zaświadczenia o niezaleganiu w podatkach lokalnych",
+    views: 156,
+    producedAt: {
+      date: "2025-10-05 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 2,
+    subtitle: "Miejsce załatwienia: Referat Finansowy, pokój nr 12",
+    acceptedBy: "Kierownik Referatu Finansowego",
+    publishedAt: {
+      date: "2025-10-06 08:45:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+]
+
+export const ArtilcesExample: Article[] = [
+  {
+    id: 301,
+    categoryId: 70,
+    slug: 'uchwala-nr-xxiii-145-2025-w-sprawie-przyjecia-programu-wspolpracy-z-organizacjami-pozarzadowymi',
+    title: 'Uchwała Nr XXIII/145/2025 w sprawie przyjęcia programu współpracy z organizacjami pozarządowymi',
+    content: '<p>Uchwała określa zasady współpracy gminy z organizacjami pozarządowymi.</p>',
+    views: 87,
+    author: 'serwis.bip.gov.pl',
+    status: 1,
+    articleType: 1,
+    subtitle: null,
+
+    producedAt: {
+      date: '2025-10-15 00:00:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+    publishedAt: {
+      date: '2025-10-18 09:30:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+
+    resolutionNumber: 'XXIII/145/2025',
+    resolutionDate: {
+      date: '2025-10-15 00:00:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+    resolutionSubject: 'programu współpracy z organizacjami pozarządowymi',
+    resolutionText: 'Rady Gminy',
+    resolutionType: null,
+    resolutionPlace: null,
+
+    requiredDocuments: null,
+    pickupLocation: null,
+    fees: null,
+    appealProcedure: null,
+    comments: null,
+    legalBasis: null,
+    resolutionContent: null,
+
+    acceptedBy: 'Przewodniczący Rady Gminy',
+    approvedBy: null,
+    documents: [],
+    type: 'bip_uchwaly'
+  },
+  {
+    id: 300,
+    categoryId: 58,
+    slug: 'informacja-o-terminach-przyjmowania-interesantow-w-urzedzie-gminy',
+    title: 'Informacja o terminach przyjmowania interesantów w Urzędzie Gminy',
+    content: '<p>Podajemy aktualne godziny pracy urzędu.</p>',
+    views: 412,
+    author: 'serwis.bip.gov.pl',
+    status: 1,
+    articleType: 0,
+    subtitle: 'Godziny pracy urzędu oraz dyżury kierownictwa',
+
+    producedAt: {
+      date: '2025-10-10 00:00:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+    publishedAt: {
+      date: '2025-10-10 12:15:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+
+    resolutionNumber: null,
+    resolutionDate: null,
+    resolutionSubject: null,
+    resolutionText: null,
+    resolutionType: null,
+    resolutionPlace: null,
+
+    requiredDocuments: null,
+    pickupLocation: null,
+    fees: null,
+    appealProcedure: null,
+    comments: null,
+    legalBasis: null,
+    resolutionContent: null,
+
+    acceptedBy: 'Sekretarz Gminy',
+    approvedBy: null,
+    documents: [],
+    type: 'bip_artykuly'
+  },
+  {
+    id: 299,
+    categoryId: 38,
+    slug: 'sprawa-wydanie-zaswiadczenia-o-niezaleganiu-w-podatkach-lokalnych',
+    title: 'Sprawa: wydanie zaświadczenia o niezaleganiu w podatkach lokalnych',
+    content: '<p>Procedura uzyskania zaświadczenia.</p>',
+    views: 156,
+    author: 'serwis.bip.gov.pl',
+    status: 1,
+    articleType: 2,
+    subtitle: 'Miejsce załatwienia: Referat Finansowy, pokój nr 12',
+
+    producedAt: {
+      date: '2025-10-05 00:00:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+    publishedAt: {
+      date: '2025-10-06 08:45:00.000000',
+      timezone_type: 3,
+      timezone: 'Europe/Warsaw'
+    },
+
+    resolutionNumber: null,
+    resolutionDate: null,
+    resolutionSubject: null,
+    resolutionText: null,
+    resolutionType: 'zaświadczenie',
+    resolutionPlace: 'Referat Finansowy, pokój nr 12',
+
+    requiredDocuments: 'wniosek\npełnomocnictwo (jeśli dotyczy)',
+    pickupLocation: 'Urząd Gminy – kasa',
+    fees: '17 zł',
+    appealProcedure: 'odwołanie do SKO',
+    comments: 'termin realizacji do 7 dni',
+    legalBasis: 'Ordynacja podatkowa',
+    resolutionContent: 'wydanie zaświadczenia',
+
+    acceptedBy: 'Kierownik Referatu Finansowego',
+    approvedBy: null,
+    documents: [],
+    type: 'bip_sprawy'
+  },
+  {
+    id: 298,
+    slug: 'uchwala-nr-xxii-138-2025-w-sprawie-ustalenia-stawek-podatku-od-nieruchomosci-na-rok-2026',
+    title: "Uchwała Nr XXII/138/2025 w sprawie ustalenia stawek podatku od nieruchomości na rok 2026",
+    views: 231,
+    producedAt: {
+      date: "2025-09-25 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 1,
+    subtitle: null,
+    acceptedBy: "Przewodniczący Rady Gminy",
+    publishedAt: {
+      date: "2025-09-30 11:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 297,
+    slug: 'ogloszenie-o-naborze-na-wolne-stanowisko-urzednicze',
+    title: "Ogłoszenie o naborze na wolne stanowisko urzędnicze",
+    views: 689,
+    producedAt: {
+      date: "2025-09-20 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 0,
+    subtitle: "Stanowisko: inspektor ds. administracyjnych",
+    acceptedBy: "Kierownik Referatu Organizacyjnego",
+    publishedAt: {
+      date: "2025-09-20 08:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 296,
+    slug: 'sprawa-wpis-do-ewidencji-dzialalnosci-gospodarczej',
+    title: "Sprawa: wpis do ewidencji działalności gospodarczej",
+    views: 342,
+    producedAt: {
+      date: "2025-09-18 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 2,
+    subtitle: "Miejsce załatwienia: Referat Spraw Obywatelskich",
+    acceptedBy: "Kierownik Referatu Spraw Obywatelskich",
+    publishedAt: {
+      date: "2025-09-18 09:10:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 295,
+    slug: 'informacja-o-planowanych-przerwach-w-dostawie-wody',
+    title: "Informacja o planowanych przerwach w dostawie wody",
+    views: 514,
+    producedAt: {
+      date: "2025-09-12 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 0,
+    subtitle: "Dotyczy miejscowości: Brzeziny, Nowa Wieś",
+    acceptedBy: "Referat Gospodarki Komunalnej",
+    publishedAt: {
+      date: "2025-09-12 07:30:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  },
+  {
+    id: 294,
+    slug: 'uchwala-nr-xxi-130-2025-w-sprawie-nadania-statutu-gminnemu-osrodkowi-kultury',
+    title: "Uchwała Nr XXI/130/2025 w sprawie nadania statutu Gminnemu Ośrodkowi Kultury",
+    views: 164,
+    producedAt: {
+      date: "2025-09-01 00:00:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    },
+    articleType: 1,
+    subtitle: null,
+    acceptedBy: "Przewodniczący Rady Gminy",
+    publishedAt: {
+      date: "2025-09-03 10:20:00.000000",
+      timezone_type: 3,
+      timezone: "Europe/Warsaw"
+    }
+  }
+]
 

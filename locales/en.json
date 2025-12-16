@@ -12,7 +12,7 @@
     "phone": "Phone",
     "content": "Message",
     "contact_consent_2": "I have read the privacy policy.",
-    "contact_consent_1": "I consent to the processing of personal data by Korepetycje Biol-Chem Dawid Muniowski, for the purpose of providing a response.",
+    "contact_consent_1": "I consent to the processing of personal data for the purpose of providing a response.",
     "contact_consents_error": "Please consent to data processing and privacy policy.",
     "invalid_email_error": "Invalid email address.",
     "invalid_phone_error": "Invalid phone number.",
@@ -118,6 +118,11 @@
     "appeal_procedure": "Appeal procedure",
     "comments": "Comments",
     "resolution_content": "Content",
-    "search_in_app":"Search in app...",
-    "no_data":"No data to display."
+    "search_in_app": "Search in app...",
+    "no_data": "No data to display.",
+    "use_gps_location": "Use location",
+    "cant_find_postal_code": "Could not retrieve postal code. Please enter it manually.",
+    "demo": "Demo",
+    "sharing_not_available_example_bip": "Sharing articles is not available for demo version",
+    "preview_not_available_example_bip": "File preview is not available for demo version"
 }

@@ -50,7 +50,7 @@ export const ArticleCard = ({ article,lang }: { article: Article,lang:string }) 
       </View>
       <View style={styles.infoRow}>
         <MaterialIcons name='person-add-alt-1' size={18} color={theme.icon} />
-        <Text style={[styles.infoText, { color: theme.text }]}>
+        <Text style={[styles.infoText, { color: theme.text, marginRight: 10 }]}>
           {article.acceptedBy ? t('added_by_2') + article.acceptedBy : ''}
         </Text>
       </View>

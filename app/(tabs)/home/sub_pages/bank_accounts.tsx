@@ -47,13 +47,13 @@ const BankAccountCard = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
-      if (!data && selectedBip?.id == '-1') {
+      if (selectedBip == null) {
         setAccountNumber(officeDataExample.bankAccount!);
         setBankName(officeDataExample.bankName!);
         return;
       }
-      else if (!data) {
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (!data) {
         setAccountNumber(null);
         setBankName(null);
         return;
@@ -117,7 +117,7 @@ const BankAccountCard = () => {
 
       {/* Expandable Content */}
       <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
-        <View style={{ paddingBottom: 12, paddingHorizontal: 10 }}>
+        <View style={{ paddingBottom: 12, paddingHorizontal: 16 }}>
           {expanded && (
             <>
               {/* Bank Name Row */}

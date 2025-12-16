@@ -22,6 +22,7 @@ import { OfficeData } from '@/types/OfficeData';
 import { officeDataExample } from '@/constants/data_example';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { storage } from '@/utils/storage/asyncStorage';
+import { fetchOfficeData } from '@/utils/data';
 
 
 const ROW_HEIGHT = 70;
@@ -51,9 +52,25 @@ const OfficeInfoCard = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
-      if (!data && selectedBip?.id == '-1') {
+      if (selectedBip == null) {
         setOfficeData(officeDataExample);
+        return;
+      }
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (!data) {
+        try {
+          if (selectedBip.url == '' || selectedBip.url == null) return;
+          const fetched = await fetchOfficeData(selectedBip.url);
+          if (!fetched) return;
+          setOfficeData(fetched);
+          await storage.set<OfficeData>(`${selectedBip.id}/officeData`, fetched);
+          return;
+        }
+        catch (e) {
+          console.error('Failed to fetch office data in OfficeInfoPage: ', e);
+          return;
+        }
+        setOfficeData(null);
         return;
       }
       else if (!data) {
@@ -128,148 +145,148 @@ const OfficeInfoCard = () => {
     },
   ];
 
-return (
-  <View style={{ flex: 1, paddingHorizontal:20 }}>
-    <ScrollView
-      style={{ flex: 1 }}
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 32 }}
-    >
-      <Text
-        style={{
-          color: theme.text,
-          fontSize: 15,
-          fontWeight: '800',
-          marginBottom: 10,
-          marginTop: 10,
-        }}
+  return (
+    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentInsetAdjustmentBehavior="automatic"
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 32 }}
       >
-        {officeData?.name ?? t('no_data')}
-      </Text>
+        <Text
+          style={{
+            color: theme.text,
+            fontSize: 15,
+            fontWeight: '800',
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        >
+          {officeData?.name ?? t('no_data')}
+        </Text>
 
-      <Br />
+        <Br />
 
-      <View style={{ gap: 12 }}>
-        {officeData?.name && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.name}
-            iconBackground={theme.background}
-            details={t('office_name')}
-            leftIconName="account-balance"
-            disabled
-          />
-        )}
+        <View style={{ gap: 12 }}>
+          {officeData?.name && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.name}
+              iconBackground={theme.background}
+              details={t('office_name')}
+              leftIconName="account-balance"
+              disabled
+            />
+          )}
 
-        {officeData?.address && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.address}
-            iconBackground={theme.background}
-            details={t('address')}
-            leftIconName="location-on"
-            disabled
-          />
-        )}
+          {officeData?.address && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.address}
+              iconBackground={theme.background}
+              details={t('address')}
+              leftIconName="location-on"
+              disabled
+            />
+          )}
 
-        {officeData?.city && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.city}
-            iconBackground={theme.background}
-            details={t('city')}
-            leftIconName="location-city"
-            disabled
-          />
-        )}
+          {officeData?.city && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.city}
+              iconBackground={theme.background}
+              details={t('city')}
+              leftIconName="location-city"
+              disabled
+            />
+          )}
 
-        {officeData?.district && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.district}
-            iconBackground={theme.background}
-            details={t('district')}
-            leftIconName="domain"
-            disabled
-          />
-        )}
+          {officeData?.district && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.district}
+              iconBackground={theme.background}
+              details={t('district')}
+              leftIconName="domain"
+              disabled
+            />
+          )}
 
-        {officeData?.province && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.province}
-            iconBackground={theme.background}
-            details={t('province')}
-            leftIconName="domain"
-            disabled
-          />
-        )}
+          {officeData?.province && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.province}
+              iconBackground={theme.background}
+              details={t('province')}
+              leftIconName="domain"
+              disabled
+            />
+          )}
 
-        {officeData?.postalCode && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.postalCode}
-            iconBackground={theme.background}
-            details={t('postal_code')}
-            leftIconName="location-on"
-            rightIconName="content-copy"
-            onPress={() => handleCopy(officeData.postalCode!)}
-          />
-        )}
+          {officeData?.postalCode && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.postalCode}
+              iconBackground={theme.background}
+              details={t('postal_code')}
+              leftIconName="location-on"
+              rightIconName="content-copy"
+              onPress={() => handleCopy(officeData.postalCode!)}
+            />
+          )}
 
-        {officeData?.NIP && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.NIP}
-            iconBackground={theme.background}
-            details={t('NIP')}
-            leftIconName="badge"
-            rightIconName="content-copy"
-            onPress={() => handleCopy(officeData.NIP!)}
-          />
-        )}
+          {officeData?.NIP && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.NIP}
+              iconBackground={theme.background}
+              details={t('NIP')}
+              leftIconName="badge"
+              rightIconName="content-copy"
+              onPress={() => handleCopy(officeData.NIP!)}
+            />
+          )}
 
-        {officeData?.REGON && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.REGON}
-            iconBackground={theme.background}
-            details={t('REGON')}
-            leftIconName="credit-card"
-            rightIconName="content-copy"
-            onPress={() => handleCopy(officeData.REGON!)}
-          />
-        )}
+          {officeData?.REGON && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.REGON}
+              iconBackground={theme.background}
+              details={t('REGON')}
+              leftIconName="credit-card"
+              rightIconName="content-copy"
+              onPress={() => handleCopy(officeData.REGON!)}
+            />
+          )}
 
-        {officeData?.email && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.email}
-            iconBackground={theme.background}
-            details={t('email')}
-            leftIconName="email"
-            rightIconName='message'
-            onPress={() => handleEmail()}
-          />
-        )}
+          {officeData?.email && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.email}
+              iconBackground={theme.background}
+              details={t('email')}
+              leftIconName="email"
+              rightIconName='message'
+              onPress={() => handleEmail()}
+            />
+          )}
 
-        {officeData?.phone && (
-          <FileItem
-            style={{ backgroundColor: theme.background_2 }}
-            name={officeData.phone}
-            iconBackground={theme.background}
-            details={t('phone')}
-            leftIconName="phone"
-            rightIconName='call-made'
-            onPress={() => handleCall()}
-          />
-        )}
-      </View>
-    </ScrollView>
-  </View>
-);
+          {officeData?.phone && (
+            <FileItem
+              style={{ backgroundColor: theme.background_2 }}
+              name={officeData.phone}
+              iconBackground={theme.background}
+              details={t('phone')}
+              leftIconName="phone"
+              rightIconName='call-made'
+              onPress={() => handleCall()}
+            />
+          )}
+        </View>
+      </ScrollView>
+    </View>
+  );
 
 };
 

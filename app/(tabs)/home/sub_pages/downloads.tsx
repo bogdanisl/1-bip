@@ -7,22 +7,27 @@ import { Alert, Dimensions, StatusBar, Text, View, useColorScheme, StyleSheet, T
 import WebView from 'react-native-webview';
 import { useTranslation } from 'react-i18next';
 import ActivityIndicator from '@/components/ActivityIndicator';
-import { AttachmentsList } from '@/components/articles/components/AttachmentList';
-import { Attachment } from '@/types/Attachment';
+import { AttachmentsList, formatFileSize } from '@/components/articles/components/AttachmentList';
+import { Document } from '@/types/Article';
 import { attachmentExamples } from '@/constants/data_example';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getFileIcon } from '@/utils/attachement';
 import { Br } from '@/components/Br';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { showMessage } from 'react-native-flash-message';
+import { storage } from '@/utils/storage/asyncStorage';
 
 const { height } = Dimensions.get('window');
 
 export default function ChangeRegister() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const { t } = useTranslation();
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
-  const [attachmnets, setAttachments] = useState<Attachment[]>([])
+  const [attachmnets, setAttachments] = useState<Document[]>([])
 
   const params = useLocalSearchParams<{ q?: string }>();
 
@@ -32,18 +37,49 @@ export default function ChangeRegister() {
     if (!searchText) {
       return true;
     }
-    return attachement.name.toLowerCase().includes(searchText);
+    return attachement.fileName.toLowerCase().includes(searchText);
   });
 
   useEffect(() => {
-    setAttachments(attachmentExamples);
+
+    const loadFiles = async () => {
+      if (selectedBip == null) {
+        setAttachments(attachmentExamples);
+        return;
+      }
+      if (selectedBip.url == '') {
+        setAttachments([]);
+        return;
+      }
+      const saved_files = await storage.get<Document[]>(`${selectedBip.id}/downloads`);
+      if (!saved_files) {
+        setAttachments([]);
+        return;
+      }
+      setAttachments(saved_files);
+      return;
+    }
+
+    loadFiles();
+
   }, [slug]);
 
-  const renderAttachment = ({ item }: { item: Attachment }) => {
+  const renderAttachment = ({ item }: { item: Document }) => {
     return (
       <TouchableOpacity
         key={item.id}
-        onPress={() => router.push(`./downloads/${item.name}.${item.extension}`)}
+        onPress={() => {
+          if (selectedBip == null) {
+            showMessage({
+              message: t('preview_not_available_example_bip'),
+              icon: 'auto',
+              type: "warning",
+            });
+            return;
+          }
+          router.push(`./downloads/${item.fileName}.${item.extension}`)
+
+        }}
         style={{
           flexDirection: 'row',
 
@@ -65,13 +101,12 @@ export default function ChangeRegister() {
           <MaterialIcons name={getFileIcon(item.extension)} size={24} color={theme.tint} />
         </View>
         <Text style={{ color: theme.text, fontSize: 16 }}>
-          {item.name}.{item.extension}{'\n'}
+          {item.fileName}.{item.extension}{'\n'}
           <Text style={{ fontSize: 14, color: theme.subText }}>
-            {`${t('size')}:\u00A0${(item.size / 1000).toFixed(0)} Kb, ${t('format')}:\u00A0${item.extension}, ${t('language')}:\u00A0${item.language}`}
+            {`${t('size')}:\u00A0${formatFileSize(item.fileSize)}, ${t('format')}:\u00A0${item.extension}, ${t('language')}:\u00A0${item.language}`}
           </Text>
         </Text>
       </TouchableOpacity>
-
     )
   }
 
@@ -89,6 +124,19 @@ export default function ChangeRegister() {
       style={{ padding: 20 }}
       data={filteredAttachments}
       itemLayoutAnimation={LinearTransition}
+      ListEmptyComponent={
+        <>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, alignContent: 'center' }}>
+            {selectedBip?.url == '' ?
+              (
+                <Text style={{ color: theme.text, textAlign: 'center', fontSize: 18 }}>{t('unsupported_bip', { name: selectedBip.name })}</Text>
+              ) : (
+                <Text style={{ color: theme.text, textAlign: 'center' }}>{t('empty_list_downloads')}</Text>
+              )
+            }
+          </View>
+        </>
+      }
       renderItem={renderAttachment}
       keyExtractor={(item) => item.id.toString()}
       ItemSeparatorComponent={() => <View style={{ height: 12 }} />}

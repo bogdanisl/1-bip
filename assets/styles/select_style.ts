@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { flex: 1, paddingHorizontal: 24, paddingTop: 60, alignItems: 'center', justifyContent: 'center' },
+  content: { flex: 1, paddingHorizontal: 24, paddingTop: 0, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 8 },
   subtitle: { fontSize: 15, textAlign: 'center', marginBottom: 50, opacity: 0.8 },
   inputContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, justifyContent:'center' },
@@ -23,9 +23,9 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
-  buttonText: { color: '#FFFFFF', fontSize: 18, fontWeight: '700' },
+  buttonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
   forgotText: { marginTop: 40, fontSize: 14, borderBottomWidth: 1, paddingBottom: 2 },
   content_select: { flex: 1, paddingHorizontal: 24, paddingTop: 40, paddingBottom:30 },
   emptyText: { fontSize: 17, textAlign: 'center', marginTop: 50, opacity: 0.7 },
@@ -43,7 +43,8 @@ export const styles = StyleSheet.create({
     color: '#FF3B30',
     fontSize: 15,
     fontWeight: '500',
-    marginBottom: 20,
+    marginTop: 15,
+    textAlign:'center'
   },
   cityItemSelected: {
     borderWidth: 2,

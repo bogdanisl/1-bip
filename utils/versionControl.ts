@@ -6,7 +6,7 @@ import * as Application from 'expo-application'
 export async function checkVersion(): Promise<VersionResponse | null> {
     try {
         const os = Platform.OS;
-        const version = Application.nativeApplicationVersion || '1.0.0'
+        const version = '1.0.0'
         const appSlug = "BIP"
 
         const response = await fetch(`https://api.voyager.am1.pl/version`, {
@@ -22,7 +22,7 @@ export async function checkVersion(): Promise<VersionResponse | null> {
         }
 
         const version_response: VersionResponse = await response.json();
-        console.log(version_response)
+        //console.log(version_response)
         return version_response;
     }
     catch (err) {

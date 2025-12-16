@@ -36,7 +36,7 @@ export default function HomeLayout() {
             backgroundColor:
               Platform.OS === "ios"
                 ? "transparent"
-                : 'white',
+                : themeColors.background_2,
           },
           headerBlurEffect: isLiquidGlassAvailable()
             ? undefined

@@ -38,14 +38,15 @@ const OpeningHoursCard = () => {
 
   useEffect(() => {
     const getHours = async () => {
+      if (selectedBip == null) {
+        setSchedule(openHoursExample);
+        return;
+      }
       const hours = await storage.get<OpenHoursDTO[]>(`${selectedBip?.id}/hours`);
-      if(hours){
+      if (hours) {
         setSchedule(hours);
       }
-      else if(selectedBip?.id=='-1'){
-        setSchedule(openHoursExample);
-      }
-      else{
+      else {
         setSchedule([]);
       }
     }
@@ -175,7 +176,15 @@ const OpeningHoursCard = () => {
                   key={item.id}
                   style={[
                     styles.row,
-                    { backgroundColor: theme.background },
+                    {
+                      backgroundColor: theme.background,
+                      shadowColor:'#000',
+                      shadowOpacity: 0,
+                      shadowRadius: 6,
+                      shadowOffset: { width: 0, height: 2 },
+                      elevation: 3,
+
+                    },
                   ]}
                 >
                   <View style={styles.dayContainer}>
@@ -183,10 +192,13 @@ const OpeningHoursCard = () => {
                     <Text
                       style={[
                         styles.dayText,
-                        { color: theme.text },
+                        {
+                          color: theme.text,
+                          fontSize: 16,
+                        },
                       ]}
                     >
-                      {t(item.slug.toLowerCase()).toUpperCase()}
+                      {t(item.slug.toLowerCase())}
                     </Text>
                   </View>
 
@@ -261,9 +273,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   dayText: {
-    fontSize: 15,
-    fontWeight: Platform.OS == 'android' ? '700' : '600',
-    letterSpacing: 0.4,
+    fontSize: 16,
+    //    fontWeight: Platform.OS == 'android' ? '700' : '600',
   },
   timeContainer: {
     flexDirection: 'row',
@@ -274,8 +285,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   timeText: {
-    fontSize: 15,
-    fontWeight: Platform.OS == 'android' ? '700' : '600',
+    fontSize: 16,
+    //fontWeight: Platform.OS == 'android' ? '700' : '600',
   },
 });
 

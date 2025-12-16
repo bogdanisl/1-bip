@@ -18,7 +18,7 @@ export default function EmployeesPage() {
     const handlePress = (employee: Employee) => {
         // Empty function for now
         router.push(`../sub_pages/employee/${employee.id}`)
-        console.log('Pressed employee:', employee.name);
+        // console.log('Pressed employee:', employee.name);
     };
 
     const filteredSpeakers = exampleEmployees.filter((employee) => {
