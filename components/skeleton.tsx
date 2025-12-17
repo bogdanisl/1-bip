@@ -9,12 +9,11 @@ interface SkeletonProps {
   height: number;
   borderRadius?: number;
   style?: object;
+  theme: any;
 }
 
-export const Skeleton = ({ width, height, borderRadius = 8, style }: SkeletonProps) => {
+export const Skeleton = ({ width, height, borderRadius = 8, style, theme }: SkeletonProps) => {
   const animatedValue = useRef(new Animated.Value(-1)).current;
-  const theme = useColorScheme() == 'dark'? Colors.dark : Colors.light;
-
   useEffect(() => {
     Animated.loop(
       Animated.timing(animatedValue, {

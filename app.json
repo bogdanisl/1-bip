@@ -1,32 +1,32 @@
 {
   "expo": {
-    "name": "BIP Testowy",
-    "slug": "bip-testowy",
-    "version": "1.0.5",
+    "name": "1BIP.pl Mobilna Platforma BIP",
+    "slug": "bip-mobilna-platforma-bip",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "bip-testowy",
+    "icon": "./assets/images/Logo.png",
+    "scheme": "bip-mobilna-platforma-bip",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alpanet.bip-testowy",
-      "buildNumber":"5"
+      "bundleIdentifier": "com.alpanet.bip-platform",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundImage": "./assets/images/icon.png",
-        "monochromeImage": "./assets/images/icon.png"
+        "foregroundImage": "./assets/images/Logo.png",
+        "backgroundImage": "./assets/images/Logo.png",
+        "monochromeImage": "./assets/images/Logo.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.alpanet.bip-testowy"
+      "package": "com.alpanet.bip_platform"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.svg"
+      "favicon": "./assets/images/Logo.png"
     },
     "plugins": [
       "expo-router",
@@ -38,6 +38,7 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
+            "image": "./assets/images/splash-icon.png",
             "backgroundColor": "#000000"
           }
         }

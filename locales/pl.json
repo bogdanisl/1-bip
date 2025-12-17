@@ -67,7 +67,7 @@
   },
   "find": "Znajdź",
   "enter_postal_code": "Podaj kod pocztowy",
-  "enter_postal_code_subtext": "Podaj kod miasta z BIP'em którego chcesz połączyć aplikację",
+  "enter_postal_code_subtext": "Podaj kod miasta, którego BIP ma zostać połączony z aplikacją.",
   "continue_without_connect": "Kontynuj bez połączenia",
   "select_bip": "Wybierz BIP",
   "select_bip_desc": "Wybierz z którym BIP'em chcesz połączyć aplikację. Zawsze będziesz mógł zmienić to w ustawieniach",
@@ -136,7 +136,7 @@
   "province":"Województwo",
   "district":"Powiat",
   "sharing_not_available_example_bip":"Udostępnianie artykułów nie jest dostępne dla przykładowego BIP'a.",
-  "preview_not_available_example_bip":"Podgląd plików nie jest dostępne dla przykładowego BIP'a.",
+  "preview_not_available_example_bip":"Podgląd plików nie jest dostępny dla przykładowego BIP'a.",
   "use_gps_location":"Użyj lokalizacji",
   "cant_find_postal_code":"Nie udało się pobrać kodu pocztowego. Proszę wpisać ręcznie",
   "demo":"Demo"

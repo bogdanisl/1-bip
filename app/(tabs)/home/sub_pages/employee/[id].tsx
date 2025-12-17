@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { Employee } from '@/types/Employee';
 import { storage } from '@/utils/storage/asyncStorage';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import FileItem from '@/components/buttons/ItemButton';
 
 export default function EmployeeDetailPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
@@ -66,42 +67,16 @@ export default function EmployeeDetailPage() {
         });
     };
 
-    const renderInfoRow = (icon: any, value: string | number, onPress: () => void, subText?: string,) => (
-        <View
-            style={[
-                styles.infoCard,
-                {
-                    backgroundColor: Platform.OS == 'android' ? theme.background_2 : isLiquidGlassAvailable() ? theme.background : theme.background_2,
-                    flexDirection: 'row',
-                    alignItems: 'center',          // This is the key: vertically centers all children
-                    paddingVertical: 12,          // Optional: consistent height
-                    //shadowColor: theme.text,
-                    //shadowOpacity: 0.1,
-                    shadowRadius: 6,
-                    shadowOffset: { width: 0, height: 2 },
-                    elevation: 3,
-                },
-            ]}
-        >
-            {/* Icon on the left */}
-            <View style={[styles.iconCircle, { backgroundColor: Platform.OS == 'android' ? theme.background : isLiquidGlassAvailable() ? theme.background_2 : theme.background }]}>
-                <MaterialIcons name={icon} size={20} color={theme.tint} />
-            </View>
-
-            {/* Text container - takes remaining space */}
-
-            <Text style={[styles.infoText, { color: theme.text }]} onPress={onPress}>
-                {value}
-                {subText && (<Text style={[styles.infoText, { color: theme.subText, fontSize: 12 }]} onPress={onPress}>
-                    {`\n` + subText}
-                </Text>
-                )}
-            </Text>
-            {/* Copy button */}
-            <TouchableOpacity onPress={() => copyToClipboard(value)}>
-                <MaterialIcons name="content-copy" size={20} color={theme.subText} />
-            </TouchableOpacity>
-        </View>
+    const renderInfoRow = (icon: any, value: string | number, onPress: () => void, subText?: string, rightIcon?:any) => (
+       <FileItem 
+       name={String(value)} 
+       details={subText} 
+       leftIconName={icon} 
+       onPress={onPress}
+       rightIconName={rightIcon}
+       style={{backgroundColor: theme.background_2}}
+       iconBackground={theme.background}
+       />
     );
 
     return (
@@ -112,10 +87,12 @@ export default function EmployeeDetailPage() {
                 </View>
                 <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>
                 <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.position}</Text>
+                <View style={{ gap:10, width:'100%'}}>
 
-                {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!))}
-                {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'))}
-                {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!))}
+                {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!),t('phone'),'call-made')}
+                {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'),'call-made')}
+                {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!),t('email'),'message')}
+                </View>
                 {/* {renderInfoRow('phone', employee.email, () => openEmail(employee.email))} */}
             </View>
         </View>
@@ -128,7 +105,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 16,
         alignItems: 'center',
-        elevation: 3,
     },
     name: { fontSize: 20, fontWeight: 'bold' },
     function: { fontSize: 16 },

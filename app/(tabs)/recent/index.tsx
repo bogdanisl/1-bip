@@ -13,7 +13,7 @@ import Animated, {
 import { Colors } from '@/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import type { Article } from '@/types/Article';
-import { ArticleCard } from '@/components/articles/ArticleCard';
+import { ArticleCard, ArticleCardPreloader } from '@/components/articles/ArticleCard';
 import { useLocalSearchParams } from 'expo-router';
 import { fetchArticles } from '@/utils/articles';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
@@ -32,6 +32,7 @@ const RecentPage = () => {
 
   const [isRefreshing, setIsRefreshing] = useState(false); // <-- refresh
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [lang, setLang] = useState('pl-PL');
 
@@ -55,16 +56,21 @@ const RecentPage = () => {
       if (append) {
         setIsLoadingMore(true);
       }
+      else {
+        setIsLoading(true);
+      }
       if (selectedBip == null) {
         setIsLoadingMore(false);
         setIsRefreshing(false);
         setArticles(ArticlesListExample);
+        setIsLoading(false);
         return
       }
       if (url == '' || url == undefined || url == null) {
         setArticles([]);
         setIsLoadingMore(false);
         setIsRefreshing(false);
+        setIsLoading(false);
         return;
       }
       const fetched = await fetchArticles(offsetToLoad, LIMIT, url);
@@ -80,15 +86,18 @@ const RecentPage = () => {
         setOffset(offsetToLoad);
         setIsLoadingMore(false);
         setIsRefreshing(false);
+        setIsLoading(false);
       }
       else {
         setArticles([])
         setIsLoadingMore(false);
         setIsRefreshing(false);
+        setIsLoading(false);
       }
       if (append) {
         setIsLoadingMore(false);
         setIsRefreshing(false);
+        setIsLoading(false);
       }
     },
     [isLoadingMore, isRefreshing]
@@ -107,11 +116,12 @@ const RecentPage = () => {
       setArticles(ArticlesListExample);
       return;
     }
-    if(selectedBip != null && selectedBip.url != ''){
+    if (selectedBip != null && selectedBip.url != '') {
+      //setIsLoading(true);
       loadArticles(0, false, selectedBip?.url);
       return;
     }
-    else{
+    else {
       //setArticles([]);
     }
     //console.log({ selectedBip });
@@ -121,12 +131,12 @@ const RecentPage = () => {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     setHasMore(true);
-    if (selectedBip == null || selectedBip.url == '' || selectedBip.id=='-1') {
-      setTimeout(()=>{
+    if (selectedBip == null || selectedBip.url == '' || selectedBip.id == '-1') {
+      setTimeout(() => {
         setIsRefreshing(false);
         setArticles(ArticlesListExample);
         setHasMore(false)
-      },1000);
+      }, 1000);
       return;
     }
     const freshData = await fetchArticles(0, LIMIT, selectedBip.url);
@@ -147,7 +157,10 @@ const RecentPage = () => {
   };
 
   const renderArticle = ({ item }: { item: Article }) => (
-    <ArticleCard article={item} lang={lang} />
+    isLoading ?
+      <ArticleCardPreloader />
+      :
+      <ArticleCard article={item} lang={lang} />
   );
 
   return (
@@ -155,14 +168,12 @@ const RecentPage = () => {
       scrollToOverflowEnabled
       contentInsetAdjustmentBehavior='automatic'
       keyboardShouldPersistTaps='handled'
-
-      data={filteredArticles}
+      data={isLoading ? ArticlesListExample : filteredArticles}
       renderItem={renderArticle}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.listContent}
       showsVerticalScrollIndicator={true}
       itemLayoutAnimation={LinearTransition}
-
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.3}
       ListEmptyComponent={
@@ -171,9 +182,12 @@ const RecentPage = () => {
             {selectedBip?.url == '' ?
               (
                 <Text style={{ color: theme.text, textAlign: 'center', fontSize: 18 }}>{t('unsupported_bip', { name: selectedBip.name })}</Text>
-              ) : (
-                <Text style={{ color: theme.text, textAlign: 'center' }}>{t('empty_list')}</Text>
+              ) : searchText ? (
+                <Text style={{ color: theme.text, textAlign: 'center' }}>{t('not_found_articles')}</Text>
               )
+                : (
+                  <Text style={{ color: theme.text, textAlign: 'center' }}>{t('empty_list')}</Text>
+                )
             }
           </View>
         </>

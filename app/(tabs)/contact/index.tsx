@@ -215,7 +215,7 @@ const ContactHeader = () => {
                   iconBackground={themeColors.background}
                   style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
                   leftIconName={"phone"}
-                  rightIconName="chevron-right"
+                  rightIconName="call-made"
                   onPress={() => { Linking.openURL(`tel:111222334`) }}
                 ></FileItem>
 
@@ -225,47 +225,54 @@ const ContactHeader = () => {
                   iconBackground={themeColors.background}
                   style={{ backgroundColor: themeColors.background_2, marginTop: 10 }}
                   leftIconName={"mail"}
-                  rightIconName="chevron-right"
+                  rightIconName="message"
                   onPress={() => { Linking.openURL(`mailto:biuro@testowo.pl`); }}
                 ></FileItem>
                 <FileItem
                   name={"Testowa 11A,\n42-400 Testowo"}
                   details="Adres"
                   iconBackground={themeColors.background}
-                  style={{ backgroundColor: themeColors.background_2, marginTop: 10, borderBottomRightRadius:0, borderBottomLeftRadius:0 }}
+                  style={{
+                    backgroundColor: themeColors.background_2,
+                    marginTop: 10,
+                    borderBottomRightRadius: Platform.OS=='android'?15:0,
+                    borderBottomLeftRadius: Platform.OS=='android'?15:0
+                  }}
                   leftIconName={"location-on"}
-                  rightIconName="chevron-right"
+                  rightIconName={"open-in-new"}
                   onPress={() => {
                     openNavigation(50.4933467, 19.4179835, 'ALPANET');
                   }}
                 ></FileItem>
-                <View style={{ backgroundColor: themeColors.background_2, height: 250, marginTop:0, padding:15, paddingTop:5, borderRadius: 12, borderTopLeftRadius:0, borderTopRightRadius:0 }}>
-                  <MapView
-                    userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
-                    style={[styles.map, { borderRadius: 12 }]}
-                    //scrollEnabled={false}
-                    
-                    rotateEnabled={false}
-                    initialRegion={{
-                      latitude: 50.4933467,
-                      longitude: 19.4179735,
-                      latitudeDelta: 0.005,
-                      longitudeDelta: 0.005,
-                    }}
+                {Platform.OS == 'ios' &&
+                  <View style={{ backgroundColor: themeColors.background_2, height: 250, marginTop: 0, padding: 15, paddingTop: 5, borderRadius: 12, borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
+                    <MapView
+                      userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
+                      style={[styles.map, { borderRadius: 12 }]}
+                      //scrollEnabled={false}
 
-
-                  >
-                    <Marker
-                      coordinate={{
+                      rotateEnabled={false}
+                      initialRegion={{
                         latitude: 50.4933467,
-                        longitude: 19.4179835,
+                        longitude: 19.4179735,
+                        latitudeDelta: 0.005,
+                        longitudeDelta: 0.005,
                       }}
-                      title="ALPANET"
-                      description="Polskie Systemy Internetowe"
-                    />
-                  </MapView>
 
-                </View>
+
+                    >
+                      <Marker
+                        coordinate={{
+                          latitude: 50.4933467,
+                          longitude: 19.4179835,
+                        }}
+                        title="ALPANET"
+                        description="Polskie Systemy Internetowe"
+                      />
+                    </MapView>
+
+                  </View>
+                }
               </View>
 
             </View>

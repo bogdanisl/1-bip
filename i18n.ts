@@ -18,12 +18,12 @@ const getMemoryLanguage = async () => {
 };
 
 // Получение языка устройства
-const getDeviceLanguage = () => {
+export const getDeviceLanguage = () => {
   const deviceLang = Localization.getLocales()[0]?.languageCode;
   if(deviceLang)
-    return ['en', 'pl'].includes(deviceLang) ? deviceLang : 'en';
+    return ['en', 'pl'].includes(deviceLang) ? deviceLang : 'pl';
   else{
-    return 'en'
+    return 'pl'
   }
 };
 

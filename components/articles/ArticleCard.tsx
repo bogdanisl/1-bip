@@ -69,14 +69,14 @@ export const ArticleCardPreloader = () => {
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
       <View style={{ flex: 1, paddingRight: 40, position: 'relative' }}>
-        <Skeleton width={'100%'} height={20}></Skeleton>
+        <Skeleton width={'100%'} height={20} theme={theme}></Skeleton>
       </View>
-      <Skeleton width={'70%'} height={15} style={{marginTop:10}}></Skeleton>
+      <Skeleton width={'70%'} height={15} style={{marginTop:10}} theme={theme}></Skeleton>
       <View style={[styles.infoRow, { marginTop: 20 }]}>
-        <Skeleton width={'50%'} height={10}></Skeleton>
+        <Skeleton width={'50%'} height={10} theme={theme}></Skeleton>
       </View>
       <View style={styles.infoRow}>
-        <Skeleton width={'50%'} height={10}></Skeleton>
+        <Skeleton width={'50%'} height={10} theme={theme}></Skeleton>
       </View>
     </View>
   );

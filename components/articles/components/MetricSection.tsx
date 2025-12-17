@@ -5,6 +5,8 @@ import { Br } from '@/components/Br';
 import { Article } from '@/types/Article';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import FileItem from '@/components/buttons/ItemButton';
+import { getDeviceLanguage } from '@/i18n';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
@@ -47,15 +49,15 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
         });
     }, [isOpen]);
 
-    useEffect(()=>{
-        const setLanguage = async ()=>{
+    useEffect(() => {
+        const setLanguage = async () => {
             const saved = await AsyncStorage.getItem('app_language')
             //console.log(saved);
-            setLang(saved || 'en');
+            setLang(saved || getDeviceLanguage());
         }
         setLanguage();
-        
-    },[])
+
+    }, [])
 
     const rotation = arrowRotation.interpolate({
         inputRange: [0, 1],
@@ -96,143 +98,62 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                     overflow: 'hidden',
                 }}
             >
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 10, gap:10 }}>
 
                     {article.author && (
-                        <View style={{ marginBottom: 12 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                {t('author').toUpperCase()}
-                            </Text>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <View
-                                    style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 20,
-                                        backgroundColor: theme.background_2,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        marginRight: 10,
-                                    }}
-                                >
-                                    <MaterialIcons name="edit" size={24} color={theme.tint} />
-                                </View>
-
-                                <Text style={{ color: theme.text, fontSize: 15 }}>{article.author}</Text>
-                            </View>
-                        </View>
+                        <FileItem 
+                        name={article.author} 
+                        details={t('author')} 
+                        iconBackground={theme.background} 
+                        style={{ backgroundColor: theme.background_2 }} 
+                        leftIconName={'edit'}
+                        disabled
+                        />
                     )}
 
                     {article.createdAt && (
-                        <View style={{ marginBottom: 12 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                {t('created_at').toUpperCase()}
-                            </Text>
+                        <FileItem
+                            name={
+                                new Date(article.createdAt.date!)
+                                    .toLocaleDateString(lang,
+                                        {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })
+                            }
+                            details={t('created_at')}
+                            iconBackground={theme.background}
+                            style={{ backgroundColor: theme.background_2 }}
+                            leftIconName={'calendar-month'}
+                                disabled
+                        />
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <View
-                                    style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 20,
-                                        backgroundColor: theme.background_2,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        marginRight: 10,
-                                    }}
-                                >
-                                    <MaterialIcons name="calendar-month" size={24} color={theme.tint} />
-                                </View>
-
-                                <Text style={{ fontSize: 14, color: theme.text }}>
-                                    {new Date(article.createdAt.date!).toLocaleDateString(lang, {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                    })}
-                                </Text>
-                            </View>
-                        </View>
                     )}
 
                     {article.acceptedBy && (
                         <>
-                            <View style={{ marginBottom: 12 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                    {t('acceptedBy').toUpperCase()}
-                                </Text>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View
-                                        style={{
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 20,
-                                            backgroundColor: theme.background_2,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginRight: 10,
-                                        }}
-                                    >
-                                        <MaterialIcons name="person-add-alt-1" size={24} color={theme.tint} />
-                                    </View>
-
-                                    <Text style={{ color: theme.text, fontSize: 15 }}>
-                                        {article.acceptedBy}
-                                        {article.createdAt && (
-                                            <Text style={{ fontSize: 13, color: theme.subText }}>
-                                                {'\n'}
-                                                {new Date(article.createdAt.date!).toLocaleDateString(lang, {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                })}
-                                            </Text>
-                                        )}
-                                    </Text>
-                                </View>
-                            </View>
-
-                            <View style={{ marginBottom: 12 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>
-                                    {t('approvedBy').toUpperCase()}
-                                </Text>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <View
-                                        style={{
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 20,
-                                            backgroundColor: theme.background_2,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginRight: 10,
-                                        }}
-                                    >
-                                        <MaterialIcons name="verified-user" size={24} color={theme.tint} />
-                                    </View>
-
-                                    <Text style={{ color: theme.text, fontSize: 15 }}>
-                                        {article.approvedBy || article.acceptedBy}
-                                        {article.publishedAt && (
-                                            <Text style={{ fontSize: 13, color: theme.subText }}>
-                                                {'\n'}
-                                                {new Date(article.publishedAt.date!).toLocaleDateString(lang, {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                })}
-                                            </Text>
-                                        )}
-                                    </Text>
-                                </View>
-                            </View>
+                            <FileItem
+                                name={ article.acceptedBy }
+                                details={t('acceptedBy')}
+                                iconBackground={theme.background}
+                                style={{ backgroundColor: theme.background_2 }}
+                                leftIconName={'person-add-alt-1'}
+                                disabled
+                            />
+                             <FileItem
+                                name={ article.approvedBy ?? article.acceptedBy }
+                                details={t('approvedBy')}
+                                iconBackground={theme.background}
+                                style={{ backgroundColor: theme.background_2 }}
+                                leftIconName={'verified-user'}
+                                disabled
+                            />
                         </>
                     )}
                 </View>
-            </Animated.View>
-        </View>
+            </Animated.View >
+        </View >
     );
 }

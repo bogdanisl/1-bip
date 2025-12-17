@@ -7,6 +7,7 @@ import { getFileIcon } from '@/utils/attachement';
 import { useTranslation } from 'react-i18next';
 import { Br } from '@/components/Br';
 import { Document } from '@/types/Article';
+import FileItem from '@/components/buttons/ItemButton';
 
 interface Props {
     attachments: Document[];
@@ -33,25 +34,42 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
                 {t('documents').toUpperCase()}
             </Text>
             <Br />
-            {attachments.map(att => (
-                <TouchableOpacity
-                    key={att.id}
-                    onPress={() => router.push(`./${slug}/${att.fileName}.${att.extension}`)}
-                    style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingRight: 80 }}
-                >
-                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
-                        <MaterialIcons name={getFileIcon(att.extension)} size={24} color={theme.text} />
-                    </View>
-                    <Text style={{ color: theme.text, fontSize: 16 }}>
-                        {att.fileName}.{att.extension}
-                        {(att.fileSize) && (
-                            <Text style={{ fontSize: 13, color: theme.subText }}>
-                                {`\n${att.fileSize ? `${t('size')}: ${formatFileSize(att.fileSize)}` : ''}, ${att.language ? t('language') + ': ' + att.language : ''}`}
-                            </Text>
-                        )}
-                    </Text>
-                </TouchableOpacity>
-            ))}
+            <View style={{ gap: 10 }}>
+                {attachments.map(att => (
+                    // <TouchableOpacity
+                    //     key={att.id}
+                    //     onPress={() => router.push(`./${slug}/${att.fileName}.${att.extension}`)}
+                    //     style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingRight: 80 }}
+                    // >
+                    //     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
+                    //     </View>
+                    //     <Text style={{ color: theme.text, fontSize: 16 }}>
+                    //         {att.fileName}.{att.extension}
+                    //         {(att.fileSize) && (
+                        //             <Text style={{ fontSize: 13, color: theme.subText }}>
+                        //                 {`\n${att.fileSize ? `${t('size')}: ${formatFileSize(att.fileSize)}` : ''}, ${att.language ? t('language') + ': ' + att.language : ''}`}
+                        //             </Text>
+                        //         )}
+                        //     </Text>
+                        // </TouchableOpacity>
+                        <FileItem
+                        name={`${att.fileName}.${att.extension}`}
+                        details={
+                            `${att.fileSize
+                                ? `${t('size')}: ${formatFileSize(att.fileSize)}` :
+                                ''}, ${att.language ?
+                                    t('language') + ': ' + att.language :
+                                    ''}`}
+                        iconBackground={theme.background}
+                        style={{ backgroundColor: theme.background_2 }}
+                        leftIconName={getFileIcon(att.extension)}
+                        rightIconName='chevron-right'
+                        onPress={() => router.push(`./${slug}/${att.fileName}.${att.extension}`)}
+                    />
+
+                ))}
+
+            </View>
         </View>
     );
 }

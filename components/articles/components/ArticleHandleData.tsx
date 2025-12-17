@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/components/Br';
 import { Article } from '@/types/Article';
 import { useTranslation } from 'react-i18next';
+import FileItem from '@/components/buttons/ItemButton';
 
 if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
@@ -16,70 +17,59 @@ interface Props {
 }
 
 export function HandleDataSection({ article, theme }: Props) {
-    const { t }= useTranslation();
+    const { t } = useTranslation();
     return (
         <View>
             <Br></Br>
             <View style={{ marginTop: 8 }}>
-                <View style={{ marginVertical: 8 }}>
+                <View style={{ marginVertical: 8, gap: 10 }}>
                     {article.resolutionNumber && (
-                        <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_number').toUpperCase()}</Text>
-                            <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
-                                <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
-                                    <MaterialIcons name='view-list' size={24} color={theme.tint} />
-                                </View>
-                                <Text style={{ color: theme.text, fontSize: 15 }}>{article.resolutionNumber}</Text>
-                            </View>
-                        </View>
+                        <FileItem
+                            name={article.resolutionNumber}
+                            style={{ backgroundColor: theme.background_2 }}
+                            iconBackground={theme.background}
+                            leftIconName="view-list"
+                            details={t('resolution_number')}
+                            disabled
+                        />
                     )}
 
                     {article.resolutionDate && (
-                        <View style={{ marginBottom: 8 }}>
-                            <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_date').toUpperCase()}</Text>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-                                <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
-                                    <MaterialIcons name='calendar-month' size={24} color={theme.tint} />
-                                </View>
-                                <Text style={{ fontSize: 14, color: theme.text }}>
-                                    {new Date(article.resolutionDate.date!).toLocaleDateString('pl-PL', {
-                                        year: 'numeric', month: 'long', day: 'numeric'
-                                    })}
-                                </Text>
-                            </View>
-                        </View>
+                        <FileItem
+                            name={new Date(article.resolutionDate.date!).toLocaleDateString('pl-PL', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                            })}
+                            style={{ backgroundColor: theme.background_2 }}
+                            iconBackground={theme.background}
+                            leftIconName="calendar-month"
+                            details={t('resolution_date')}
+                            disabled
+                        />
                     )}
 
                     {article.resolutionSubject && (
-                        <>
-                            <View style={{ marginBottom: 8 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_subject').toUpperCase()}</Text>
-                                <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
-                                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
-                                        <MaterialIcons name='format-quote' size={24} color={theme.tint} />
-                                    </View>
-                                    <Text style={{ color: theme.text, fontSize: 15 }}>
-                                        {article.resolutionSubject}
-                                    </Text>
-                                </View>
-                            </View>
-                        </>
+                        <FileItem
+                            name={article.resolutionSubject}
+                            style={{ backgroundColor: theme.background_2 }}
+                            iconBackground={theme.background}
+                            leftIconName="format-quote"
+                            details={t('resolution_subject')}
+                            disabled
+                        />
                     )}
 
                     {article.resolutionText && (
-                        <View style={{ marginBottom: 8 }}>
-                                <Text style={{ color: theme.subText, marginBottom: 8, fontWeight: '700', fontSize: 12 }}>{t('resolution_text').toUpperCase()}</Text>
-                                <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center', marginTop: 4 }}>
-                                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background_2, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
-                                        <MaterialIcons name='done' size={24} color={theme.tint} />
-                                    </View>
-                                    <Text style={{ color: theme.text, fontSize: 15 }}>
-                                        {article.resolutionText}
-                                    </Text>
-                                </View>
-                            </View>
+                        <FileItem
+                            name={article.resolutionText}
+                            style={{ backgroundColor: theme.background_2 }}
+                            iconBackground={theme.background}
+                            leftIconName="done"
+                            details={t('resolution_text')}
+                            disabled
+                        />
                     )}
-
 
                 </View>
 

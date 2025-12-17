@@ -11,6 +11,7 @@ import {
     FlatList,
     Alert,
     useColorScheme,
+    ActivityIndicator,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
@@ -30,6 +31,7 @@ export default function SelectBipScreen() {
 
     const cities: Bip[] = citiesJson ? JSON.parse(citiesJson as string) : [];
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleCity = (id: string) => {
         const newSet = new Set(selectedIds);
@@ -39,6 +41,7 @@ export default function SelectBipScreen() {
     };
 
     const handleContinue = async () => {
+        setIsLoading(true);
         const selected = cities.filter(c => selectedIds.has(c.id));
 
         try {
@@ -48,19 +51,19 @@ export default function SelectBipScreen() {
             const selectedIdsArray = Array.from(selectedIds); // Set → Array
             await AsyncStorage.setItem('selectedBipIds', JSON.stringify(selectedIdsArray));
             await AsyncStorage.setItem('selectedBipCities', JSON.stringify(selected));
-            useSelectedBipStore.getState().setSelectedBip(selected[0]);           
+            useSelectedBipStore.getState().setSelectedBip(selected[0]);
             //console.log('Selected BIP saved:', selected.map(c => c.name));
         } catch (error) {
             console.error('Failed to save selected BIP:', error);
             Alert.alert(t('error'), t('save_failed'));
+            setIsLoading(false);
             return; // Don't navigate if save failed
         }
 
         // Navigate back to main screen (or home)
         await updateAllData();
-        setTimeout(()=>{
-            router.replace('./../../'); // or router.replace('./../../') if you're deeper
-        },400)
+        router.replace('./../../'); // or router.replace('./../../') if you're deeper
+        setIsLoading(false);
         // Alternative: router.back() if you want simple back
     };
 
@@ -118,12 +121,17 @@ export default function SelectBipScreen() {
                                     ? { backgroundColor: theme.tint }
                                     : { backgroundColor: theme.inactive }
                             ]}
+
                             onPress={handleContinue}
-                            disabled={selectedIds.size === 0}
+                            disabled={selectedIds.size === 0 || isLoading}
                         >
-                            <Text style={styles.buttonText}>
-                                {t('save')}
-                            </Text>
+                            {isLoading ?
+                                <ActivityIndicator color="#FFFFFF" />
+                                :
+                                <Text style={styles.buttonText}>
+                                    {t('save')}
+                                </Text>
+                            }
                         </TouchableOpacity>
                     </>
                 )}

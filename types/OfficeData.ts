@@ -12,5 +12,4 @@ export interface OfficeData {
     REGON?:string,
     bankAccount?:string,
     bankName?:string,
-
 }

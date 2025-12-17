@@ -63,13 +63,13 @@ export default function ArticleShow() {
   if (!article && loading) {
     return (
       <View style={{ padding: 16, paddingTop: Platform.OS == 'android' ? 20 : 130 }}>
-        <Skeleton width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} />
-        <Skeleton width="60%" height={20} borderRadius={4} style={{ marginBottom: 24 }} />
-        <Skeleton width="100%" height={200} borderRadius={8} style={{ marginBottom: 16 }} />
-        <Skeleton width="100%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
-        <Skeleton width="90%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
-        <Skeleton width="95%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
-        <Skeleton width="80%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
+        <Skeleton  theme={themeColors} width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} />
+        <Skeleton  theme={themeColors} width="60%" height={20} borderRadius={4} style={{ marginBottom: 24 }} />
+        <Skeleton  theme={themeColors} width="100%" height={200} borderRadius={8} style={{ marginBottom: 16 }} />
+        <Skeleton  theme={themeColors} width="100%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
+        <Skeleton  theme={themeColors} width="90%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
+        <Skeleton  theme={themeColors} width="95%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
+        <Skeleton  theme={themeColors} width="80%" height={16} borderRadius={4} style={{ marginBottom: 8 }} />
       </View>
     );
   }

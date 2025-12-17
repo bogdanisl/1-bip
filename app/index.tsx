@@ -29,6 +29,8 @@ export default function App() {
         const value = await AsyncStorage.getItem('selectedBipIds');
         const hasSelection = value !== null && JSON.parse(value).length > 0;
         setHasBip(hasSelection);
+        await updateAllData();
+
       } catch (e) {
         console.warn('AsyncStorage error', e);
         setHasBip(false);
@@ -37,7 +39,6 @@ export default function App() {
     if (fontsLoaded) {
       checkBip();
     }
-    updateAllData();
   }, [fontsLoaded]);
 
   // Still loading fonts or checking storage

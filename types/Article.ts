@@ -55,13 +55,13 @@ export interface DateObject {
 
 export interface Document{
     id: number,
-    articleId: number,
-    articleType: string,
+    articleId?: number,
+    articleType?: string,
     fullPath: string,
     fileName: string,
     extension:string,
     description:string,
-    position:number,
+    position?:number,
     fileSize: number,
     language: string
 }

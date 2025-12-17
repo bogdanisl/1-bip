@@ -35,37 +35,36 @@ export async function updateData(bip: Bip) {
     }
 
     const employees = await fetchEmployees(bip.url);
-    if(employees){
+    if (employees) {
         storage.remove(`${bip.id}/employees`);
-        storage.set<Employee[]>(`${bip.id}/employees`,employees)
+        storage.set<Employee[]>(`${bip.id}/employees`, employees)
     }
 
     const officeData = await fetchOfficeData(bip.url);
-    if(officeData){
+    if (officeData) {
         storage.remove(`${bip.id}/officeData`);
-        storage.set<OfficeData>(`${bip.id}/officeData`,officeData)
+        storage.set<OfficeData>(`${bip.id}/officeData`, officeData)
     }
 
     const downloads = await fetchDownloads(bip.url);
-    if(downloads){
+    if (downloads) {
         storage.remove(`${bip.id}/downloads`)
-        storage.set<Document[]>(`${bip.id}/downloads`,downloads);
+        storage.set<Document[]>(`${bip.id}/downloads`, downloads);
     }
 }
 
-export async function updateAllData(){
-    console.log('update data')
+export async function updateAllData() {
+    console.log('update data');
     const saved = await storage.get<Bip[]>(`selectedBipCities`);
-    if(saved){
-        saved.map(bip=>{
-            try{
-                //console.log('updating bipd id :' + bip.id)
-                if(bip.id!='-1' && bip.url != '') 
-                updateData(bip);
+    if (saved) {
+        for (const bip of saved) {
+            try {
+                if (bip.id != '-1' && bip.url != '') {
+                    await updateData(bip); // ждём обновления каждой записи
+                }
+            } catch (err) {
+                console.error('Error while updating bip Id: ' + bip.id, err);
             }
-            catch(err){
-                console.error('Error while updateing bip Id: ' + bip.id)
-            }
-        })
+        }
     }
 }
