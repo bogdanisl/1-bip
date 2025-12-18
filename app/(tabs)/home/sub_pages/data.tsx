@@ -26,17 +26,16 @@ import { fetchOfficeData } from '@/utils/data';
 
 
 const ROW_HEIGHT = 70;
-const ROW_COUNT = 9; // 6 rows when expanded
 
 const OfficeInfoCard = () => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language
   const [officeData, setOfficeData] = useState<OfficeData | null>(null)
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
-  const handleCall = () => Linking.openURL(`tel:${officeData?.phone}`);
-  const handleEmail = () => Linking.openURL(`mailto:${officeData?.email}`);
+  const handleCall = () => Linking.openURL(`tel:${officeData?.phone?.content}`);
+  const handleEmail = () => Linking.openURL(`mailto:${officeData?.email?.content}`);
 
   const handleCopy = async (content: string) => {
     await Clipboard.setStringAsync(content);
@@ -83,30 +82,6 @@ const OfficeInfoCard = () => {
   }, [selectedBip])
 
 
-  const renderItem = ({ item }: { item: any }) => {
-
-    if (item.label == null || item.label == undefined || item.label == '') return <View style={{ marginVertical: -6 }}></View>;
-    return (
-      <FileItem
-        style={{ backgroundColor: theme.background_2 }}
-        name={item.label}
-        iconBackground={theme.background}
-        details={item.subText}
-        leftIconName={item.icon}
-        disabled={!item.clickable}
-        rightIconName={item.clickable ?
-          item.name == 'phone' ? 'call-made' : item.name == 'email' ? 'call-made' :
-            'content-copy' : ''}
-        onPress={
-          item.name == 'phone' ? handleCall : item.name == 'email' ? handleEmail :
-            () => handleCopy(item.label)
-        }
-      />
-    );
-
-
-  }
-
   if (!officeData) {
     return (
       <>
@@ -118,32 +93,6 @@ const OfficeInfoCard = () => {
       </>
     )
   }
-
-  const rows = [
-    { icon: 'account-balance', name: 'file-document-outline', label: officeData!.name, subText: "" },
-    { icon: 'location-on', name: 'file-document-outline', label: officeData!.address, subText: "Adres", clickable: true },
-    { icon: 'location-city', name: 'file-document-outline', label: officeData!.city, subText: "Miasto" },
-    { icon: 'markunread-mailbox', name: 'file-document-outline', label: officeData!.postalCode, subText: "Kod pocztowy", clickable: true },
-    { icon: 'domain', name: 'file-document-outline', label: officeData!.district, subText: "Powiat" },
-    { icon: 'badge', name: 'file-document-outline', label: officeData!.NIP, subText: "NIP", clickable: true },
-    { icon: 'credit-card', name: 'file-document-outline', label: officeData!.REGON, subText: "REGON", clickable: true },
-    {
-      icon: 'phone',
-      name: 'phone',
-      label: officeData!.phone!,
-      subText: "Telefon",
-      onPress: handleCall,
-      clickable: true,
-    },
-    {
-      icon: 'email',
-      name: 'email',
-      label: officeData.email!,
-      subText: 'E-mail',
-      onPress: handleEmail,
-      clickable: true,
-    },
-  ];
 
   return (
     <View style={{ flex: 1 }}>
@@ -163,16 +112,16 @@ const OfficeInfoCard = () => {
             marginTop: 10,
           }}
         >
-          {officeData?.name ?? t('no_data')}
+          {officeData?.title ?? t('no_data')}
         </Text>
 
         <Br />
 
         <View style={{ gap: 12 }}>
-          {officeData?.name && (
+          {officeData?.title && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.name}
+              name={officeData.title}
               iconBackground={theme.background}
               details={t('office_name')}
               leftIconName="account-balance"
@@ -183,9 +132,9 @@ const OfficeInfoCard = () => {
           {officeData?.address && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.address}
+              name={officeData.address.content}
               iconBackground={theme.background}
-              details={t('address')}
+              details={currentLang == 'pl'? officeData.address.label: t('address')}
               leftIconName="location-on"
               disabled
             />
@@ -194,9 +143,9 @@ const OfficeInfoCard = () => {
           {officeData?.city && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.city}
+              name={officeData.city.content}
               iconBackground={theme.background}
-              details={t('city')}
+              details={currentLang == 'pl'? officeData.city.label: t('city')}
               leftIconName="location-city"
               disabled
             />
@@ -205,9 +154,9 @@ const OfficeInfoCard = () => {
           {officeData?.district && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.district}
+              name={officeData.district.content}
               iconBackground={theme.background}
-              details={t('district')}
+              details={currentLang == 'pl'? officeData.district.label: t('district')}
               leftIconName="domain"
               disabled
             />
@@ -216,9 +165,9 @@ const OfficeInfoCard = () => {
           {officeData?.province && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.province}
+              name={officeData.province.content}
               iconBackground={theme.background}
-              details={t('province')}
+              details={currentLang == 'pl'? officeData.province.label: t('province')}
               leftIconName="domain"
               disabled
             />
@@ -227,45 +176,45 @@ const OfficeInfoCard = () => {
           {officeData?.postalCode && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.postalCode}
+              name={officeData.postalCode.content}
               iconBackground={theme.background}
-              details={t('postal_code')}
+              details={currentLang == 'pl'? officeData.postalCode.label: t('postal_code')}
               leftIconName="location-on"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.postalCode!)}
+              onPress={() => handleCopy(officeData.postalCode!.content)}
             />
           )}
 
           {officeData?.NIP && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.NIP}
+              name={officeData.NIP.content}
               iconBackground={theme.background}
-              details={t('NIP')}
+              details={currentLang == 'pl'? officeData.NIP.label:t('NIP')}
               leftIconName="badge"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.NIP!)}
+              onPress={() => handleCopy(officeData.NIP!.content)}
             />
           )}
 
           {officeData?.REGON && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.REGON}
+              name={officeData.REGON.content}
               iconBackground={theme.background}
-              details={t('REGON')}
+              details={currentLang == 'pl'? officeData.REGON.label:t('REGON')}
               leftIconName="credit-card"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.REGON!)}
+              onPress={() => handleCopy(officeData.REGON!.content)}
             />
           )}
 
           {officeData?.email && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.email}
+              name={officeData.email.content}
               iconBackground={theme.background}
-              details={t('email')}
+              details={currentLang == 'pl'? officeData.email.label:t('email')}
               leftIconName="email"
               rightIconName='message'
               onPress={() => handleEmail()}
@@ -275,9 +224,9 @@ const OfficeInfoCard = () => {
           {officeData?.phone && (
             <FileItem
               style={{ backgroundColor: theme.background_2 }}
-              name={officeData.phone}
+              name={officeData.phone.content}
               iconBackground={theme.background}
-              details={t('phone')}
+              details={currentLang == 'pl'? officeData.phone.label:t('phone')}
               leftIconName="phone"
               rightIconName='call-made'
               onPress={() => handleCall()}

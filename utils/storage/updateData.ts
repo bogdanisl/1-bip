@@ -41,6 +41,7 @@ export async function updateData(bip: Bip) {
     }
 
     const officeData = await fetchOfficeData(bip.url);
+    //console.log(officeData);
     if (officeData) {
         storage.remove(`${bip.id}/officeData`);
         storage.set<OfficeData>(`${bip.id}/officeData`, officeData)

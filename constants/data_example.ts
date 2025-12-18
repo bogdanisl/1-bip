@@ -279,19 +279,62 @@ export const attachmentExamples: Document[] = [
 
 export const officeDataExample: OfficeData =
 {
-  name: "Urząd Demonstracyjny",
-  NIP: "99 99 99 99",
-  REGON: "98 98 9888 9",
-  bankAccount: "1111 2222 3333 4444 5555 6666 7777",
-  bankName: "Bank Przykładowy S.A.",
-  address: "ul. 11 Listopada 6B",
-  postalCode: "42-400",
-  city: "Zawiercie",
-  province: "Śląskie",
-  district: "Zawierciański",
-  phone: "123-456-789",
-  email: "example@alpanet.pl",
-  website: "https://www.alpanet.pl"
+  logo:{
+    src: '/resources/global/logo.webp'
+  },
+  title: "Urząd Demonstracyjny",
+  name: {
+    content: "Nazwa Jednostki",
+    label: "Urząd Demonstracyjny"
+  },
+  NIP: {
+    content: "99 99 99 99",
+    label: "NIP",
+  },
+  REGON: {
+    content: "98 98 9888 9",
+    label: "REGON"
+  },
+  bankAccount: {
+    content: "1111 2222 3333 4444 5555 6666 7777",
+    label: "Numer konta bankowego"
+  },
+  bankName: {
+    content: "Bank Przykładowy S.A.",
+    label: "Nazwa banku"
+  },
+  address: {
+    content: "ul. 11 Listopada 6B",
+    label: "Adres"
+  },
+  postalCode: {
+    content: "42-400",
+    label: "Kod pocztowy"
+  },
+  city: {
+    content: "Zawiercie",
+    label: "Miasto"
+  },
+  province: {
+    content: "Śląskie",
+    label: "Województwo"
+  },
+  district: {
+    content: "Zawierciański",
+    label: "Powiat"
+  },
+  phone: {
+    content: "123-456-789",
+    label: "Telefon"
+  },
+  email: {
+    content: "example@alpanet.pl",
+    label: "Email"
+  },
+  website: {
+    content: "https://www.alpanet.pl",
+    label: "Strona internetowa"
+  }
 };
 
 export const openHoursExample: OpenHoursDTO[] = [

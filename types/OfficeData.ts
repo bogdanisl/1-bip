@@ -1,15 +1,23 @@
 export interface OfficeData {
-    name:string,
-    address?:string,
-    postalCode?:string,
-    city?:string,
-    province?:string,
-    district?:string,
-    phone?:string,
-    email?:string,
-    website?:string,
-    NIP?:string,
-    REGON?:string,
-    bankAccount?:string,
-    bankName?:string,
+    logo?:{
+        src:string
+    }
+    title:string,
+    name?:dataItem
+    address?:dataItem,
+    postalCode?:dataItem,
+    city?:dataItem,
+    province?:dataItem,
+    district?:dataItem,
+    phone?:dataItem,
+    email?:dataItem,
+    website?:dataItem,
+    NIP?:dataItem,
+    REGON?:dataItem,
+    bankAccount?:dataItem,
+    bankName?:dataItem,
+}
+interface dataItem{
+    label:string,
+    content:string
 }

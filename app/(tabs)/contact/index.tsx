@@ -244,7 +244,7 @@ const ContactHeader = () => {
                     openNavigation(50.4933467, 19.4179835, 'ALPANET');
                   }}
                 ></FileItem>
-                {Platform.OS == 'ios' &&
+                {
                   <View style={{ backgroundColor: themeColors.background_2, height: 250, marginTop: 0, padding: 15, paddingTop: 5, borderRadius: 12, borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
                     <MapView
                       userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}

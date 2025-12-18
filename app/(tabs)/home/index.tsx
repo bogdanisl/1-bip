@@ -311,9 +311,9 @@ export default function HomePage() {
           <Logo width={90} height={60} fill="white" style={{ marginTop: 0, marginBottom: 0 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
-              {officeData?.name || 'Brak danych.'}
+              {officeData?.title || 'Brak danych.'}
               <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
-                {`\n${officeData?.postalCode || ''} ${officeData?.city || ''}\n${officeData?.address || ''}`}
+                {`\n${officeData?.postalCode?.content || ''} ${officeData?.city?.content || ''}\n${officeData?.address?.content || ''}`}
               </Text>
             </Text>
 
@@ -325,7 +325,7 @@ export default function HomePage() {
                 resizeMode="contain"
               />
               <Image
-                source={require('@/assets/images/Logo_demo.webp')}
+                source={{uri:selectedBip?`${selectedBip?.url}${officeData?.logo?.src}` : 'https://www.bip.alpanet.pl/resources/global/logo.webp'}}
                 style={{
                   width: 60,
                   height: 60,

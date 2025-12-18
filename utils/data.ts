@@ -53,7 +53,7 @@ export async function fetchEmployees(url:string): Promise<Employee[] | null> {
 
 export async function fetchOfficeData(url:string): Promise<OfficeData | null>{
     try{
-        const response = await fetch(`${url}/api/v1/officeData`, {
+        const response = await fetch(`${url}/api/v1/data`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

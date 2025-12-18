@@ -25,7 +25,7 @@ export function ArticleHeader({ article, theme }: Props) {
     return (
         <View style={{ marginBottom: 12 }}>
             {/* TITLE */}
-            <Text style={{ fontSize: 32, fontWeight: 'bold', color: theme.text, lineHeight: 38 }}>
+            <Text style={{ fontSize: 22, fontWeight: 'bold', color: theme.text, paddingRight:50 }}>
                 {he.decode(article.title)}
             </Text>
 

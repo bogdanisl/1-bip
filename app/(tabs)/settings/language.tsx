@@ -15,6 +15,7 @@ const LanguageSelectorTab = () => {
   const setLanguage = async (lang: string) => {
     await AsyncStorage.setItem('app_language', lang);
     await i18n.changeLanguage(lang);
+    
   };
 
   return (
