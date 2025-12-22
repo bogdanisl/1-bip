@@ -313,7 +313,7 @@ export default function HomePage() {
             <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
               {officeData?.title || 'Brak danych.'}
               <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
-                {`\n${officeData?.postalCode?.content || ''} ${officeData?.city?.content || ''}\n${officeData?.address?.content || ''}`}
+                {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
               </Text>
             </Text>
 

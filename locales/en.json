@@ -30,14 +30,14 @@
     "specialist": "Specialist",
     "client_service": "Customer Service",
     "consultation_needed": "Need a consultation?",
-    "consultation_needed_desc": "Fill out a short form – I will call you back, explain everything, and advise you on how to best prepare for the classes.\n\nTalking with me is the first step to effective learning – calmly, clearly and without obligation.",
+    "consultation_needed_desc": "Fill out a short form - I will call you back, explain everything, and advise you on how to best prepare for the classes.\n\nTalking with me is the first step to effective learning – calmly, clearly and without obligation.",
     "send_email": "Send message",
     "login_title": "Login",
     "password": "Password",
     "email": "Email",
     "recents": "Latest",
-    "code_copied": "Skopiowano!",
-    "code_copied_desc": "Numer został skopiowany do schowka",
+    "code_copied": "Copied!",
+    "code_copied_desc": "Number is copied to copy clipboard",
     "home": {
         "welcome": "Biuletyn Informacji Publicznej",
         "office_data": "Office data",
@@ -124,5 +124,14 @@
     "cant_find_postal_code": "Could not retrieve postal code. Please enter it manually.",
     "demo": "Demo",
     "sharing_not_available_example_bip": "Sharing articles is not available for demo version",
-    "preview_not_available_example_bip": "File preview is not available for demo version"
+    "preview_not_available_example_bip": "File preview is not available for demo version",
+    "street": "Street",
+    "website": "Website",
+    "phone_second": "Second phone",
+    "phone_third": "Third phone",
+    "email_second": "Second e-mail",
+    "city":"City",
+    "district":"Province",
+    "postal_code":"Postal code",
+    "office_name":"Office name"
 }

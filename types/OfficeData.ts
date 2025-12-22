@@ -4,20 +4,28 @@ export interface OfficeData {
     }
     title:string,
     name?:dataItem
-    address?:dataItem,
+    street?:dataItem,
     postalCode?:dataItem,
     city?:dataItem,
-    province?:dataItem,
-    district?:dataItem,
+    region?:dataItem,
     phone?:dataItem,
+    phoneSecond?:dataItem,
+    phoneThird?:dataItem,
     email?:dataItem,
+    emailSecond?:dataItem,
     website?:dataItem,
-    NIP?:dataItem,
-    REGON?:dataItem,
-    bankAccount?:dataItem,
+    nip?:dataItem,
+    regon?:dataItem,
+    fax?:dataItem,
     bankName?:dataItem,
 }
+
+export interface BankCredentials{
+    name:string,
+    number:string,
+}
+
 interface dataItem{
     label:string,
-    content:string
+    value:string
 }

@@ -14,8 +14,8 @@ import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/components/buttons/ItemButton';
 import { storage } from '@/utils/storage/asyncStorage';
-import { OfficeData } from '@/types/OfficeData';
-import { officeDataExample } from '@/constants/data_example';
+import { BankCredentials, OfficeData } from '@/types/OfficeData';
+import { bankCredentialsExample, officeDataExample } from '@/constants/data_example';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 
 const ROW_HEIGHT = 60;
@@ -48,18 +48,18 @@ const BankAccountCard = () => {
   useEffect(() => {
     const getData = async () => {
       if (selectedBip == null) {
-        setAccountNumber(officeDataExample.bankAccount!);
-        setBankName(officeDataExample.bankName!);
+        setAccountNumber(bankCredentialsExample.number!);
+        setBankName(bankCredentialsExample.name!);
         return;
       }
-      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      const data = await storage.get<BankCredentials>(`${selectedBip?.id}/bankCredentials`);
       if (!data) {
         setAccountNumber(null);
         setBankName(null);
         return;
       }
-      setAccountNumber(data.bankAccount || null);
-      setBankName(data.bankName || null);
+      setAccountNumber(data.number || null);
+      setBankName(data.name || null);
     }
     getData();
   }, [selectedBip])

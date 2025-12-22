@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "1BIP.pl Mobilna Platforma BIP",
-    "slug": "bip-mobilna-platforma-bip",
+    "name": "1BIP.PL",
+    "slug": "1bip-pl",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/Logo.png",
