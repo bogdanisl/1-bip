@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   },
   recentHeader: {
     fontSize: 16,
-    // paddingRight:20,
+    paddingRight:20,
     fontWeight: '600',
   },
   infoRow: {
@@ -55,11 +55,12 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     paddingVertical: 12,
     borderRadius: 8,
+    width:'50%',
     alignItems: 'center',
   },
   readMoreText: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    letterSpacing: 1,
+    fontFamily:'Poppins-Bold',
+    fontSize: 14,
+    letterSpacing:1
   },
 });

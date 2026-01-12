@@ -2,6 +2,9 @@ import { ArtilcesExample } from "@/constants/data_example";
 import { useSelectedBipStore } from "@/hooks/use-selected-bip";
 import { Article, Document } from "@/types/Article";
 
+export const ARTICLE_LIMIT = 40;
+
+
 export async function fetchArticles(offset: number, limit: number, url: string): Promise<Article[]> {
 
     try {

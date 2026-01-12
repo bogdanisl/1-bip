@@ -1,4 +1,5 @@
 {
+  "LANGUAGE_CODE":"pl",
   "promo": "Promocje",
   "home_tab": "Główna",
   "contact": "Kontakt",
@@ -63,7 +64,10 @@
     "search_editor": "Wyszukaj edytora",
     "search_employee_desc": "Znajdź osobę w urzędzie",
     "change_log": "Rejestr zmian",
-    "change_log_desc": "Historia aktualizacji BIP"
+    "change_log_desc": "Historia aktualizacji BIP",
+    "categories":"Kategorie",
+    "categories_desc":"Przegląd artykułów według kategorii",
+    "latest_articles":"Ostatnio\nOpublikowane"
   },
   "find": "Znajdź",
   "enter_postal_code": "Podaj kod pocztowy",
@@ -144,5 +148,6 @@
   "website":"Strona internetowa",
   "phone_second":"Drugi telefon",
   "phone_third":"Trzeci telefon",
-  "email_second":"Drugi email"
+  "email_second":"Drugi email",
+  "see_all":"Więcej"
 }

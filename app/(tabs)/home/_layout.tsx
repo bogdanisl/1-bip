@@ -231,10 +231,10 @@ export default function HomeLayout() {
         headerShown: true,
         headerTransparent: Platform.OS === "ios" ? true : false,
         headerLeft: () => (
-            <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
-              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable()?themeColors.text:themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
-            </TouchableOpacity>
-          ),
+          <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
+            <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
+          </TouchableOpacity>
+        ),
         headerLargeTitle: false,
         title: "",
         headerTitleStyle: { color: themeColors.text },
@@ -268,6 +268,19 @@ export default function HomeLayout() {
       }} />
 
       <Stack.Screen name="sub_pages/change_register" options={{
+        title: t('home.change_log'),
+        headerTintColor: themeColors.tint,
+        headerTitleStyle: { color: 'black' },
+        headerShown: true,
+        headerBlurEffect: isLiquidGlassAvailable()
+          ? undefined
+          : colorScheme === "dark"
+            ? "dark"
+            : "light",
+        headerBackButtonDisplayMode: 'minimal',
+        headerTransparent: Platform.OS === "ios" ? true : false,
+      }} />
+      <Stack.Screen name="sub_pages/categories" options={{
         title: t('home.change_log'),
         headerTintColor: themeColors.tint,
         headerTitleStyle: { color: 'black' },
