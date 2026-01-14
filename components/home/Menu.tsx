@@ -27,9 +27,9 @@ export const Menu = () => {
       { title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
       { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/sub_pages/downloads' },
       { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/sub_pages/editors' },
-      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/sub_pages/categories' },
+      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/sub_pages/categories', badge:11 },
       { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/sub_pages/visit_statistics' },
-      { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register' },
+      { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register', badge: 4 },
     ],
     [t]
   );
@@ -51,6 +51,23 @@ export const Menu = () => {
             elevation: 8,
           }}
         >
+          {item.badge != null && item.badge > 0 && (
+            <View style={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              minWidth: 28,
+              height: 28,
+              borderRadius: 25,
+              backgroundColor: 'red',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingHorizontal: 6,
+            }}>
+              <Text style={{ color: 'white', fontSize: 14, fontWeight: '700' }}>{item.badge}</Text>
+            </View>
+          )}
+
           <MaterialIcons name={item.icon as any} size={36} color={theme.tint} />
           <View>
             <Text style={{ fontSize: 15, fontWeight: '700', color: theme.text, marginBottom: 4 }}>{item.title}</Text>

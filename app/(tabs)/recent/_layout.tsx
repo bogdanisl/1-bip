@@ -36,6 +36,7 @@ export default function RecentLayout() {
               {t('recents')}
             </Text>
             : undefined,
+
           headerSearchBarOptions: {
             headerIconColor: themeColors.icon,
             tintColor: themeColors.tint,
@@ -50,7 +51,7 @@ export default function RecentLayout() {
           },
         }}
       />
-      <Stack.Screen name="[slug]"
+      < Stack.Screen name="[slug]"
         options={
           {
             title: '',
@@ -62,14 +63,14 @@ export default function RecentLayout() {
           }
         }
       />
-      <Stack.Screen name="[slug]/[file_uri]"
+      < Stack.Screen name="[slug]/[file_uri]"
         options={{
           headerShown: Platform.OS === "ios" ? true : true,
           headerTransparent: Platform.OS === "ios" ? true : false,
           headerLargeTitle: false,
           headerLeft: () => (
             <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
-              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable()?themeColors.text:themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
+              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
             </TouchableOpacity>
           ),
           title: "",
@@ -103,6 +104,6 @@ export default function RecentLayout() {
         }}
       />
       {/* Добавьте больше <Stack.Screen> для других подстраниц */}
-    </Stack>
+    </Stack >
   );
 }
