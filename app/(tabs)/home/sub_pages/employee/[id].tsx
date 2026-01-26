@@ -15,7 +15,8 @@ import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import FileItem from '@/components/buttons/ItemButton';
 
 export default function EmployeeDetailPage() {
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const colorScheme = useColorScheme();
+    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
     const { id } = useLocalSearchParams<{ id: string }>();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
@@ -66,32 +67,35 @@ export default function EmployeeDetailPage() {
             type: 'success',
         });
     };
+    const bg = colorScheme == 'dark' ? theme.background : theme.background_2
 
-    const renderInfoRow = (icon: any, value: string | number, onPress: () => void, subText?: string, rightIcon?:any) => (
-       <FileItem 
-       name={String(value)} 
-       details={subText} 
-       leftIconName={icon} 
-       onPress={onPress}
-       rightIconName={rightIcon}
-       style={{backgroundColor: theme.background_2}}
-       iconBackground={theme.background}
-       />
+
+    const renderInfoRow = (icon: any, value: string | number, onPress: () => void, subText?: string, rightIcon?: any) => (
+        <FileItem
+            name={String(value)}
+            details={subText}
+            leftIconName={icon}
+            onPress={onPress}
+            rightIconName={rightIcon}
+            style={{ backgroundColor: bg }}
+            iconBackground={colorScheme === 'dark' ? theme.background_2 : theme.background}
+        />
     );
+
 
     return (
         <View style={{ backgroundColor: 'transparent', padding: 16 }}>
-            <View style={[styles.card, { backgroundColor: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'transparent' : theme.background : theme.background }]}>
-                <View style={[styles.iconCircle, { backgroundColor: theme.background_2, width: 70, height: 70, borderRadius: 50, marginRight: 0, marginBottom: 10 }]}>
+            <View style={[styles.card, { backgroundColor: Platform.OS == 'ios' ? 'transparent' : theme.background }]}>
+                <View style={[styles.iconCircle, { backgroundColor: bg, width: 70, height: 70, borderRadius: 50, marginRight: 0, marginBottom: 10 }]}>
                     <MaterialIcons name={'person'} size={60} color={theme.text} />
                 </View>
                 <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>
                 <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.position}</Text>
-                <View style={{ gap:10, width:'100%'}}>
+                <View style={{ gap: 10, width: '100%' }}>
 
-                {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!),t('phone'),'call-made')}
-                {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'),'call-made')}
-                {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!),t('email'),'message')}
+                    {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!), t('phone'), 'call-made')}
+                    {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'), 'call-made')}
+                    {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!), t('email'), 'message')}
                 </View>
                 {/* {renderInfoRow('phone', employee.email, () => openEmail(employee.email))} */}
             </View>

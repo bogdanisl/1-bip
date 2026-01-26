@@ -162,7 +162,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : themeColors.background,
+              : colorScheme == 'light' ? themeColors.background: themeColors.background_2,
           },
           headerStyle: {
             backgroundColor:
@@ -198,7 +198,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : themeColors.background_2,
+              : colorScheme == 'light' ? themeColors.background: themeColors.background_2,
           },
           headerStyle: {
             backgroundColor:

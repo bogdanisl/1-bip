@@ -1,5 +1,5 @@
 import { Bip } from "@/types/Bip";
-import { fetchEmployees, fetchOfficeData, fetchOpenHours } from "../data";
+import { fetchEmployees, fetchOfficeData, fetchOpenHours, fetchPublishers } from "../data";
 import { storage } from "./asyncStorage";
 import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
 import { Employee } from "@/types/Employee";
@@ -38,6 +38,12 @@ export async function updateData(bip: Bip) {
     if (employees) {
         storage.remove(`${bip.id}/employees`);
         storage.set<Employee[]>(`${bip.id}/employees`, employees)
+    }
+
+    const publishers = await fetchPublishers(bip.url);
+    if (publishers) {
+        storage.remove(`${bip.id}/editors`);
+        storage.set<Employee[]>(`${bip.id}/editors`, publishers)
     }
 
     const officeData = await fetchOfficeData(bip.url);

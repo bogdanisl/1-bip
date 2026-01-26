@@ -1,5 +1,5 @@
 // app/(tabs)/employees/EmployeesPage.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -8,24 +8,45 @@ import { Employee } from '@/types/Employee';
 import { exampleEmployees } from '@/constants/data_example';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { storage } from '@/utils/storage/asyncStorage';
 
 export default function EmployeesPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const params = useLocalSearchParams<{ q?: string }>();
+    const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+    const [editors, setEditors] = useState<Employee[]>([]);
 
     const searchText = params?.q?.toLowerCase() || "";
     //Agnconsole.log(searchText)
     const handlePress = (employee: Employee) => {
-        // Empty function for now
-        router.push(`../sub_pages/employee/${employee.id}`)
-        // console.log('Pressed employee:', employee.name);
+        router.push(`../sub_pages/editor/${employee.id}`)
     };
 
-    const filteredSpeakers = exampleEmployees.filter((employee) => {
+    useEffect(() => {
+        const getEmployee = async () => {
+            if (selectedBip == null) {
+                setEditors(exampleEmployees)
+                return;
+            }
+            const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/editors`);
+            if (savedEmployees) {
+                setEditors(savedEmployees)
+                return;
+            }
+            else {
+                setEditors([]);
+                return;
+            }
+        }
+        getEmployee();
+    }, [])
+
+    const filteredSpeakers = editors.filter((employee) => {
         if (!searchText) {
             return true;
         }
-        return employee.name?employee.name.toLowerCase().includes(searchText):employee.surname?employee.surname.toLowerCase().includes(searchText):'';
+        return employee.name ? employee.name.toLowerCase().includes(searchText) : employee.surname ? employee.surname.toLowerCase().includes(searchText) : '';
     });
 
     const renderEmployee = ({ item }: { item: Employee }) => (
@@ -48,15 +69,15 @@ export default function EmployeesPage() {
     );
 
     return (
-            <Animated.FlatList
-            style={{padding:20}}
-                data={filteredSpeakers}
-                itemLayoutAnimation={LinearTransition}
-                renderItem={renderEmployee}
-                keyExtractor={(item) => item.id.toString()}
-                ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-                contentInsetAdjustmentBehavior={'automatic'}
-            />
+        <Animated.FlatList
+            style={{ padding: 20 }}
+            data={filteredSpeakers}
+            itemLayoutAnimation={LinearTransition}
+            renderItem={renderEmployee}
+            keyExtractor={(item) => item.id.toString()}
+            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+            contentInsetAdjustmentBehavior={'automatic'}
+        />
     );
 }
 

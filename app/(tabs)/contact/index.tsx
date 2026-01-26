@@ -1,10 +1,14 @@
 import FileItem from "@/components/buttons/ItemButton";
 import ContactForm from "@/components/contactForm";
+import { officeDataExample } from "@/constants/data_example";
 import { Colors, hexToRgba } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme.web";
 import { useSelectedBipStore } from "@/hooks/use-selected-bip";
+import { MapParams, OfficeData } from "@/types/OfficeData";
+import { fetchOfficeData } from "@/utils/data";
+import { storage } from "@/utils/storage/asyncStorage";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Alert,
@@ -35,6 +39,7 @@ const ContactHeader = () => {
   const { t } = useTranslation();
   const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+  const [mapParams, setMapParams] = useState<MapParams | null>(null);
   const colorSheme = useColorScheme()
   const styles = StyleSheet.create({
     headerRow: { flexDirection: "row", marginLeft: 24, height: 30, paddingTop: 50 },
@@ -194,7 +199,31 @@ const ContactHeader = () => {
     map: { width: '100%', height: '100%' },
   });
 
-
+  useEffect(() => {
+    const getData = async () => {
+      if (selectedBip == null) {
+        setMapParams(officeDataExample.map ?? null);
+        return;
+      }
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (!data) {
+        try {
+          if (selectedBip.url == '' || selectedBip.url == null) return;
+          const fetched = await fetchOfficeData(selectedBip.url);
+          if (!fetched) return;
+          setMapParams(fetched.map ?? null);
+          await storage.set<OfficeData>(`${selectedBip.id}/officeData`, fetched);
+          return;
+        }
+        catch (e) {
+          console.error('Failed to fetch office data in OfficeInfoPage: ', e);
+          return;
+        }
+      }
+      setMapParams(data.map || null);
+    }
+    getData();
+  }, [selectedBip])
 
   return (
     <View style={{ flex: 1 }}>
@@ -216,7 +245,9 @@ const ContactHeader = () => {
                   style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
                   leftIconName={"phone"}
                   rightIconName="call-made"
-                  onPress={() => { Linking.openURL(`tel:111222334`) }}
+                  onPress={() => {
+                    console.log(mapParams)
+                  }}
                 ></FileItem>
 
                 <FileItem
@@ -235,36 +266,34 @@ const ContactHeader = () => {
                   style={{
                     backgroundColor: themeColors.background_2,
                     marginTop: 10,
-                    borderBottomRightRadius: Platform.OS=='android'?15:0,
-                    borderBottomLeftRadius: Platform.OS=='android'?15:0
+                    borderBottomRightRadius: Platform.OS == 'android' ? 15 : 0,
+                    borderBottomLeftRadius: Platform.OS == 'android' ? 15 : 0
                   }}
                   leftIconName={"location-on"}
                   rightIconName={"open-in-new"}
                   onPress={() => {
-                    openNavigation(50.4933467, 19.4179835, 'ALPANET');
+                    openNavigation(mapParams?.lat ?? 50.4933467, mapParams?.lng ?? 19.4179835, 'ALPANET');
                   }}
                 ></FileItem>
                 {
                   <View style={{ backgroundColor: themeColors.background_2, height: 250, marginTop: 0, padding: 15, paddingTop: 5, borderRadius: 12, borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
                     <MapView
+                      key={`${mapParams}`}
                       userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
                       style={[styles.map, { borderRadius: 12 }]}
                       //scrollEnabled={false}
-
                       rotateEnabled={false}
                       initialRegion={{
-                        latitude: 50.4933467,
-                        longitude: 19.4179735,
+                        latitude: mapParams?.lat || 50.4933467,
+                        longitude: mapParams?.lng || 19.4179735,
                         latitudeDelta: 0.005,
                         longitudeDelta: 0.005,
                       }}
-
-
                     >
                       <Marker
                         coordinate={{
-                          latitude: 50.4933467,
-                          longitude: 19.4179835,
+                          latitude: mapParams?.lat ?? 50.4933467,
+                          longitude: mapParams?.lng ?? 19.4179835,
                         }}
                         title="ALPANET"
                         description="Polskie Systemy Internetowe"
@@ -362,7 +391,5 @@ const ContactHeader = () => {
 };
 
 export default ContactHeader;
-function useFonts(arg0: { "Poppins-Regular": any; "Poppins-SemiBold": any; "Poppins-Bold": any; "Poppins-Medium": any; }): [any] {
-  throw new Error("Function not implemented.");
-}
+
 

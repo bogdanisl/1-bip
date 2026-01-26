@@ -8,10 +8,21 @@ import { useTranslation } from 'react-i18next';
 import '../i18n'
 import { updateAllData, updateData } from '@/utils/storage/updateData';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import * as Notifications from 'expo-notifications';
+
+
 
 export default function App() {
   const { t } = useTranslation()
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+
+    const setAppBadge = async (value: number) => {
+      try {
+        await Notifications.setBadgeCountAsync(value);
+      } catch (e) {
+        console.warn('Failed to set badge', e);
+      }
+    };
 
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
@@ -30,6 +41,7 @@ export default function App() {
         const hasSelection = value !== null && JSON.parse(value).length > 0;
         setHasBip(hasSelection);
         await updateAllData();
+        setAppBadge(18)
 
       } catch (e) {
         console.warn('AsyncStorage error', e);

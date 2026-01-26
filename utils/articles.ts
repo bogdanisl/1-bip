@@ -73,18 +73,18 @@ export async function fetchDownloads(url: string): Promise<Document[] | null> {
         return null;
     }
     try {
-        const response = await fetch(`${url}/api/v1/downloads`, {
+        const response = await fetch(`${url}/api/v1/document/list`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        //console.log('fetchArticles response: ',response)
         if (!response.ok) {
             console.warn(`Failed to fetch downloads: ${response.status}`);
             return null;
         }
         const downloads = await response.json();
+        console.log(downloads);
         //console.log('fetchArticles articles: ',articles[0].text?.[1])
         //console.log(articles.data)
         return downloads.data;

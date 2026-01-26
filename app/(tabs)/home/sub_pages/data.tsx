@@ -13,7 +13,7 @@ import {
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
 import FileItem from '@/components/buttons/ItemButton';
-import * as Clipboard from 'expo-clipboard';     // ← added
+import * as Clipboard from 'expo-clipboard';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import { LinearTransition } from 'react-native-reanimated';
@@ -115,7 +115,7 @@ const OfficeInfoCard = () => {
             marginTop: 10,
           }}
         >
-          {officeData?.title ?? t('no_data')}
+          {officeData?.title.value ?? t('no_data')}
         </Text>
 
         <Br />
@@ -173,7 +173,7 @@ const OfficeInfoCard = () => {
               details={currentLang == 'pl' ? officeData.postalCode.label : t('postal_code')}
               leftIconName="location-on"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.postalCode!.value)}
+              onPress={() => handleCopy(officeData.postalCode!.value!)}
             />
           )}
 
@@ -185,7 +185,7 @@ const OfficeInfoCard = () => {
               details={currentLang == 'pl' ? officeData.nip.label : t('NIP')}
               leftIconName="badge"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.nip!.value)}
+              onPress={() => handleCopy(officeData.nip!.value!)}
             />
           )}
 
@@ -197,7 +197,7 @@ const OfficeInfoCard = () => {
               details={currentLang == 'pl' ? officeData.regon.label : t('REGON')}
               leftIconName="credit-card"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.regon!.value)}
+              onPress={() => handleCopy(officeData.regon!.value!)}
             />
           )}
           {officeData?.website?.value && (
@@ -219,7 +219,7 @@ const OfficeInfoCard = () => {
               details={currentLang == 'pl' ? officeData.fax.label : t('fax')}
               leftIconName="fax"
               rightIconName="content-copy"
-              onPress={() => handleCopy(officeData.postalCode!.value)}
+              onPress={() => handleCopy(officeData.postalCode!.value!)}
             />
           )}
 

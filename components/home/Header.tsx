@@ -105,7 +105,7 @@ export const Header = ({ onSearchPress }: any) => {
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
-          {officeData?.title || 'Brak danych.'}
+          {officeData?.title.value || 'Brak danych.'}
           <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
             {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
           </Text>

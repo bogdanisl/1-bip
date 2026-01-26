@@ -14,15 +14,17 @@ import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/components/buttons/ItemButton';
 import { storage } from '@/utils/storage/asyncStorage';
-import { BankCredentials, OfficeData } from '@/types/OfficeData';
+import { OfficeData } from '@/types/OfficeData';
 import { bankCredentialsExample, officeDataExample } from '@/constants/data_example';
 import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 2;
 
 const BankAccountCard = () => {
   const { t } = useTranslation();
+  var DOMParser = require('react-native-html-parser');
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
@@ -52,14 +54,25 @@ const BankAccountCard = () => {
         setBankName(bankCredentialsExample.name!);
         return;
       }
-      const data = await storage.get<BankCredentials>(`${selectedBip?.id}/bankCredentials`);
-      if (!data) {
+      const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
+      if (!data || !data.bankAccountNumber?.value || !data.bankName?.value) {
         setAccountNumber(null);
         setBankName(null);
         return;
       }
-      setAccountNumber(data.number || null);
-      setBankName(data.name || null);
+      try {
+
+        const parser = new DOMParser.DOMParser();
+        const parsedBankName = parser.parseFromString(data?.bankName?.value, 'text/html').childNodes[0].childNodes[0].data;
+        const parsedAccountNumber = parser.parseFromString(data?.bankAccountNumber?.value, 'text/html').childNodes[0].childNodes[0].data;
+        setAccountNumber(parsedAccountNumber);
+        setBankName(parsedBankName);
+      }
+      catch (err) {
+        console.warn("Error in parsing data: " + err);
+        setAccountNumber(data.bankAccountNumber.value);
+        setBankName(data.bankName.value);
+      }
     }
     getData();
   }, [selectedBip])

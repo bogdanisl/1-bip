@@ -64,7 +64,7 @@ const Profile = () => {
         />
       </View>
       <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>
-        {Platform.OS == 'ios' && (
+        {/* {Platform.OS == 'ios' && (
           <Host style={{ height: 100 }}>
               <Picker
                 label='sadad'
@@ -78,7 +78,7 @@ const Profile = () => {
                 color={themeColors.text}
               />
           </Host>
-        )}
+        )} */}
       </View>
     </ScrollView>
   );

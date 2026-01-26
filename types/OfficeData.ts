@@ -2,7 +2,7 @@ export interface OfficeData {
     logo?:{
         src:string
     }
-    title:string,
+    title:dataItem,
     name?:dataItem
     street?:dataItem,
     postalCode?:dataItem,
@@ -18,14 +18,16 @@ export interface OfficeData {
     regon?:dataItem,
     fax?:dataItem,
     bankName?:dataItem,
-}
-
-export interface BankCredentials{
-    name:string,
-    number:string,
+    bankAccountNumber?: dataItem,
+    map?:MapParams
 }
 
 interface dataItem{
-    label:string,
-    value:string
+    label?:string,
+    value?:string
+}
+export interface MapParams {
+    lat: number,
+    lng: number,
+    zoom: number
 }

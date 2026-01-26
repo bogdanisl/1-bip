@@ -279,13 +279,15 @@ export const attachmentExamples: Document[] = [
 
 export const officeDataExample: OfficeData =
 {
-  logo:{
+  logo: {
     src: '/resources/global/logo.webp'
   },
-  title: "Urząd Demonstracyjny",
+  title: {
+    value: "Urząd Demonstracyjny"
+  },
   name: {
-    value: "Nazwa Jednostki",
-    label: "Urząd Demonstracyjny"
+    label: "Nazwa Jednostki",
+    value: "Urząd Demonstracyjny"
   },
   nip: {
     value: "99 99 99 99",
@@ -326,11 +328,16 @@ export const officeDataExample: OfficeData =
   website: {
     value: "https://www.alpanet.pl",
     label: "Strona internetowa"
+  },
+  map: {
+    lat: 51.3768433,
+    lng: 17.6024909,
+    zoom: 13
   }
 };
 
-export const bankCredentialsExample ={
-  number:'1111 2222 3333 4444 5555 6666 7777 8888 9999',
+export const bankCredentialsExample = {
+  number: '1111 2222 3333 4444 5555 6666 7777 8888 9999',
   name: "Bank Przykładowy S.A."
 }
 

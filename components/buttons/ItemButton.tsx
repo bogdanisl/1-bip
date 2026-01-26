@@ -36,7 +36,7 @@ const FileItem: React.FC<FileItemProps> = ({
             </View>
 
             {/* Texts */}
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginRight:20 }}>
                 <Text style={[styles.filename,{color:theme.text}]}>
                     {name}
                 </Text>

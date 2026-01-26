@@ -89,6 +89,9 @@ export default function HomeArticles() {
                         onProgressChange={(offsetProgress, absoluteProgress) => {
                             progress.value = absoluteProgress;
                         }}
+                        onConfigurePanGesture={(pan)=>
+                            pan.activeOffsetX([-12, 12])
+                        }
                         renderItem={({ item }) => (
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <ArticleCard style={{ width: width, flex: 1 }} article={item} />
