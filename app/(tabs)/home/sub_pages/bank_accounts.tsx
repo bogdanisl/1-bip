@@ -147,7 +147,7 @@ const BankAccountCard = () => {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
+    borderRadius: 15,
     overflow: 'hidden',
     elevation: 12,
     marginTop: 16,

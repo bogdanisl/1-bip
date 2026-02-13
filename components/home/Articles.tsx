@@ -21,7 +21,7 @@ export default function HomeArticles() {
 
     const { articles, isLoading } = useArticles();
     // Take only the first 3 articles
-    const topArticles = articles.slice(0, 3);
+    const topArticles = articles.slice(0, 5);
     const progress = useSharedValue<number>(0);
 
     const onPressPagination = (index: number) => {
@@ -45,7 +45,7 @@ export default function HomeArticles() {
         // Jeśli użytkownik ruszy palcem w pionie → gesture FAIL
         .failOffsetY([-10, 10]);
     return (
-        <View style={{ marginVertical: 16, paddingHorizontal: 16 }}>
+        <View style={{ marginTop: 16, paddingHorizontal: 16 }}>
             {/* Header */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontSize: 18, fontWeight: '700', color: theme.text, marginBottom: 12 }}>

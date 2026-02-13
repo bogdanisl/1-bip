@@ -9,7 +9,8 @@ import { isLiquidGlassAvailable } from 'expo-glass-effect';
 interface FileItemProps extends TouchableOpacityProps {
     name: string; // required
     details?: string; // optional
-    leftIconName: string; // required
+    detailsAccent?: string; // optional
+    leftIconName?: string; // required
     rightIconName?: string; // optional
     iconBackground?: string; // optional
 }
@@ -17,6 +18,7 @@ interface FileItemProps extends TouchableOpacityProps {
 const FileItem: React.FC<FileItemProps> = ({
     name,
     details,
+    detailsAccent,
     leftIconName,
     rightIconName,
     iconBackground,
@@ -26,25 +28,35 @@ const FileItem: React.FC<FileItemProps> = ({
     const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
     return (
         <TouchableOpacity
-            style={[styles.container,{backgroundColor:theme.background, shadowColor:'#000', shadowOpacity:isLiquidGlassAvailable()?0:0}, style]}
+            style={[styles.container, { backgroundColor: theme.background, shadowColor: '#000', shadowOpacity: isLiquidGlassAvailable() ? 0 : 0 }, style]}
             {...touchableProps}
         >
             {/* Left Icon */}
-            <View style={[styles.leftIconContainer,{backgroundColor: iconBackground || theme.background_2    
-            }]}>
-                <MaterialIcons name={(leftIconName as any)} size={24} color={theme.tint} />
-            </View>
+            {leftIconName &&
+                <View style={[styles.leftIconContainer, {
+                    backgroundColor: iconBackground || theme.background_2
+                }]}>
+                    <MaterialIcons name={(leftIconName as any)} size={24} color={theme.tint} />
+                </View>
+            }
 
             {/* Texts */}
-            <View style={{ flex: 1, marginRight:20 }}>
-                <Text style={[styles.filename,{color:theme.text}]}>
+            <View style={{ flex: 1, marginRight: 20 }}>
+                <Text style={[styles.filename, { color: theme.text }]}>
                     {name}
                 </Text>
-                {details && (
-                    <Text style={[styles.details,{color:theme.subText}]}>
-                        {details}
-                    </Text>
-                )}
+                <View style={{flexDirection:'row'}}>
+                    {details && (
+                        <Text style={[styles.details, { color: theme.subText }]}>
+                            {details}
+                        </Text>
+                    )}
+                    {detailsAccent && (
+                        <Text style={[styles.details, { color: theme.tint }]}>
+                            {detailsAccent}
+                        </Text>
+                    )}
+                </View>
             </View>
 
             {/* Right Icon */}
@@ -59,7 +71,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 12,
+        borderRadius: 15,
         padding: 16,
         shadowOpacity: 0,
         shadowRadius: 6,

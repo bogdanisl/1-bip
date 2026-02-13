@@ -162,7 +162,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : colorScheme == 'light' ? themeColors.background: themeColors.background_2,
+              : colorScheme == 'light' ? themeColors.background : themeColors.background_2,
           },
           headerStyle: {
             backgroundColor:
@@ -198,7 +198,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : colorScheme == 'light' ? themeColors.background: themeColors.background_2,
+              : colorScheme == 'light' ? themeColors.background : themeColors.background_2,
           },
           headerStyle: {
             backgroundColor:
@@ -280,10 +280,10 @@ export default function HomeLayout() {
         headerBackButtonDisplayMode: 'minimal',
         headerTransparent: Platform.OS === "ios" ? true : false,
       }} />
-      <Stack.Screen name="sub_pages/categories" options={{
-        title: t('home.change_log'),
+      <Stack.Screen name="categories/index" options={{
+        title: t('home.categories'),
         headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: 'black' },
+        headerTitleStyle: { color: themeColors.text},
         headerShown: true,
         headerBlurEffect: isLiquidGlassAvailable()
           ? undefined
@@ -292,11 +292,71 @@ export default function HomeLayout() {
             : "light",
         headerBackButtonDisplayMode: 'minimal',
         headerTransparent: Platform.OS === "ios" ? true : false,
-      }} />
-      <Stack.Screen name="sub_pages/visit_statistics" options={{
+        headerSearchBarOptions: {
+          headerIconColor: themeColors.icon,
+          tintColor: themeColors.tint,
+          textColor: themeColors.text,
+          hintTextColor: themeColors.tint,
+          placeholder: t('find'),
+          onChangeText: (event) => {
+            router.setParams({
+              q: event.nativeEvent.text,
+            });
+          }
+        }
+      }}
+      />
+      <Stack.Screen
+        name="categories/[id]"
+        options={{
+          headerShown: true,
+          headerTintColor: themeColors.tint,
+          headerTitleStyle: { color: themeColors.text },
+          headerStyle: {
+            backgroundColor: Platform.OS == 'ios'
+              ? "transparent"
+              : themeColors.background_2,
+          },
+          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+          headerLargeTitle: false,
+          headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
+          headerTitle: () => Platform.OS == 'android' ?
+            <Text style={{ color: themeColors.text, fontSize: 24 }}>
+              {t('recents')}
+            </Text>
+            : undefined,
+
+          headerSearchBarOptions: {
+            headerIconColor: themeColors.icon,
+            tintColor: themeColors.tint,
+            textColor: themeColors.text,
+            hintTextColor: themeColors.tint,
+            placeholder: t('search_article'),
+            onChangeText: (event) => {
+              router.setParams({
+                q: event.nativeEvent.text,
+              });
+            },
+          },
+        }}
+      />
+      <Stack.Screen
+        name="categories/[id]/[slug]"
+        options={
+          {
+            title: '',
+            headerShown: true,
+            headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+            headerTransparent: Platform.OS == 'ios' ? true : false,
+            headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+            headerTintColor: themeColors.tint
+          }
+        }
+      />
+      <Stack.Screen name="statistics/index" options={{
         title: t('home.visit_statistics'),
         headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: 'black' },
+        headerTitleStyle: { color: themeColors.text },
         headerShown: true,
         headerBlurEffect: isLiquidGlassAvailable()
           ? undefined

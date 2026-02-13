@@ -11,8 +11,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
 import { router, RelativePathString } from 'expo-router';
 
+interface MenuProps {
+  type?: 'top' | 'bottom';
+}
 
-export const Menu = () => {
+export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
   const { t } = useTranslation();
   const handlePress = (route: RelativePathString) => {
     router.push(route);
@@ -22,21 +25,31 @@ export const Menu = () => {
 
   const menuItems = useMemo(
     () => [
+      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/categories', badge: 8 },
+      { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/sub_pages/downloads', badge:1 },
       { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/sub_pages/data' },
       { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/(tabs)/home/sub_pages/employees' },
-     // { title: t('home.bank_accounts'), subtitle: t('home.bank_accounts_desc'), icon: 'account-balance-wallet', route: '/(tabs)/home/sub_pages/bank_accounts' },
-      { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/sub_pages/downloads', badge: 4 },
       { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/sub_pages/editors' },
-      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/sub_pages/categories', badge:11 },
-      { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/sub_pages/visit_statistics' },
-     // { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'archive', route: '/(tabs)/home/sub_pages/change_register' },
+      { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/statistics' },
     ],
     [t]
   );
 
+  const displayedItems = useMemo(() => {
+    if (type === 'top') {
+      return menuItems.slice(0, 2);        // first 2
+    }
+
+    if (type === 'bottom') {
+      return menuItems.slice(-4);          // last 4
+    }
+
+    return menuItems;
+  }, [menuItems, type]);
+
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16, justifyContent: 'center' }}>
-      {menuItems.map((item: any, index: number) => (
+      {displayedItems.map((item: any, index: number) => (
         <TouchableOpacity
           key={index}
           activeOpacity={0.85}

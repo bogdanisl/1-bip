@@ -38,10 +38,12 @@ export default function HomePage() {
           paddingBottom: 20,
           marginBottom: 80
         }}>
-          <HomeArticles/>
+          <HomeArticles />
+          <Menu type='top' />
+          <View style={{height:20}}></View>
+
           <OpeningHoursCard />
           <BankAccountCard />
-
           <Menu />
         </View>
 

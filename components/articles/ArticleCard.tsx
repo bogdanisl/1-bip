@@ -8,22 +8,24 @@ import { ReadMoreButton } from "../buttons/ReadMoreButton";
 import { Skeleton } from "../skeleton";
 import { useTranslation } from "react-i18next";
 import { Br } from "../Br";
+import { RelativePathString } from "expo-router";
 
 type ArticleCardProps = {
   article: Article;
   style?: ViewStyle | ViewStyle[];
+  path?: RelativePathString
 };
 
-export const ArticleCard = ({ article, style }: ArticleCardProps) => {
+export const ArticleCard = ({ article, style, path }: ArticleCardProps) => {
   const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
   var he = require('he');
   const { t, i18n } = useTranslation();
-  const width = Dimensions.get('window').width;
 
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }, style]}>
       <View style={{ flex: 1, paddingRight: 40, position: 'relative', marginBottom: article.subtitle ? 0 : 8 }}>
         <Text
+        onPress={()=>{console.log(path)}}
           style={[
             styles.recentHeader,
             {
@@ -65,7 +67,13 @@ export const ArticleCard = ({ article, style }: ArticleCardProps) => {
         <View style={[styles.progressBar]} />
       </View> */}
       <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        <ReadMoreButton article={article} theme={theme} />
+        {
+          path ?
+            <ReadMoreButton article={article} theme={theme}  path={path} />
+            :
+            <ReadMoreButton article={article} theme={theme}/>
+
+        }
       </View>
     </View>
   );
