@@ -64,7 +64,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
                         style={{ backgroundColor: theme.background_2 }}
                         leftIconName={getFileIcon(att.extension)}
                         rightIconName='chevron-right'
-                        onPress={() => router.push(`./${slug}/${att.fileName}.${att.extension}`)}
+                        onPress={() => router.push(`/(tabs)/recent/${slug}/${att.fileName}.${att.extension}`)}
                     />
 
                 ))}
