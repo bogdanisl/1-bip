@@ -228,7 +228,7 @@ const OpeningHoursCard = () => {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
+    borderRadius: 15,
     overflow: 'hidden',
     elevation: 12,
   },

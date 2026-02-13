@@ -36,7 +36,7 @@ export async function fetchArticles(offset: number, limit: number, url: string):
 }
 
 export async function fetchArticle(id: number, url: string): Promise<Article | null> {
-    console.log({url})
+    console.log({ url })
     if (url == 'example') {
         const founded = ArtilcesExample.find(article => article.id == id);
         if (founded) {
@@ -92,5 +92,34 @@ export async function fetchDownloads(url: string): Promise<Document[] | null> {
     catch (err) {
         console.error('Failed to fetch articles: ', err);
         return null;
+    }
+}
+
+export async function fetchMostReadArticles(offset: number, limit: number, url: string): Promise<Article[]> {
+    try {
+        const response = await fetch(`${url}/api/v1/article/popular`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                offset: offset,
+                limit: limit,
+            }),
+        });
+        //console.log(`${url}/api/v1/article/list`)
+        //console.log('fetchArticles response: ',response)
+        if (!response.ok) {
+            throw new Error(`Failed to fetch articles: ${response.status}`);
+        }
+
+        const articles = await response.json();
+        //console.log('fetchArticles articles: ',articles[0].text?.[1])
+        return articles.data as Article[];
+
+    }
+    catch (err) {
+        console.error('Failed to fetch articles: ', err);
+        return [];
     }
 }

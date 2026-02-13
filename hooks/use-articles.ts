@@ -5,7 +5,7 @@ import { useSelectedBipStore } from '@/hooks/use-selected-bip';
 import { ArticlesListExample } from '@/constants/data_example';
 import { ARTICLE_LIMIT } from '@/utils/articles';
 
-export function useArticles() {
+export function useArticles(categoryId?: string) {
   const selectedBip = useSelectedBipStore((s) => s.selectedBip);
 
   const [articles, setArticles] = useState<Article[]>([]);
