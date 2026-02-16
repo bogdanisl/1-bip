@@ -1,4 +1,4 @@
-import { HapticTab } from "@/components/haptic-tab";
+import { HapticTab } from "@/src/components/haptic-tab";
 import { Colors } from "@/constants/theme";
 import { useSelectedBipStore } from "@/hooks/use-selected-bip";
 import { FontAwesome } from "@expo/vector-icons";

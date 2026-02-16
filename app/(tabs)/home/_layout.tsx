@@ -4,7 +4,7 @@ import { Platform, useColorScheme, Text, TouchableOpacity } from 'react-native';
 import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { osName } from "expo-device";
 import { router } from 'expo-router';
-import { HeaderButton } from '@/components/buttons/HeaderButtons/HeaderButton';
+import { HeaderButton } from '@/src/components/buttons/HeaderButtons/HeaderButton';
 import { Icon } from 'expo-router/unstable-native-tabs';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
@@ -23,7 +23,7 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="index" options={{ title: t('home_tab'), headerShown: false, headerTransparent: true }} />
 
-      <Stack.Screen name="sub_pages/data"
+      <Stack.Screen name="data"
         options={{
           headerShown: true,
           headerTransparent: Platform.OS === "ios" ? true : false,
@@ -45,7 +45,7 @@ export default function HomeLayout() {
               : "light",
         }}
       />
-      <Stack.Screen name="sub_pages/bip_selector"
+      <Stack.Screen name="bipSelector"
         options={{
           headerShown: Platform.OS === "ios" ? false : true,
           headerTransparent: Platform.OS === "ios" ? true : false,
@@ -85,7 +85,7 @@ export default function HomeLayout() {
               : "light",
         }}
       />
-      <Stack.Screen name="sub_pages/editors"
+      <Stack.Screen name="editors/index"
         options={{
           title: t('home.bip_editors'),
           headerShown: true,
@@ -113,7 +113,7 @@ export default function HomeLayout() {
 
         }}
       />
-      <Stack.Screen name="sub_pages/employees"
+      <Stack.Screen name="employees/index"
         options={{
           title: t('home.positions'),
           headerShown: true,
@@ -141,7 +141,7 @@ export default function HomeLayout() {
 
         }}
       />
-      <Stack.Screen name="sub_pages/employee/[id]"
+      <Stack.Screen name="employees/[id]"
         options={{
           headerShown: Platform.OS === "ios" ? false : true,
           headerTransparent: Platform.OS === "ios" ? true : false,
@@ -177,7 +177,7 @@ export default function HomeLayout() {
               : "light",
         }}
       />
-      <Stack.Screen name="sub_pages/editor/[id]"
+      <Stack.Screen name="editors/[id]"
         options={{
           headerShown: Platform.OS === "ios" ? false : true,
           headerTransparent: Platform.OS === "ios" ? true : false,
@@ -213,77 +213,10 @@ export default function HomeLayout() {
               : "light",
         }}
       />
-      <Stack.Screen name="sub_pages/hours" options={{
-        title: t('home.opening_hours'),
-        headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: themeColors.text },
-        headerShown: true,
-        headerBlurEffect: isLiquidGlassAvailable()
-          ? undefined
-          : colorScheme === "dark"
-            ? "dark"
-            : "light",
-        headerBackButtonDisplayMode: 'minimal',
-        headerTransparent: Platform.OS === "ios" ? true : false,
-      }} />
-
-      <Stack.Screen name="sub_pages/bank_accounts" options={{
-        headerShown: true,
-        headerTransparent: Platform.OS === "ios" ? true : false,
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
-            <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
-          </TouchableOpacity>
-        ),
-        headerLargeTitle: false,
-        title: "",
-        headerTitleStyle: { color: themeColors.text },
-        headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
-        presentation:
-          Platform.OS === "ios"
-            ? isLiquidGlassAvailable() && osName !== "iPadOS"
-              ? 'formSheet'
-              : "formSheet"
-            : 'card',
-        sheetGrabberVisible: true,
-        sheetAllowedDetents: [0.6],
-        sheetInitialDetentIndex: 0,
-
-        contentStyle: {
-          backgroundColor: isLiquidGlassAvailable()
-            ? "transparent"
-            : themeColors.background_2,
-        },
-        headerStyle: {
-          backgroundColor:
-            Platform.OS === "ios"
-              ? "transparent"
-              : themeColors.background,
-        },
-        headerBlurEffect: isLiquidGlassAvailable()
-          ? undefined
-          : colorScheme === "dark"
-            ? "dark"
-            : "light",
-      }} />
-
-      <Stack.Screen name="sub_pages/change_register" options={{
-        title: t('home.change_log'),
-        headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: 'black' },
-        headerShown: true,
-        headerBlurEffect: isLiquidGlassAvailable()
-          ? undefined
-          : colorScheme === "dark"
-            ? "dark"
-            : "light",
-        headerBackButtonDisplayMode: 'minimal',
-        headerTransparent: Platform.OS === "ios" ? true : false,
-      }} />
       <Stack.Screen name="categories/index" options={{
         title: t('home.categories'),
         headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: themeColors.text},
+        headerTitleStyle: { color: themeColors.text },
         headerShown: true,
         headerBlurEffect: isLiquidGlassAvailable()
           ? undefined
@@ -307,7 +240,7 @@ export default function HomeLayout() {
       }}
       />
       <Stack.Screen
-        name="categories/[id]"
+        name="categories/[id]/index"
         options={{
           headerShown: true,
           headerTintColor: themeColors.tint,
@@ -341,7 +274,7 @@ export default function HomeLayout() {
         }}
       />
       <Stack.Screen
-        name="categories/[id]/[slug]"
+        name="categories/[id]/[slug]/index"
         options={
           {
             title: '',
@@ -353,45 +286,7 @@ export default function HomeLayout() {
           }
         }
       />
-      <Stack.Screen name="statistics/index" options={{
-        title: t('home.visit_statistics'),
-        headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: themeColors.text },
-        headerShown: true,
-        headerBlurEffect: isLiquidGlassAvailable()
-          ? undefined
-          : colorScheme === "dark"
-            ? "dark"
-            : "light",
-        headerBackButtonDisplayMode: 'minimal',
-        headerTransparent: Platform.OS === "ios" ? true : false,
-      }} />
-      <Stack.Screen name="sub_pages/downloads" options={{
-        title: t('home.downloads'),
-        headerTintColor: themeColors.tint,
-        headerTitleStyle: { color: themeColors.text },
-        headerShown: true,
-        headerBlurEffect: isLiquidGlassAvailable()
-          ? undefined
-          : colorScheme === "dark"
-            ? "dark"
-            : "light",
-        headerBackButtonDisplayMode: 'minimal',
-        headerTransparent: Platform.OS === "ios" ? true : false,
-        headerSearchBarOptions: {
-          headerIconColor: themeColors.icon,
-          tintColor: themeColors.tint,
-          textColor: themeColors.text,
-          hintTextColor: themeColors.tint,
-          placeholder: t('find'),
-          onChangeText: (event) => {
-            router.setParams({
-              q: event.nativeEvent.text,
-            });
-          },
-        },
-      }} />
-      <Stack.Screen name="sub_pages/downloads/[file_uri]"
+      <Stack.Screen name="categories/[id]/[slug]/[file_uri]"
         options={{
           headerShown: Platform.OS === "ios" ? true : true,
           headerTransparent: Platform.OS === "ios" ? true : false,
@@ -432,7 +327,85 @@ export default function HomeLayout() {
 
         }}
       />
-      {/* <Stack.Screen name="subpage" options={{ title: 'Подстраница Główna' }} /> */}
+      <Stack.Screen name="statistics" options={{
+        title: t('home.visit_statistics'),
+        headerTintColor: themeColors.tint,
+        headerTitleStyle: { color: themeColors.text },
+        headerShown: true,
+        headerBlurEffect: isLiquidGlassAvailable()
+          ? undefined
+          : colorScheme === "dark"
+            ? "dark"
+            : "light",
+        headerBackButtonDisplayMode: 'minimal',
+        headerTransparent: Platform.OS === "ios" ? true : false,
+      }} />
+      <Stack.Screen name="documents/index" options={{
+        title: t('home.downloads'),
+        headerTintColor: themeColors.tint,
+        headerTitleStyle: { color: themeColors.text },
+        headerShown: true,
+        headerBlurEffect: isLiquidGlassAvailable()
+          ? undefined
+          : colorScheme === "dark"
+            ? "dark"
+            : "light",
+        headerBackButtonDisplayMode: 'minimal',
+        headerTransparent: Platform.OS === "ios" ? true : false,
+        headerSearchBarOptions: {
+          headerIconColor: themeColors.icon,
+          tintColor: themeColors.tint,
+          textColor: themeColors.text,
+          hintTextColor: themeColors.tint,
+          placeholder: t('find'),
+          onChangeText: (event) => {
+            router.setParams({
+              q: event.nativeEvent.text,
+            });
+          },
+        },
+      }} />
+      <Stack.Screen name="documents/[file_uri]"
+        options={{
+          headerShown: Platform.OS === "ios" ? true : true,
+          headerTransparent: Platform.OS === "ios" ? true : false,
+          headerLargeTitle: false,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
+              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
+            </TouchableOpacity>
+          ),
+          title: "",
+
+          presentation:
+            Platform.OS === "ios"
+              ? isLiquidGlassAvailable() && osName !== "iPadOS"
+                ? 'modal'
+                : 'modal'
+              : 'card',
+          sheetGrabberVisible: true,
+          sheetAllowedDetents: [0.7],
+          sheetInitialDetentIndex: 0,
+
+          contentStyle: {
+            backgroundColor: isLiquidGlassAvailable()
+              ? "transparent"
+              : themeColors.background,
+          },
+          headerStyle: {
+            backgroundColor:
+              Platform.OS === "ios"
+                ? "transparent"
+                : themeColors.background,
+          },
+          headerBlurEffect: isLiquidGlassAvailable()
+            ? undefined
+            : useColorScheme() === "dark"
+              ? "dark"
+              : "light",
+
+        }}
+      />
     </Stack>
   );
 }

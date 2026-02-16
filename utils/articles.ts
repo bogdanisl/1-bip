@@ -36,7 +36,7 @@ export async function fetchArticles(offset: number, limit: number, url: string):
 }
 
 export async function fetchArticle(id: number, url: string): Promise<Article | null> {
-    console.log({ url })
+    //console.log({ url })
     if (url == 'example') {
         const founded = ArtilcesExample.find(article => article.id == id);
         if (founded) {
@@ -84,7 +84,7 @@ export async function fetchDownloads(url: string): Promise<Document[] | null> {
             return null;
         }
         const downloads = await response.json();
-        console.log(downloads);
+        //(downloads);
         //console.log('fetchArticles articles: ',articles[0].text?.[1])
         //console.log(articles.data)
         return downloads.data;

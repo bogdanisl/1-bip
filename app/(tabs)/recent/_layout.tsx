@@ -13,7 +13,7 @@ export default function RecentLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,  // Показывать заголовки на подстраницах, если нужно (можно false)
+        headerShown: false,
       }}
     >
       <Stack.Screen
@@ -51,7 +51,7 @@ export default function RecentLayout() {
           },
         }}
       />
-      < Stack.Screen name="[slug]"
+      < Stack.Screen name="[slug]/index"
         options={
           {
             title: '',
@@ -103,7 +103,6 @@ export default function RecentLayout() {
               : "light",
         }}
       />
-      {/* Добавьте больше <Stack.Screen> для других подстраниц */}
     </Stack >
   );
 }
