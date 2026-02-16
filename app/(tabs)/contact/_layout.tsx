@@ -1,5 +1,5 @@
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme.web';
+import { Colors } from '@/src/constants/theme';
+import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';

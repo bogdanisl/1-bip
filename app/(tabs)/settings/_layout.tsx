@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';

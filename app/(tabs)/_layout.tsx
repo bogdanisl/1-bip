@@ -1,6 +1,6 @@
-import { HapticTab } from "@/components/haptic-tab";
-import { Colors } from "@/constants/theme";
-import { useSelectedBipStore } from "@/hooks/use-selected-bip";
+import { HapticTab } from "@/src/components/haptic-tab";
+import { Colors } from "@/src/constants/theme";
+import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
