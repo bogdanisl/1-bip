@@ -4,12 +4,12 @@ import { RelativePathString, router, Stack, useLocalSearchParams } from 'expo-ro
 import { useTranslation } from 'react-i18next';
 
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
-import { Article } from '@/types/Article';
+import { Article } from '@/src/types/Article';
 import { useEffect, useState } from 'react';
-import { Category } from '@/types/Category';
-import { fetchCategory } from '@/utils/categories';
+import { Category } from '@/src/types/Category';
+import { fetchCategory } from '@/src/services/api/categories';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 

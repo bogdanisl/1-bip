@@ -1,5 +1,5 @@
 // app/bip/select.tsx
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,10 +16,10 @@ import {
 import { router, useLocalSearchParams } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { Bip } from '@/types/Bip';
-import { updateAllData } from '@/utils/storage/updateData';
-import { storage } from '@/utils/storage/asyncStorage';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { Bip } from '@/src/types/Bip';
+import { updateAllData } from '@/src/storage/updateData';
+import { storage } from '@/src/storage/asyncStorage';
 
 
 

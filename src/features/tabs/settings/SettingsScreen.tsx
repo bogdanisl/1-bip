@@ -1,6 +1,6 @@
 // src/components/pages/profile/Profile.tsx — БЕЗ NativeWind
 import ListButton from '@/src/components/buttons/ListButton';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { Host, Picker } from '@expo/ui/swift-ui';
 import { router } from 'expo-router';
 import React, { useState } from 'react';

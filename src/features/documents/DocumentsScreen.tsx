@@ -1,20 +1,20 @@
 
 // app/webview/[slug].tsx
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Text, View, useColorScheme, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { formatFileSize } from '@/src/features/articles/components/AttachmentList';
-import { Document } from '@/types/Article';
-import { attachmentExamples } from '@/constants/data_example';
+import { Document } from '@/src/types/Article';
+import { attachmentExamples } from '@/src/constants/data_example';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getFileIcon } from '@/utils/attachement';
+import { getFileIcon } from '@/src/utils/attachement';
 import { Br } from '@/src/components/Br';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { showMessage } from 'react-native-flash-message';
-import { storage } from '@/utils/storage/asyncStorage';
+import { storage } from '@/src/storage/asyncStorage';
 
 
 export default function DocumentsScreen() {

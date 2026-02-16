@@ -1,7 +1,7 @@
 // src/components/forms/ContactForm.tsx — с KeyboardAwareScrollView
 
-import { API_URL } from '@/constants/keys';
-import { Colors } from '@/constants/theme';
+import { API_URL } from '@/src/constants/keys';
+import { Colors } from '@/src/constants/theme';
 import { KeyboardAwareScrollView } from '@codler/react-native-keyboard-aware-scroll-view';
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import AlpiInput from '../../../../components/AlpiInput';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 const ContactForm: React.FC<{
   endpoint?: string;

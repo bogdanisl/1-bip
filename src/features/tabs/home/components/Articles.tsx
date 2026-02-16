@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, useColorScheme, Dimensions, TouchableOpacity } from 'react-native';
-import { useArticles } from '@/hooks/use-articles';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { Colors } from '@/constants/theme';
+import { useArticles } from '@/src/hooks/use-articles';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { Colors } from '@/src/constants/theme';
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';

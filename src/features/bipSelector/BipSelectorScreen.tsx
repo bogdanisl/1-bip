@@ -9,12 +9,12 @@ import {
     SafeAreaView,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
-import { Bip } from '@/types/Bip';
+import { Colors } from '@/src/constants/theme';
+import { Bip } from '@/src/types/Bip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 const BipSelectorScreen = () => {
     const router = useRouter();

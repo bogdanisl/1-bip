@@ -3,11 +3,11 @@ import Animated from 'react-native-reanimated';
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import { useEffect, useState } from 'react';
-import { Section } from '@/types/Category';
-import { fetchSections } from '@/utils/categories';
+import { Section } from '@/src/types/Category';
+import { fetchSections } from '@/src/services/api/categories';
 import SectionCard from '@/src/features/categories/components/SectionCard';
 import ActivityIndicator from '@/src/components/ActivityIndicator';
 

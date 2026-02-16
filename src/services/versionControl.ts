@@ -1,5 +1,5 @@
-import { Response } from "@/types/Response";
-import { VersionResponse } from "@/types/VersionResponse";
+import { Response } from "@/src/types/Response";
+import { VersionResponse } from "@/src/types/VersionResponse";
 import { Platform } from "react-native";
 import * as Application from 'expo-application'
 

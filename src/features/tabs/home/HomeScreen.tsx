@@ -4,9 +4,9 @@ import {
   ScrollView,
   useColorScheme,
 } from 'react-native';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import SearchModal from './components/AnimatedSearchButton';
-import { useHome } from '@/hooks/use-home';
+import { useHome } from './hooks/use-home';
 import OpeningHoursCard from './components/OpenHours';
 import BankAccountCard from './components/BankAccounts';
 import { Header } from './components/Header';

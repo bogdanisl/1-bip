@@ -1,5 +1,5 @@
 // app/bip/index.tsx
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
@@ -30,9 +30,9 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
-import { FAKE_CITIES } from '@/constants/data_example';
+import { FAKE_CITIES } from '@/src/constants/data_example';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const NUM_DIGITS = 5;

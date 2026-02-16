@@ -1,14 +1,14 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { useColorScheme, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { Colors, hexToRgba } from "@/constants/theme";
+import { Colors, hexToRgba } from "@/src/constants/theme";
 import { Br } from "@/src/components/Br";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import { Article } from "@/types/Article";
-import { Category, CategoryStat } from "@/types/Category";
-import { fetchMostReadArticles } from "@/utils/articles";
-import { fetchMostReadCategories } from "@/utils/categories";
+import { Article } from "@/src/types/Article";
+import { Category, CategoryStat } from "@/src/types/Category";
+import { fetchMostReadArticles } from "@/src/services/api/articles";
+import { fetchMostReadCategories } from "@/src/services/api/categories";
 import ActivityIndicator from "@/src/components/ActivityIndicator";
 
 

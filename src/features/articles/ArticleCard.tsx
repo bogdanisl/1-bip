@@ -1,7 +1,7 @@
 import { styles } from "@/assets/styles/recent_index";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { Article } from "@/types/Article";
+import { Colors } from "@/src/constants/theme";
+import { useColorScheme } from "@/src/hooks/use-color-scheme";
+import { Article } from "@/src/types/Article";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, Text, Dimensions, ViewStyle } from "react-native";
 import { ReadMoreButton } from "../../components/buttons/ReadMoreButton";

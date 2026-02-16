@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import { HeaderButton } from '@/src/components/buttons/HeaderButtons/HeaderButton';
 import { Icon } from 'expo-router/unstable-native-tabs';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 
 
 export default function HomeLayout() {

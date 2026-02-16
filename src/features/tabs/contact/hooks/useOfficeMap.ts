@@ -1,7 +1,7 @@
-import { Bip } from "@/types/Bip";
-import { MapParams, OfficeData } from "@/types/OfficeData";
-import { fetchOfficeData } from "@/utils/data";
-import { storage } from "@/utils/storage/asyncStorage";
+import { Bip } from "@/src/types/Bip";
+import { MapParams, OfficeData } from "@/src/types/OfficeData";
+import { fetchOfficeData } from "@/src/services/api/data";
+import { storage } from "@/src/storage/asyncStorage";
 import { useEffect, useState } from "react";
 
 export const useOfficeMap = (selectedBip: Bip | null) => {

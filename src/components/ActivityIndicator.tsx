@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import React, { useEffect, useRef } from 'react';
 import { Animated, DimensionValue, Easing, StyleProp, StyleSheet, useColorScheme, View, ViewStyle } from 'react-native';
 import Svg, { Path } from 'react-native-svg';

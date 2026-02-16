@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/src/components/Br';
-import { Article } from '@/types/Article';
+import { Article } from '@/src/types/Article';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/src/components/buttons/ItemButton';
 

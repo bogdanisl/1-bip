@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { router, RelativePathString } from 'expo-router';
 
 interface MenuProps {

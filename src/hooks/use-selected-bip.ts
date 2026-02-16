@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware'; // optional: survives app restart
-import type { Bip } from '@/types/Bip';
+import type { Bip } from '@/src/types/Bip';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SelectedBipState = {

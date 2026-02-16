@@ -2,15 +2,15 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme';
-import { Employee } from '@/types/Employee';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { Colors } from '@/src/constants/theme';
+import { Employee } from '@/src/types/Employee';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
-import { fetchEmployees } from '@/utils/data';
-import { storage } from '@/utils/storage/asyncStorage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { exampleEmployees } from '@/constants/data_example';
+import { fetchEmployees } from '@/src/services/api/data';
+import { storage } from '@/src/storage/asyncStorage';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { exampleEmployees } from '@/src/constants/data_example';
 import { useTranslation } from 'react-i18next';
 
 export default function EmployeesScreen() {

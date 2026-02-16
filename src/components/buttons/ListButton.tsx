@@ -1,5 +1,5 @@
 // src/components/buttons/ListButton.tsx — БЕЗ NativeWind
-import { Colors, hexToRgba } from '@/constants/theme';
+import { Colors, hexToRgba } from '@/src/constants/theme';
 import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';

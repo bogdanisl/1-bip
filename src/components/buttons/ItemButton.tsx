@@ -1,8 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/hooks/use-color-scheme.web';
-import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { Colors } from '@/src/constants/theme';
 import { background } from '@expo/ui/swift-ui/modifiers';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 

@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { Colors } from '@/src/constants/theme';
 import { useLocalSearchParams } from 'expo-router';
-import { exampleEmployees } from '@/constants/data_example';
+import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useTranslation } from 'react-i18next';
-import { Employee } from '@/types/Employee';
-import { storage } from '@/utils/storage/asyncStorage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { Employee } from '@/src/types/Employee';
+import { storage } from '@/src/storage/asyncStorage';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import FileItem from '@/src/components/buttons/ItemButton';
 
 export default function EmployeeScreen() {

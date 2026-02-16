@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { Article } from '@/types/Article';
+import { Article } from '@/src/types/Article';
 
 interface Props {
     article: Article;

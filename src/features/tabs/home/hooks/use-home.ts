@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { OfficeData } from '@/types/OfficeData';
-import { officeDataExample } from '@/constants/data_example';
-import { storage } from '@/utils/storage/asyncStorage';
-import { checkVersion } from '@/utils/versionControl';
-import { VersionResponse } from '@/types/VersionResponse';
-import { Bip } from '@/types/Bip';
+import { useSelectedBipStore } from '../../../../hooks/use-selected-bip';
+import { OfficeData } from '@/src/types/OfficeData';
+import { officeDataExample } from '@/src/constants/data_example';
+import { storage } from '@/src/storage/asyncStorage';
+import { checkVersion } from '@/src/services/versionControl';
+import { VersionResponse } from '@/src/types/VersionResponse';
+import { Bip } from '@/src/types/Bip';
 
 
 export function useHome() {

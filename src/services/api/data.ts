@@ -1,8 +1,8 @@
-import { Employee } from "@/types/Employee";
-import { OfficeData } from "@/types/OfficeData";
-import { OpenHours } from "@/types/OpenHours";
-import { storage } from "./storage/asyncStorage";
-import { officeDataExample } from "@/constants/data_example";
+import { Employee } from "@/src/types/Employee";
+import { OfficeData } from "@/src/types/OfficeData";
+import { OpenHours } from "@/src/types/OpenHours";
+import { storage } from "../../storage/asyncStorage";
+import { officeDataExample } from "@/src/constants/data_example";
 
 export async function fetchOpenHours(url: string): Promise<OpenHours[] | null> {
     try {

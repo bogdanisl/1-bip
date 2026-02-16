@@ -16,8 +16,8 @@ import { WebView } from 'react-native-webview';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
-import { useColorScheme } from '@/hooks/use-color-scheme.web';
-import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { Colors } from '@/src/constants/theme';
 import { useTranslation } from 'react-i18next';
 
 const SUPPORTED_PREVIEW_EXTENSIONS = [

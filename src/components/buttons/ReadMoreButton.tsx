@@ -1,5 +1,5 @@
 import { styles } from "@/assets/styles/recent_index";
-import { Article } from "@/types/Article";
+import { Article } from "@/src/types/Article";
 import { RelativePathString, useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

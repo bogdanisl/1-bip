@@ -1,6 +1,6 @@
 // app/profile_tabs/theme.tsx — БЕЗ NativeWind + useColorScheme
 import ListButton from '@/src/components/buttons/ListButton';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

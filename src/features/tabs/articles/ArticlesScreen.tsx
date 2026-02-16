@@ -3,11 +3,11 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { useArticles } from '@/hooks/use-articles';
+import { useArticles } from '@/src/hooks/use-articles';
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
-import { Article } from '@/types/Article';
+import { Article } from '@/src/types/Article';
 
 const ArticlesScreen = () => {
   const { t } = useTranslation();

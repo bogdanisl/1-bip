@@ -8,13 +8,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import Logo from '@/assets/images/icon_svg.svg';
 
-import { useHome } from '@/hooks/use-home';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { useHome } from '../hooks/use-home';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 export const Header = ({ onSearchPress }: any) => {
 
@@ -59,7 +59,7 @@ export const Header = ({ onSearchPress }: any) => {
         <View style={{ flexDirection: 'row', gap: 8 }}>
           {savedBips?.length! > 1 && (
             <TouchableOpacity
-              onPress={() => router.push({ pathname: '/(tabs)/home/sub_pages/bip_selector' })}
+              onPress={() => router.push({ pathname: '/(tabs)/home/bipSelector' })}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',

@@ -1,9 +1,9 @@
 import { Skeleton } from '@/src/components/skeleton';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme.web';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { Article } from '@/types/Article';
-import { fetchArticle } from '@/utils/articles';
+import { Colors } from '@/src/constants/theme';
+import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { Article } from '@/src/types/Article';
+import { fetchArticle } from '@/src/services/api/articles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useLocalSearchParams } from 'expo-router';

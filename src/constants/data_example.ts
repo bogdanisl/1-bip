@@ -1,8 +1,8 @@
-import { Attachment } from "@/types/Attachment";
-import { Article, Document } from "@/types/Article";
-import { Employee } from "@/types/Employee";
-import { OfficeData } from "@/types/OfficeData";
-import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
+import { Attachment } from "@/src/types/Attachment";
+import { Article, Document } from "@/src/types/Article";
+import { Employee } from "@/src/types/Employee";
+import { OfficeData } from "@/src/types/OfficeData";
+import { OpenHours, OpenHoursDTO } from "@/src/types/OpenHours";
 
 
 export const FAKE_CITIES = [

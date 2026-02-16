@@ -9,14 +9,14 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/src/components/buttons/ItemButton';
-import { storage } from '@/utils/storage/asyncStorage';
-import { OfficeData } from '@/types/OfficeData';
-import { bankCredentialsExample, officeDataExample } from '@/constants/data_example';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { storage } from '@/src/storage/asyncStorage';
+import { OfficeData } from '@/src/types/OfficeData';
+import { bankCredentialsExample, officeDataExample } from '@/src/constants/data_example';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 
 const ROW_HEIGHT = 60;

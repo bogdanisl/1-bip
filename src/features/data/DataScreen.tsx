@@ -7,17 +7,17 @@ import {
   useColorScheme,
   ScrollView
 } from 'react-native';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import FileItem from '@/src/components/buttons/ItemButton';
 import * as Clipboard from 'expo-clipboard';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import { Br } from '@/src/components/Br';
-import { OfficeData } from '@/types/OfficeData';
-import { officeDataExample } from '@/constants/data_example';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { storage } from '@/utils/storage/asyncStorage';
-import { fetchOfficeData } from '@/utils/data';
+import { OfficeData } from '@/src/types/OfficeData';
+import { officeDataExample } from '@/src/constants/data_example';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { storage } from '@/src/storage/asyncStorage';
+import { fetchOfficeData } from '@/src/services/api/data';
 
 
 

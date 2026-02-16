@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Animated, Platform, UIManager } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/src/components/Br';
-import { Article } from '@/types/Article';
+import { Article } from '@/src/types/Article';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FileItem from '@/src/components/buttons/ItemButton';

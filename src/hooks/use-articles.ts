@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchArticles } from '@/utils/articles';
-import { Article } from '@/types/Article';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
-import { ArticlesListExample } from '@/constants/data_example';
-import { ARTICLE_LIMIT } from '@/utils/articles';
+import { fetchArticles } from '@/src/services/api/articles';
+import { Article } from '@/src/types/Article';
+import { useSelectedBipStore } from './use-selected-bip';
+import { ArticlesListExample } from '@/src/constants/data_example';
+import { ARTICLE_LIMIT } from '@/src/services/api/articles';
 
 export function useArticles(categoryId?: string) {
   const selectedBip = useSelectedBipStore((s) => s.selectedBip);

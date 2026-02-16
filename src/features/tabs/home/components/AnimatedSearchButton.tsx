@@ -13,7 +13,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';

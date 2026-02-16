@@ -1,4 +1,4 @@
-import { hexToRgba } from "@/constants/theme";
+import { hexToRgba } from "@/src/constants/theme";
 import { Platform, StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
 

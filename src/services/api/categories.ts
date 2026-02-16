@@ -1,4 +1,4 @@
-import { Category, CategoryStat, Section } from "@/types/Category";
+import { Category, CategoryStat, Section } from "@/src/types/Category";
 
 
 export async function fetchSections(offset: number, limit: number, url: string): Promise<Section[]> {

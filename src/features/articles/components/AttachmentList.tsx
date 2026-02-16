@@ -3,10 +3,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { getFileIcon } from '@/utils/attachement';
+import { getFileIcon } from '@/src/utils/attachement';
 import { useTranslation } from 'react-i18next';
 import { Br } from '@/src/components/Br';
-import { Document } from '@/types/Article';
+import { Document } from '@/src/types/Article';
 import FileItem from '@/src/components/buttons/ItemButton';
 
 interface Props {

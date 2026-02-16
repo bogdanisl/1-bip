@@ -1,6 +1,5 @@
-import { ArtilcesExample } from "@/constants/data_example";
-import { useSelectedBipStore } from "@/hooks/use-selected-bip";
-import { Article, Document } from "@/types/Article";
+import { ArtilcesExample } from "@/src/constants/data_example";
+import { Article, Document } from "@/src/types/Article";
 
 export const ARTICLE_LIMIT = 40;
 

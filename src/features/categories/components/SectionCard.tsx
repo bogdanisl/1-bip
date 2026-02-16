@@ -9,8 +9,8 @@ import {
     FlatList,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors, hexToRgba } from '@/constants/theme';
-import { Section } from '@/types/Category';
+import { Colors, hexToRgba } from '@/src/constants/theme';
+import { Section } from '@/src/types/Category';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 import { RelativePathString, router } from 'expo-router';

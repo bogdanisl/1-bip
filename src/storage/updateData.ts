@@ -1,11 +1,11 @@
-import { Bip } from "@/types/Bip";
-import { fetchEmployees, fetchOfficeData, fetchOpenHours, fetchPublishers } from "../data";
+import { Bip } from "@/src/types/Bip";
+import { fetchEmployees, fetchOfficeData, fetchOpenHours, fetchPublishers } from "../services/api/data";
+import { OpenHours, OpenHoursDTO } from "@/src/types/OpenHours";
+import { Employee } from "@/src/types/Employee";
+import { fetchDownloads } from "../services/api/articles";
+import { OfficeData } from "@/src/types/OfficeData";
+import { Document } from '@/src/types/Article'
 import { storage } from "./asyncStorage";
-import { OpenHours, OpenHoursDTO } from "@/types/OpenHours";
-import { Employee } from "@/types/Employee";
-import { fetchDownloads } from "../articles";
-import { OfficeData } from "@/types/OfficeData";
-import { Document } from '@/types/Article'
 
 export async function updateData(bip: Bip) {
     const hours = await fetchOpenHours(bip.url);

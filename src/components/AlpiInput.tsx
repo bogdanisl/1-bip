@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import * as Haptics from 'expo-haptics';
 import React, { forwardRef, useEffect } from 'react';
 import {

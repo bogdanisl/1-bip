@@ -9,13 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/constants/theme';
-import { OpenHours, OpenHoursDTO } from '@/types/OpenHours';
-import { fetchOpenHours } from '@/utils/data';
-import { storage } from '@/utils/storage/asyncStorage';
-import { useSelectedBipStore } from '@/hooks/use-selected-bip';
+import { Colors } from '@/src/constants/theme';
+import { OpenHours, OpenHoursDTO } from '@/src/types/OpenHours';
+import { fetchOpenHours } from '@/src/services/api/data';
+import { storage } from '@/src/storage/asyncStorage';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
-import { openHoursExample } from '@/constants/data_example';
+import { openHoursExample } from '@/src/constants/data_example';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;

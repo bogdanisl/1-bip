@@ -1,5 +1,5 @@
 // src/components/buttons/ListSwitch.tsx — БЕЗ NativeWind
-import { Colors } from '@/constants/theme';
+import { Colors } from '@/src/constants/theme';
 import { FontAwesome } from '@expo/vector-icons';
 import { StyleSheet, Switch, Text, useColorScheme, View } from 'react-native';
 
