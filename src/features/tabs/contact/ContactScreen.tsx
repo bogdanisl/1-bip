@@ -17,6 +17,7 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import { createContactStyles } from "./ContactScreenStyles";
 import { useOfficeMap } from "./hooks/useOfficeMap";
+import { isLiquidGlassAvailable } from "expo-glass-effect";
 
 export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
     const url = Platform.select({
@@ -33,7 +34,7 @@ const ContactScreen = () => {
     const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const colorSheme = useColorScheme()
-    const mapParams = useOfficeMap(selectedBip);
+    const mapParams = useOfficeMap();
     const styles = useMemo(
         () => createContactStyles(themeColors),
         [themeColors]
@@ -48,9 +49,9 @@ const ContactScreen = () => {
                         <View style={[styles.section, { marginBottom: 20 }]}>
 
                             <Text style={styles.sectionText}>
-                                {'Skontaktuj się z nami'}
+                                {t('contact_us')}
                             </Text>
-                            <Text style={styles.sectionDesc}>{"Wybierz najwygodniejsą dla siebie formę kontaktu"}</Text>
+                            <Text style={styles.sectionDesc}>{t('contact_us_desc')}</Text>
                             <View style={{ padding: 17, paddingLeft: 0 }}>
                                 <FileItem
                                     name={"111 222 334"}
@@ -80,8 +81,8 @@ const ContactScreen = () => {
                                     style={{
                                         backgroundColor: themeColors.background_2,
                                         marginTop: 10,
-                                        borderBottomRightRadius: Platform.OS == 'android' ? 15 : 0,
-                                        borderBottomLeftRadius: Platform.OS == 'android' ? 15 : 0
+                                        borderBottomRightRadius: 0,
+                                        borderBottomLeftRadius: 0
                                     }}
                                     leftIconName={"location-on"}
                                     rightIconName={"open-in-new"}
@@ -90,7 +91,17 @@ const ContactScreen = () => {
                                     }}
                                 ></FileItem>
                                 {
-                                    <View style={{ backgroundColor: themeColors.background_2, height: 250, marginTop: 0, padding: 15, paddingTop: 5, borderRadius: 12, borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
+                                    <View style={{
+                                        backgroundColor: themeColors.background_2,
+                                        
+                                        height: 250, 
+                                        marginTop: 0, 
+                                        padding: 15, 
+                                        paddingTop: 5, 
+                                        borderRadius: 15, 
+                                        elevation:3,
+                                        borderTopLeftRadius: 0, borderTopRightRadius: 0
+                                    }}>
                                         <MapView
                                             key={`${mapParams}`}
                                             userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
@@ -103,7 +114,7 @@ const ContactScreen = () => {
                                                 latitudeDelta: 0.005,
                                                 longitudeDelta: 0.005,
                                             }}
-                                            
+
                                         >
                                             <Marker
                                                 coordinate={{
@@ -192,7 +203,7 @@ const ContactScreen = () => {
                     <View style={{ height: 30, alignItems: 'flex-start' }}>
                         <Text
                             style={[styles.sectionText, { color: themeColors.text }]}>
-                            {t('Formularz kontaktowy')}
+                            {t('contact_form')}
                         </Text>
                     </View>
                 </View>

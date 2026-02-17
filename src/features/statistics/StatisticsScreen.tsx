@@ -233,7 +233,7 @@ export default function StatisticsScreen() {
                 </View>
                 <Br />
 
-                <View style={{ marginTop: 10, gap: 12 }}>
+                <View style={{ marginTop: 10, gap: 12, paddingBottom:80 }}>
                     {isLoading ? (
                         <>
                             <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />

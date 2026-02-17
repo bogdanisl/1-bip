@@ -12,7 +12,6 @@ import { Category } from '@/src/types/Category';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 import { apiRequest } from '@/src/services/api/client';
-import { offset } from '@expo/ui/swift-ui/modifiers';
 
 const CategoryScreen = () => {
     const { t } = useTranslation();

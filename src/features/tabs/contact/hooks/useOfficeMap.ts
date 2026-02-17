@@ -3,8 +3,11 @@ import { MapParams, OfficeData } from "@/src/types/OfficeData";
 import { storage } from "@/src/services/storage/asyncStorage";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/src/services/api/client";
+import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
 
-export const useOfficeMap = (selectedBip: Bip | null) => {
+export const useOfficeMap = () => {
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+
   const [mapParams, setMapParams] = useState<MapParams | null>(null);
 
   useEffect(() => {

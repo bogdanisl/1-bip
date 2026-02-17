@@ -1,5 +1,5 @@
 {
-    "LANGUAGE_CODE":"en",
+    "LANGUAGE_CODE": "en",
     "promo": "Promotions",
     "home_tab": "Home",
     "contact": "Contact",
@@ -58,8 +58,12 @@
         "search_employee": "Find employee",
         "search_employee_desc": "find person in office",
         "change_log": "Change register",
-        "change_log_desc": "Update history of BIP"
+        "change_log_desc": "Update history of BIP",
+        "categories": "Categories",
+        "categories_desc": "Sort articles by categories",
+        "latest_articles": "Latest articles"
     },
+    "see_all": "See all",
     "find": "Find",
     "enter_postal_code": "Enter postal code",
     "enter_postal_code_subtext": "Enter postal code of city, which BIP you want to connect.",
@@ -131,8 +135,16 @@
     "phone_second": "Second phone",
     "phone_third": "Third phone",
     "email_second": "Second e-mail",
-    "city":"City",
-    "district":"Province",
-    "postal_code":"Postal code",
-    "office_name":"Office name"
+    "city": "City",
+    "district": "Province",
+    "postal_code": "Postal code",
+    "office_name": "Office name",
+    "article_statistic_unavailable": "Article statistic is unavailable",
+    "category_statistic_unavailable": "Category statistic is unavailable",
+    "empty_category_list": "Category not found",
+    "name": "Name",
+    "surname": "Surname",
+    "contact_us": "Contact us",
+    "contact_us_desc": "Select the best option for you to contact us",
+    "contact_form":"Contact form"
 }

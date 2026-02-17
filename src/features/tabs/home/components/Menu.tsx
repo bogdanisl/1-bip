@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/src/constants/theme';
 import { router, RelativePathString } from 'expo-router';
+import { storage } from '@/src/services/storage/asyncStorage';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 interface MenuProps {
   type?: 'top' | 'bottom';
@@ -17,22 +19,35 @@ interface MenuProps {
 
 export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
   const { t } = useTranslation();
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+  const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+  const [documentsCount, setDocumentsCount] = useState(0);
+
+
+  useEffect(() => {
+    const loadCount = async () => {
+      const documents = await storage.get<Document[]>(`${selectedBip?.id}/documents`);
+      if (!documents) return;
+      setDocumentsCount(documents.length)
+    }
+    loadCount();
+  }, [])
+
+  const { width } = Dimensions.get('screen');
   const handlePress = (route: RelativePathString) => {
     router.push(route);
   }
-  const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
-  const { width } = Dimensions.get('screen');
 
   const menuItems = useMemo(
     () => [
-      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/categories', badge: 8 },
-      { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/documents', badge:1 },
+      { title: t('home.categories'), subtitle: t('home.categories_desc'), icon: 'list', route: '/(tabs)/home/categories' },
+      { title: t('home.downloads'), subtitle: t('home.downloads_desc'), icon: 'download', route: '/(tabs)/home/documents', badge: documentsCount },
       { title: t('home.office_data'), subtitle: t('home.office_data_desc'), icon: 'account-balance', route: '/(tabs)/home/data' },
       { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/(tabs)/home/employees' },
       { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/editors' },
       { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/statistics' },
     ],
-    [t]
+    [t, documentsCount]
   );
 
   const displayedItems = useMemo(() => {

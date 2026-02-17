@@ -115,7 +115,7 @@
   "created_at": "Data Utworzenia",
   "acceptedBy": "Wprowadził do systemu",
   "approvedBy": "Zatwierdził do publikacji",
-  "documents": "Documenty",
+  "documents": "Dokumenty",
   "read_more": "Czytaj dalej",
   "added": "Dodano: ",
   "added_by_2": "Wprowadził: ",
@@ -152,5 +152,14 @@
   "see_all": "Więcej",
   "article_statistic_unavailable": "Statystyka artykułów niedostępna",
   "category_statistic_unavailable": "Statystyka kategorii niedostępna",
-  "empty_category_list":"Nie znaleziono kategorii"
+  "empty_category_list": "Nie znaleziono kategorii",
+  "name": "Imię",
+  "surname": "Nazwisko",
+  "invalid_name_error": "Imię powinno składać się z min. 3, maks. 100 liter. Ponadto dozwolony jest znak spacji.",
+  "invalid_surname_error": "Nazwisko powinno składać się z min. 3, maks. 100 liter. Ponadto dozwolony jest znak spacji oraz myślnika.",
+  "error_sending_title": "Widaomość nie została wysłana",
+  "error_sending_desc": "Nie udało się wysłać wiadomości. Proszę spróbować później.",
+  "contact_us": "Skontaktuj się z nami",
+  "contact_us_desc": "Wybierz najwygodniejszą dla siebie formę kontaktu",
+  "contact_form": "Formularz kontaktowy"
 }

@@ -30,8 +30,8 @@ const CategoriesScreen = () => {
       catch (err: any) {
       }
     }
-    getSections();
-      //.finally(() => setIsLoading(false));
+    getSections()
+      .finally(() => setIsLoading(false));
   }, [])
 
   const searchText = params?.q?.toLowerCase() || "";

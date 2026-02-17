@@ -5,7 +5,7 @@ import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { Colors } from '@/src/constants/theme';
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
 import { useTranslation } from 'react-i18next';
-import { router } from 'expo-router';
+import { RelativePathString, router } from 'expo-router';
 import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
 import { useSharedValue } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
@@ -91,7 +91,7 @@ export default function HomeArticles() {
                         }
                         renderItem={({ item }) => (
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <ArticleCard style={{ width: width, flex: 1 }} article={item} />
+                                <ArticleCard variant='short' style={{ width: width, flex: 1 }} article={item} path={`/(tabs)/home/categories/${item.categoryId}/${item.id}` as RelativePathString} />
                             </View>
                         )}
                     />

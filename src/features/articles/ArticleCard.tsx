@@ -13,42 +13,66 @@ import { RelativePathString } from "expo-router";
 type ArticleCardProps = {
   article: Article;
   style?: ViewStyle | ViewStyle[];
-  path?: RelativePathString
+  path?: RelativePathString;
+  variant?: 'short' | 'full'
 };
 
-export const ArticleCard = ({ article, style, path }: ArticleCardProps) => {
-  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleCardProps) => {
   var he = require('he');
+  const theme = useColorScheme() == 'dark'? Colors.dark: Colors.light
   const { t, i18n } = useTranslation();
+  const width = Dimensions.get('window').width;
+  const isShort = variant == 'short';
 
   return (
-    <View style={[styles.card, { backgroundColor: theme.background_2 }, style]}>
-      <View style={{ flex: 1, paddingRight: 40, position: 'relative', marginBottom: article.subtitle ? 0 : 8 }}>
-        <Text
-        onPress={()=>{console.log(path)}}
-          style={[
-            styles.recentHeader,
-            {
-              color: theme.text,
-              flexWrap: 'wrap',
-            },
-          ]}
-        >
-          {he.decode(article.title) || 'Artykuł bez tytułu'}
-        </Text>
+    <View style={[
+      styles.card,
+      { backgroundColor: theme.background_2 },
+      isShort && { maxHeight: 240 }, // fixed-ish height range
+      style,
+    ]}>
+      {/* Header row */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingRight: 8 }}>
+        <View style={{ flex: 1, paddingRight: 12 }}>
+          {/* Title – single line + ellipsis in short mode */}
+          <Text
+            numberOfLines={isShort ? 2 : 0}
+            style={[
+              styles.recentHeader,
+              { color: theme.text },
+              isShort && { height: 40 },
+            ]}
+          >
+            {article.title}
+          </Text>
+        </View>
 
-        <View style={{ position: 'absolute', flexDirection: 'row', top: 0, right: 0, alignItems: 'center' }}>
-          <MaterialIcons name="visibility" size={18} color={theme.subText} />
-          <Text style={{ color: theme.subText }}> {article.views ?? 0}</Text>
+        {/* Views count */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 4 }}>
+          <MaterialIcons name="visibility" size={22} color={theme.subText} />
+          <Text style={{ color: theme.subText, marginLeft: 4, fontSize: 13 }}>
+            {article.views ?? 0}
+          </Text>
         </View>
       </View>
-      {article.subtitle && (
-        <Text style={{ color: theme.subText, marginBottom: 8, marginTop: 5 }}>
-          {article.subtitle}
-        </Text>
-      )}
-      <Br />
+      <Text
+        numberOfLines={isShort ? 1 : 0}
+        style={[
+          {
+            color: theme.subText,
+            marginTop: 6,
+            marginBottom: 6,
+            fontSize: 14,
+            paddingRight: 30,
+          },
+          isShort && { height: 20 },
 
+        ]}
+      >
+        {article.subtitle}
+      </Text>
+
+      <Br />
 
       <View style={[styles.infoRow, { marginTop: 0 }]}>
         <MaterialIcons name="schedule" size={18} color={theme.icon} />
@@ -67,13 +91,7 @@ export const ArticleCard = ({ article, style, path }: ArticleCardProps) => {
         <View style={[styles.progressBar]} />
       </View> */}
       <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        {
-          path ?
-            <ReadMoreButton article={article} theme={theme}  path={path} />
-            :
-            <ReadMoreButton article={article} theme={theme}/>
-
-        }
+        <ReadMoreButton article={article} theme={theme} path={path}/>
       </View>
     </View>
   );

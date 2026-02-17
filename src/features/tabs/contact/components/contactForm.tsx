@@ -25,6 +25,8 @@ const ContactForm: React.FC<{
   endpoint = `${API_URL}/consultation/send`,
   onSubmitSuccess,
 }) => {
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [message, setMessage] = useState('');
@@ -37,12 +39,24 @@ const ContactForm: React.FC<{
     const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
     const { t } = useTranslation();
 
-    // ошибки
+    // errors
+    const [nameError, setNameError] = useState('');
+    const [surnameError, setSurnameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
     const [messageError, setMessageError] = useState('');
     const [consentError, setConsentError] = useState('');
+    const [submitError, setSubmitError] = useState('');
 
+    const handleNameChange = (text: string) => {
+      setName(text);
+      if (nameError) setNameError('');
+    }
+
+    const handleSurnameChange = (text: string) => {
+      setSurname(text);
+      if (surnameError) setSurnameError('');
+    }
 
     const handleEmailChange = (text: string) => {
       setEmail(text);
@@ -64,20 +78,34 @@ const ContactForm: React.FC<{
 
       const phoneRegex = /^\+?[0-9\s\-]+$/;
       const messageRegex = /^[\p{L}\p{N}\p{P}\p{M}\p{S}\p{Z}\p{Sc}\p{Sm}\p{Sk}\p{So}]{5,300}$/u;
+      const nameRegex = /^(?=.{3,100}$)\p{L}+(?: \p{L}+)*$/u;
+      const surnameRegex = /^(?=.{3,100}$)\p{L}+(?:-\p{L}+)*$/u;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+      setNameError('');
+      setSurnameError('');
       setEmailError('');
       setPhoneError('');
       setMessageError('');
       setConsentError('');
 
 
+      if (!nameRegex.test(name.trim())) {
+        setNameError(t('invalid_name_error'));
+        valid = false;
+      }
 
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      if (!surnameRegex.test(surname.trim())) {
+        setSurnameError(t('invalid_surname_error'));
+        valid = false;
+      }
+
+      if (!emailRegex.test(email.trim())) {
         setEmailError(t('invalid_email_error'));
         valid = false;
       }
 
-      if (phone.trim() && !phoneRegex.test(phone.trim())) {
+      if (!phoneRegex.test(phone.trim())) {
         setPhoneError(t('invalid_phone_error'));
         valid = false;
       }
@@ -114,7 +142,7 @@ const ContactForm: React.FC<{
         });
 
         //console.log(res)
-        if (!res.ok) throw new Error('Błąd wysyłania formularza.');
+        if (!res.ok) throw new Error('Błąd wysyłania formularza');
 
 
         setEmail('');
@@ -133,14 +161,14 @@ const ContactForm: React.FC<{
 
         onSubmitSuccess?.();
       } catch (err: any) {
-        setConsentError(err.message || t('error_sending'));
-        // showMessage({
-        //   message: t('error_sending'),
-        //   description: t('oops'),
-        //   type: 'danger',
-        //   icon: 'danger',
-        //   duration: 3000,
-        // });
+        setSubmitError(err.message || t('error_sending'));
+        showMessage({
+          message: t('error_sending_title'),
+          description: t('error_sending_desc'),
+          type: 'danger',
+          icon: 'danger',
+          duration: 3000,
+        });
       } finally {
         setLoading(false);
       }
@@ -162,6 +190,22 @@ const ContactForm: React.FC<{
       >
         <View style={styles.container}>
           {/* Inputs */}
+          <AlpiInput
+            placeholder={t('name') + "*"}
+            value={name}
+            onChangeText={handleNameChange}
+            keyboardType='default'
+            errorValue={!!nameError}
+            errorText={nameError}
+          />
+          <AlpiInput
+            placeholder={t('surname') + "*"}
+            value={surname}
+            onChangeText={handleSurnameChange}
+            keyboardType='default'
+            errorValue={!!surnameError}
+            errorText={surnameError}
+          />
 
           <AlpiInput
             placeholder="E-mail*"
@@ -220,7 +264,7 @@ const ContactForm: React.FC<{
               >
                 {consentData && <AntDesign name="check" size={14} color={themeColors.background} />}
               </View>
-              <Text style={{ color: themeColors.text, paddingRight:50 }}>{t('contact_consent_1',{company: selectedBip?selectedBip.name:'ALPANET - Polskie Systemy Internetowe'})}</Text>
+              <Text style={{ color: themeColors.text, paddingRight: 50 }}>{t('contact_consent_1', { company: selectedBip ? selectedBip.name : 'ALPANET - Polskie Systemy Internetowe' })}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -241,7 +285,7 @@ const ContactForm: React.FC<{
               >
                 {consentPrivacy && <AntDesign name="check" size={14} color={themeColors.background} />}
               </View>
-              <Text style={{ color: themeColors.text, paddingRight:50 }}>{t('contact_consent_2')}</Text>
+              <Text style={{ color: themeColors.text, paddingRight: 50 }}>{t('contact_consent_2')}</Text>
             </TouchableOpacity>
             {consentError ? <Text style={styles.errorText}>{consentError}</Text> : null}
           </View>
@@ -256,6 +300,22 @@ const ContactForm: React.FC<{
               {loading ? t('sending...') : t('send_email')}
             </Text>
           </TouchableOpacity>
+          {submitError && (
+
+            <Text
+              style={
+                [styles.errorText,
+                {
+                  textAlign: 'center',
+                  fontSize: 16,
+                  marginLeft: 0,
+                  marginTop:0,
+                }]}
+            >
+              {submitError}
+            </Text>
+          )
+          }
         </View>
       </KeyboardAwareScrollView>
     );
@@ -338,7 +398,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     width: '100%',
     borderRadius: 10,
-    marginBottom: 60,
+    marginBottom: 20,
   },
   submitText: {
     textAlign: 'center',
