@@ -11,18 +11,19 @@ import { Article } from '@/src/types/Article';
 
 const ArticlesScreen = () => {
   const { t } = useTranslation();
+  const { articles, isLoading, isRefreshing, refresh, loadMore } = useArticles();
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
-
-  const { articles, isLoading, isRefreshing, refresh, loadMore } = useArticles();
-
   const params = useLocalSearchParams<{ q?: string }>();
-  const searchText = params?.q?.toLowerCase() || '';
+
+
 
   const skeletonData: Article[] = Array.from({ length: 6 }, (_, i) => ({
     id: -i - 1,
   } as Article));
 
+
+  const searchText = params?.q?.toLowerCase() || '';
   const filteredArticles = articles.filter(a =>
     !searchText || a.title?.toLowerCase().includes(searchText)
   );
@@ -32,7 +33,9 @@ const ArticlesScreen = () => {
       data={isLoading ? skeletonData : filteredArticles}
       keyExtractor={(_, i) => i.toString()}
       renderItem={({ item }: { item: Article }) =>
-        isLoading ? <ArticleCardPreloader /> : <ArticleCard article={item} />
+        isLoading ?
+          <ArticleCardPreloader />
+          : <ArticleCard article={item} />
       }
       contentContainerStyle={styles.listContent}
       itemLayoutAnimation={LinearTransition}

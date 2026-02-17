@@ -1,14 +1,13 @@
 import { Bip } from "@/src/types/Bip";
-import { fetchEmployees, fetchOfficeData, fetchOpenHours, fetchPublishers } from "../services/api/data";
 import { OpenHours, OpenHoursDTO } from "@/src/types/OpenHours";
 import { Employee } from "@/src/types/Employee";
-import { fetchDownloads } from "../services/api/articles";
 import { OfficeData } from "@/src/types/OfficeData";
 import { Document } from '@/src/types/Article'
 import { storage } from "./asyncStorage";
+import { apiRequest } from "../api/client";
 
 export async function updateData(bip: Bip) {
-    const hours = await fetchOpenHours(bip.url);
+    const hours = await apiRequest<OpenHours[]>('/api/v1/hour');
     if (hours && hours.length > 0) {
         const hoursTransfered: OpenHoursDTO[] = [];
         hours.map(h => {
@@ -34,29 +33,28 @@ export async function updateData(bip: Bip) {
         storage.set<OpenHoursDTO[]>(`${bip.id}/hours`, hoursTransfered);
     }
 
-    const employees = await fetchEmployees(bip.url);
+    const employees = await apiRequest<Employee[]>('/api/v1/employee/list');
     if (employees) {
         storage.remove(`${bip.id}/employees`);
         storage.set<Employee[]>(`${bip.id}/employees`, employees)
     }
 
-    const publishers = await fetchPublishers(bip.url);
+    const publishers = await apiRequest<Employee[]>('/api/v1/publisher/list');
     if (publishers) {
         storage.remove(`${bip.id}/editors`);
         storage.set<Employee[]>(`${bip.id}/editors`, publishers)
     }
 
-    const officeData = await fetchOfficeData(bip.url);
-    //console.log(officeData);
+    const officeData = await apiRequest<OfficeData>('/api/v1/data')
     if (officeData) {
         storage.remove(`${bip.id}/officeData`);
         storage.set<OfficeData>(`${bip.id}/officeData`, officeData)
     }
 
-    const downloads = await fetchDownloads(bip.url);
-    if (downloads) {
-        storage.remove(`${bip.id}/downloads`)
-        storage.set<Document[]>(`${bip.id}/downloads`, downloads);
+    const documents = await apiRequest<Document[]>('/api/v1/document/list')
+    if (documents) {
+        storage.remove(`${bip.id}/documents`)
+        storage.set<Document[]>(`${bip.id}/documents`, documents);
     }
 }
 

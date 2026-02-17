@@ -13,7 +13,7 @@ import { Colors } from '@/src/constants/theme';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/src/components/buttons/ItemButton';
-import { storage } from '@/src/storage/asyncStorage';
+import { storage } from '@/src/services/storage/asyncStorage';
 import { OfficeData } from '@/src/types/OfficeData';
 import { bankCredentialsExample, officeDataExample } from '@/src/constants/data_example';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';

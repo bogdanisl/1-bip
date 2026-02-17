@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '../../../../hooks/use-selected-bip';
 import { OfficeData } from '@/src/types/OfficeData';
 import { officeDataExample } from '@/src/constants/data_example';
-import { storage } from '@/src/storage/asyncStorage';
+import { storage } from '@/src/services/storage/asyncStorage';
 import { checkVersion } from '@/src/services/versionControl';
 import { VersionResponse } from '@/src/types/VersionResponse';
 import { Bip } from '@/src/types/Bip';

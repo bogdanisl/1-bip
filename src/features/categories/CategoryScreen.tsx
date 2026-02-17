@@ -9,9 +9,10 @@ import { styles } from '@/assets/styles/recent_index';
 import { Article } from '@/src/types/Article';
 import { useEffect, useState } from 'react';
 import { Category } from '@/src/types/Category';
-import { fetchCategory } from '@/src/services/api/categories';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
+import { apiRequest } from '@/src/services/api/client';
+import { offset } from '@expo/ui/swift-ui/modifiers';
 
 const CategoryScreen = () => {
     const { t } = useTranslation();
@@ -35,7 +36,13 @@ const CategoryScreen = () => {
 
     useEffect(() => {
         const loadCategory = async () => {
-            const categoryLoad = await fetchCategory(0, 20, 'https://www.dev.bip.av1.pl', Number(id));
+
+            const categoryLoad = await apiRequest<Category>(`/api/v1/category/${id}`, {
+                body: {
+                    offset: 0,
+                    limit: 20,
+                }
+            }); 
             if (!categoryLoad) return;
             setCategory(categoryLoad);
             if (categoryLoad.articles) {
@@ -85,15 +92,16 @@ const CategoryScreen = () => {
                                         <FileItem
                                             key={c.id}
                                             name={c.title}
-                                            detailsAccent={c.articleCount? 'Artykuły: ' + c.articleCount: ''}
-                                            details={c.subcategoryCount? 'Podkategorie: ' + c.subcategoryCount + ' • ': ''}
+                                            detailsAccent={c.articleCount ? 'Artykuły: ' + c.articleCount : ''}
+                                            details={c.subcategoryCount ? 'Podkategorie: ' + c.subcategoryCount + ' • ' : ''}
                                             style={{ backgroundColor: theme.background_2 }}
                                             onPress={() => router.push({
                                                 pathname: (`/(tabs)/home/categories/${c.id}` as RelativePathString),
-                                                params: { title: c.title,
+                                                params: {
+                                                    title: c.title,
                                                     articleCount: c.articleCount,
                                                     subcategoriesCount: c.subcategoryCount
-                                                 }
+                                                }
                                             })}
                                             rightIconName='chevron-right'
                                         />

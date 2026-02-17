@@ -6,14 +6,15 @@ import { Br } from "@/src/components/Br";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import { Article } from "@/src/types/Article";
-import { Category, CategoryStat } from "@/src/types/Category";
-import { fetchMostReadArticles } from "@/src/services/api/articles";
-import { fetchMostReadCategories } from "@/src/services/api/categories";
-import ActivityIndicator from "@/src/components/ActivityIndicator";
+import { CategoryStat } from "@/src/types/Category";
+import { apiRequest } from "@/src/services/api/client";
+import { useTranslation } from "react-i18next";
+import { Skeleton } from "@/src/components/skeleton";
 
 
 export default function StatisticsScreen() {
     const colorScheme = useColorScheme();
+    const { t } = useTranslation();
     const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
     const [topArticle, setTopArticle] = useState<Article>();
     const [topCategory, setTopCategory] = useState<CategoryStat>();
@@ -23,17 +24,41 @@ export default function StatisticsScreen() {
 
     useEffect(() => {
         const loadArticle = async () => {
-            const data = await fetchMostReadArticles(0, 5, 'https://www.dev.bip.av1.pl');
-            if (!data) return;
-            setArticles(data);
-            setTopArticle(data[0]);
-            const dataCat = await fetchMostReadCategories(0, 5, 'https://www.dev.bip.av1.pl');
-            if (!dataCat) return;
-            setCategories(dataCat);
-            setTopCategory(dataCat[0]);
-            setIsLoading(false);
+            try {
+                const data = await apiRequest<Article[]>('/api/v1/article/popular', {
+                    body: {
+                        limit: 5
+                    }
+                });
+                if (!data) return;
+                setArticles(data);
+                setTopArticle(data[0]);
+            }
+            catch (err: any) {
+                console.log(err?.message);
+            }
         }
+
+        const loadCategory = async () => {
+            try {
+
+                const dataCat = await apiRequest<CategoryStat[]>('/api/v1/category/popular',
+                    {
+                        body: { limit: 5 }
+                    }
+                )
+                if (!dataCat) return;
+                setCategories(dataCat);
+                setTopCategory(dataCat[0]);
+            }
+            catch (err: any) {
+
+            }
+        }
+
         loadArticle();
+        loadCategory()
+            .finally(() => setIsLoading(false));
     }, [])
 
     const renderProgressBar = (percent: number, useGradient: boolean = false) => {
@@ -67,14 +92,6 @@ export default function StatisticsScreen() {
         );
     };
 
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size={50} />
-            </View>
-        )
-    }
-
     return (
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
@@ -98,73 +115,104 @@ export default function StatisticsScreen() {
                 </View>
                 <Br />
 
-                <View style={{ marginTop: 10, gap: 12 }}>
-                    {articles.map(article => {
-                        if (!article.views) return;
-                        const widthPercent = (article.views / topArticle!.views!) * 100;
-                        return (
-                            <View
-                                key={article.id}
+                <View style={{
+                    marginTop: 10,
+                    justifyContent: 'center',
+                    gap: 12,
+                }}>
+                    {isLoading ? (
+                        <>
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                        </>
+                    ) : (articles.length < 5 ?
+                        (
+                            <Text
                                 style={{
-                                    padding: 15,
-                                    backgroundColor: theme.background_2,
-                                    borderRadius: 15,
+                                    textAlign: 'center',
+                                    color: theme.text,
+                                    fontSize: 15,
+                                    fontWeight: "500",
+                                    marginLeft: 10,
+                                    marginVertical: 150,
                                 }}
                             >
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        marginBottom: 15,
-                                    }}
-                                >
+                                {t('article_statistic_unavailable')}
+                            </Text>
+                        ) :
+                        (
+                            articles.map(article => {
+                                if (!article.views) return;
+                                const widthPercent = (article.views / topArticle!.views!) * 100;
+                                return (
                                     <View
+                                        key={article.id}
                                         style={{
-                                            backgroundColor: articles[0].id === article.id ? theme.tint : theme.background,
-                                            height: 28,
-                                            width: 28,
-                                            borderRadius: 30,
-                                            marginRight: 10,
-                                            justifyContent: "center",
+                                            padding: 15,
+                                            backgroundColor: theme.background_2,
+                                            borderRadius: 15,
                                         }}
                                     >
-                                        <Text
+                                        <View
                                             style={{
-                                                color: articles[0].id === article.id ? "white" : theme.text,
-                                                textAlign: "center",
-                                                fontWeight: "700",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                marginBottom: 15,
                                             }}
                                         >
-                                            {articles.indexOf(article) + 1}
-                                        </Text>
-                                    </View>
-                                    <Text
-                                        style={{
-                                            color: theme.text,
-                                            flex: 1,
-                                            fontSize: 16,
-                                            fontWeight: "600",
-                                        }}
-                                    >
-                                        {article.title}
-                                    </Text>
-                                    <Text
-                                        style={{
-                                            color: articles[0].id === article.id ? theme.tint : theme.text,
-                                            fontWeight: "700",
-                                            marginLeft: 10,
-                                            fontSize: 16,
-                                        }}
-                                    >
-                                        {article.views}
-                                    </Text>
-                                </View>
+                                            <View
+                                                style={{
+                                                    backgroundColor: articles[0].id === article.id ? theme.tint : theme.background,
+                                                    height: 28,
+                                                    width: 28,
+                                                    borderRadius: 30,
+                                                    marginRight: 10,
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        color: articles[0].id === article.id ? "white" : theme.text,
+                                                        textAlign: "center",
+                                                        fontWeight: "700",
+                                                    }}
+                                                >
+                                                    {articles.indexOf(article) + 1}
+                                                </Text>
+                                            </View>
+                                            <Text
+                                                style={{
+                                                    color: theme.text,
+                                                    flex: 1,
+                                                    fontSize: 16,
+                                                    fontWeight: "600",
+                                                }}
+                                            >
+                                                {article.title}
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    color: articles[0].id === article.id ? theme.tint : theme.text,
+                                                    fontWeight: "700",
+                                                    marginLeft: 10,
+                                                    fontSize: 16,
+                                                }}
+                                            >
+                                                {article.views}
+                                            </Text>
+                                        </View>
 
-                                {renderProgressBar(widthPercent, true)}
-                            </View>
-                        );
-                    })}
+                                        {renderProgressBar(widthPercent, true)}
+                                    </View>
+                                );
+                            })
+                        ))
+                    }
                 </View>
+
             </View>
 
             {/* Top categories */}
@@ -186,71 +234,98 @@ export default function StatisticsScreen() {
                 <Br />
 
                 <View style={{ marginTop: 10, gap: 12 }}>
-                    {categories.map(category => {
-                        return (
-                            <View
-                                key={category.id}
+                    {isLoading ? (
+                        <>
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                            <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
+                        </>
+                    ) : (categories.length < 5 ?
+                        (
+                            <Text
                                 style={{
-                                    padding: 15,
-                                    backgroundColor: theme.background_2,
-                                    borderRadius: 15,
+                                    textAlign: 'center',
+                                    color: theme.text,
+                                    fontSize: 15,
+                                    fontWeight: "600",
+                                    marginLeft: 10,
+                                    marginVertical: 150,
                                 }}
                             >
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        marginBottom: 15,
-                                    }}
-                                >
+                                {t('category_statistic_unavailable')}
+                            </Text>
+                        ) : (
+                            categories.map(category => {
+                                return (
                                     <View
+                                        key={category.id}
                                         style={{
-                                            backgroundColor: category.id === topCategory?.id ? theme.tint : theme.background,
-                                            height: 28,
-                                            width: 28,
-                                            borderRadius: 30,
-                                            marginRight: 10,
-                                            justifyContent: "center",
+                                            padding: 15,
+                                            backgroundColor: theme.background_2,
+                                            borderRadius: 15,
                                         }}
                                     >
-                                        <Text
+                                        <View
                                             style={{
-                                                color: category.id === topCategory?.id ? "white" : theme.text,
-                                                textAlign: "center",
-                                                fontWeight: "700",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                marginBottom: 15,
                                             }}
                                         >
-                                            {categories.indexOf(category) + 1}
-                                        </Text>
-                                    </View>
-                                    <Text
-                                        style={{
-                                            color: theme.text,
-                                            flex: 1,
-                                            fontSize: 16,
-                                            fontWeight: "600",
-                                        }}
-                                    >
-                                        {category.title}
-                                    </Text>
-                                    <Text
-                                        style={{
-                                            color: category.id === topCategory?.id ? theme.tint : theme.text,
-                                            fontWeight: "700",
-                                            marginLeft: 10,
-                                            fontSize: 16,
-                                        }}
-                                    >
-                                        {category.percentage}%
-                                    </Text>
-                                </View>
+                                            <View
+                                                style={{
+                                                    backgroundColor: category.id === topCategory?.id ? theme.tint : theme.background,
+                                                    height: 28,
+                                                    width: 28,
+                                                    borderRadius: 30,
+                                                    marginRight: 10,
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        color: category.id === topCategory?.id ? "white" : theme.text,
+                                                        textAlign: "center",
+                                                        fontWeight: "700",
+                                                    }}
+                                                >
+                                                    {categories.indexOf(category) + 1}
+                                                </Text>
+                                            </View>
+                                            <Text
+                                                style={{
+                                                    color: theme.text,
+                                                    flex: 1,
+                                                    fontSize: 16,
+                                                    fontWeight: "600",
+                                                }}
+                                            >
+                                                {category.title}
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    color: category.id === topCategory?.id ? theme.tint : theme.text,
+                                                    fontWeight: "700",
+                                                    marginLeft: 10,
+                                                    fontSize: 16,
+                                                }}
+                                            >
+                                                {category.percentage}%
+                                            </Text>
+                                        </View>
 
-                                {/* Progress bar with subtle gradient */}
-                                {renderProgressBar(category.percentage, true)}
-                            </View>
-                        );
-                    })}
+                                        {/* Progress bar with subtle gradient */}
+                                        {renderProgressBar(category.percentage, true)}
+                                    </View>
+                                );
+                            })
+                        )
+                    )
+                    }
                 </View>
+
             </View>
 
             {/* <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10, marginVertical: 20 }}>
@@ -282,6 +357,6 @@ export default function StatisticsScreen() {
                     <Text style={{ color: theme.subText, fontSize: 13, marginTop: 4, textAlign: "center" }}>Liczba kategorii</Text>
                 </View>
             </View> */}
-        </ScrollView>
+        </ScrollView >
     );
 }

@@ -8,6 +8,7 @@ import { OpenHours, OpenHoursDTO } from "@/src/types/OpenHours";
 export const FAKE_CITIES = [
   // { id: '-1', code: '42400', name: 'To jest przykładowy BIP', url: '' },
   { id: '1', code: '42400', name: 'Urząd Gminy Testowej', url: 'https://www.bip.alpanet.pl' },
+  { id: '2', code: '42400', name: 'Urząd Gminy Dev', url: 'https://www.dev.bip.av1.pl' },
   //{ id: '2', code: '42400', name: 'Nieaktywny Urząd Gminy', url: '' },
 ];
 

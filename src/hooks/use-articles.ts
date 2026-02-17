@@ -1,67 +1,71 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchArticles } from '@/src/services/api/articles';
 import { Article } from '@/src/types/Article';
 import { useSelectedBipStore } from './use-selected-bip';
 import { ArticlesListExample } from '@/src/constants/data_example';
-import { ARTICLE_LIMIT } from '@/src/services/api/articles';
+import { apiRequest } from '../services/api/client';
 
-export function useArticles(categoryId?: string) {
-  const selectedBip = useSelectedBipStore((s) => s.selectedBip);
+const DEFAULT_LIMIT = 10;
+
+interface UseArticlesOptions {
+  categoryId?: string;
+  initialLimit?: number; // for top N articles
+}
+
+export function useArticles({ initialLimit = DEFAULT_LIMIT }: UseArticlesOptions = {}) {
+  const selectedBip = useSelectedBipStore(s => s.selectedBip);
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [offset, setOffset] = useState(0);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const load = useCallback(
-    async (nextOffset = 0, append = false) => {
-      if (!selectedBip) {
-        setArticles(ArticlesListExample);
-        setHasMore(false);
-        return;
-      }
+  const load = useCallback(async (nextOffset = 0, append = false, limit = DEFAULT_LIMIT) => {
 
-      if (!selectedBip.url) {
-        setArticles([]);
-        setHasMore(false);
-        return;
-      }
+    if (!selectedBip) {
+      setArticles(ArticlesListExample.slice(0, limit));
+      setHasMore(false);
+      setIsLoading(false);
+      return;
+    }
 
+    try {
       append ? setIsLoadingMore(true) : setIsLoading(true);
-
-      const data = await fetchArticles(nextOffset, ARTICLE_LIMIT, selectedBip.url);
-
-      setArticles((prev) =>
-        append ? [...prev, ...data] : data
-      );
-
+      const data = await apiRequest<Article[]>(`/api/v1/article/list`, {
+        body: {
+          nextOffset,
+          limit,
+        }
+      });
+      setArticles(prev => append ? [...prev, ...data] : data);
       setOffset(nextOffset);
-      setHasMore(data.length === ARTICLE_LIMIT);
-
+      setHasMore(data.length === limit);
+    } catch (err: any) {
+      setError(err?.message ?? 'Unknown error');
+    } finally {
       setIsLoading(false);
       setIsLoadingMore(false);
       setIsRefreshing(false);
-    },
-    [selectedBip]
-  );
+    }
+  }, [selectedBip]);
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);
     setHasMore(true);
-    await load(0, false);
-  }, [load]);
+    await load(0, false, initialLimit);
+  }, [load, initialLimit]);
 
   const loadMore = useCallback(() => {
     if (isLoadingMore || isRefreshing || !hasMore) return;
-    load(offset + ARTICLE_LIMIT, true);
+    load(offset + DEFAULT_LIMIT, true);
   }, [offset, hasMore, isLoadingMore, isRefreshing, load]);
 
   useEffect(() => {
-    load(0, false);
-  }, [selectedBip]);
+    load(0, false, initialLimit);
+  }, [selectedBip, initialLimit, load]);
 
   return {
     articles,
@@ -69,6 +73,7 @@ export function useArticles(categoryId?: string) {
     isRefreshing,
     isLoadingMore,
     hasMore,
+    error,
     refresh,
     loadMore,
   };

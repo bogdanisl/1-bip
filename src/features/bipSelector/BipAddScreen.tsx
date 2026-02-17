@@ -18,8 +18,8 @@ import { styles } from '@/assets/styles/select_style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { Bip } from '@/src/types/Bip';
-import { updateAllData } from '@/src/storage/updateData';
-import { storage } from '@/src/storage/asyncStorage';
+import { updateAllData } from '@/src/services/storage/updateData';
+import { storage } from '@/src/services/storage/asyncStorage';
 
 
 

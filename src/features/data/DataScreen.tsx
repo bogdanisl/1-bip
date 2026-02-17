@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,8 +16,8 @@ import { Br } from '@/src/components/Br';
 import { OfficeData } from '@/src/types/OfficeData';
 import { officeDataExample } from '@/src/constants/data_example';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
-import { storage } from '@/src/storage/asyncStorage';
-import { fetchOfficeData } from '@/src/services/api/data';
+import { storage } from '@/src/services/storage/asyncStorage';
+import { apiRequest } from '@/src/services/api/client';
 
 
 
@@ -56,7 +56,7 @@ const DataScreen = () => {
       if (!data) {
         try {
           if (selectedBip.url == '' || selectedBip.url == null) return;
-          const fetched = await fetchOfficeData(selectedBip.url);
+          const fetched = await apiRequest<OfficeData>('/api/v1/data');
           if (!fetched) return;
           setOfficeData(fetched);
           await storage.set<OfficeData>(`${selectedBip.id}/officeData`, fetched);

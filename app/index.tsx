@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import { useTranslation } from 'react-i18next';
 import '../i18n'
-import { updateAllData, updateData } from '@/src/storage/updateData';
+import { updateAllData } from '@/src/services/storage/updateData';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import * as Notifications from 'expo-notifications';
 

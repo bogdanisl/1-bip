@@ -14,7 +14,7 @@ import { getFileIcon } from '@/src/utils/attachement';
 import { Br } from '@/src/components/Br';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { showMessage } from 'react-native-flash-message';
-import { storage } from '@/src/storage/asyncStorage';
+import { storage } from '@/src/services/storage/asyncStorage';
 
 
 export default function DocumentsScreen() {
@@ -48,7 +48,7 @@ export default function DocumentsScreen() {
         setAttachments([]);
         return;
       }
-      const saved_files = await storage.get<Document[]>(`${selectedBip.id}/downloads`);
+      const saved_files = await storage.get<Document[]>(`${selectedBip.id}/documents`);
       if (!saved_files) {
         setAttachments([]);
         return;

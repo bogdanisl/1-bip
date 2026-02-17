@@ -7,12 +7,11 @@ import { Colors } from '@/src/constants/theme';
 import { useLocalSearchParams } from 'expo-router';
 import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
-import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useTranslation } from 'react-i18next';
 import { Employee } from '@/src/types/Employee';
-import { storage } from '@/src/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import FileItem from '@/src/components/buttons/ItemButton';
+import { storage } from '@/src/services/storage/asyncStorage';
 
 export default function EmployeeScreen() {
     const colorScheme = useColorScheme();

@@ -7,9 +7,9 @@ import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import { useEffect, useState } from 'react';
 import { Section } from '@/src/types/Category';
-import { fetchSections } from '@/src/services/api/categories';
 import SectionCard from '@/src/features/categories/components/SectionCard';
-import ActivityIndicator from '@/src/components/ActivityIndicator';
+import { apiRequest } from '@/src/services/api/client';
+import { Skeleton } from '@/src/components/skeleton';
 
 const CategoriesScreen = () => {
   const { t } = useTranslation();
@@ -22,14 +22,16 @@ const CategoriesScreen = () => {
 
   useEffect(() => {
     const getSections = async () => {
-      const sections = await fetchSections(0, 20, 'https://www.dev.bip.av1.pl')
-      if (!sections || sections.length == 0) {
-        return;
+      try {
+        const sections = await apiRequest<Section[]>('/api/v1/category/list');
+        if (!sections) return;
+        setSections(sections);
       }
-      setSections(sections);
-      setIsLoading(false);
+      catch (err: any) {
+      }
     }
     getSections();
+      //.finally(() => setIsLoading(false));
   }, [])
 
   const searchText = params?.q?.toLowerCase() || "";
@@ -63,12 +65,18 @@ const CategoriesScreen = () => {
       onEndReachedThreshold={0.3}
       ListEmptyComponent={
         isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', minHeight: '80%' }}>
-            <ActivityIndicator size={50} width={100} height={100} />
+          <View style={{ gap:12 }}>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
+            <Skeleton borderRadius={15} width={'100%'} height={80} theme={theme}/>
           </View>
         ) : (
           <View style={{ padding: 20, alignItems: 'center' }}>
-            <Text style={{ color: theme.text }}>{t('empty_list')}</Text>
+            <Text style={{ color: theme.text, fontSize:15, fontWeight:'600' }}>{t('empty_category_list')}</Text>
           </View>
         )
       }

@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/src/constants/theme';
-import { OpenHours, OpenHoursDTO } from '@/src/types/OpenHours';
-import { fetchOpenHours } from '@/src/services/api/data';
-import { storage } from '@/src/storage/asyncStorage';
+import { OpenHoursDTO } from '@/src/types/OpenHours';
+import { storage } from '@/src/services/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
 import { openHoursExample } from '@/src/constants/data_example';
@@ -178,7 +177,7 @@ const OpeningHoursCard = () => {
                     styles.row,
                     {
                       backgroundColor: theme.background,
-                      shadowColor:'#000',
+                      shadowColor: '#000',
                       shadowOpacity: 0,
                       shadowRadius: 6,
                       shadowOffset: { width: 0, height: 2 },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, useColorScheme, Dimensions, TouchableOpacity } from 'react-native';
 import { useArticles } from '@/src/hooks/use-articles';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
@@ -11,17 +11,14 @@ import { useSharedValue } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
 
 export default function HomeArticles() {
-    const selectedBip = useSelectedBipStore((s) => s.selectedBip);
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
     const width = Dimensions.get('window').width;
     const ref = React.useRef<ICarouselInstance>(null);
 
     const { t } = useTranslation();
+    const { articles, isLoading } = useArticles({ initialLimit: 5 });
 
-    const { articles, isLoading } = useArticles();
-    // Take only the first 3 articles
-    const topArticles = articles.slice(0, 5);
     const progress = useSharedValue<number>(0);
 
     const onPressPagination = (index: number) => {
@@ -31,7 +28,7 @@ export default function HomeArticles() {
         });
     };
 
-    if (!isLoading && topArticles.length === 0) {
+    if (!isLoading && articles.length === 0) {
         return (
             <View style={{ marginVertical: 16 }}>
                 <ArticleCardPreloader />
@@ -64,20 +61,20 @@ export default function HomeArticles() {
             {/* Carousel */}
             <Pagination.Basic
                 progress={progress}
-                data={topArticles}
+                data={articles}
                 dotStyle={{ backgroundColor: theme.border, borderRadius: 50 }}
                 containerStyle={{ gap: 5 }}
                 activeDotStyle={{ backgroundColor: theme.tint }}
                 onPress={onPressPagination}
             />
             {
-                (isLoading && topArticles.length === 0) ? (
+                (isLoading && articles.length === 0) ? (
                     <ArticleCardPreloader />
                 ) : (
                     <Carousel
                         ref={ref}
                         width={width}
-                        data={topArticles}
+                        data={articles}
                         height={230} // slightly taller to fit full ArticleCard
                         loop
                         autoPlay
@@ -89,7 +86,7 @@ export default function HomeArticles() {
                         onProgressChange={(offsetProgress, absoluteProgress) => {
                             progress.value = absoluteProgress;
                         }}
-                        onConfigurePanGesture={(pan)=>
+                        onConfigurePanGesture={(pan) =>
                             pan.activeOffsetX([-12, 12])
                         }
                         renderItem={({ item }) => (

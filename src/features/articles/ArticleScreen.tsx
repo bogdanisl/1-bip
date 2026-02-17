@@ -2,8 +2,6 @@ import { Skeleton } from '@/src/components/skeleton';
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
-import { Article } from '@/src/types/Article';
-import { fetchArticle } from '@/src/services/api/articles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useLocalSearchParams } from 'expo-router';
@@ -18,6 +16,7 @@ import { CaseDataSection } from './components/ArticleCaseData';
 import { ArticleContent } from './components/ArticleContent';
 import { AttachmentsList } from './components/AttachmentList';
 import { MatrykaSection } from './components/MetricSection';
+import { useArticle } from '@/src/hooks/use-article';
 
 export default function ArticleScreen() {
   const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
@@ -25,8 +24,8 @@ export default function ArticleScreen() {
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const { slug } = useLocalSearchParams<{ slug: string }>();
-  const [article, setArticle] = useState<Article | null>(null);
-  const [loading, setLoading] = useState(true);
+
+  const { article, isLoading } = useArticle({ id: Number(slug) });
   const [isMatrykaOpen, setIsMatrykaOpen] = useState(false);
 
 
@@ -50,24 +49,7 @@ export default function ArticleScreen() {
     }
   };
 
-  const getArticle = async () => {
-    setLoading(true);
-    const fetchedArticle = await fetchArticle(Number(slug), selectedBip ? selectedBip.url : 'example');
-    setLoading(false);
-    if (fetchedArticle) {
-      setArticle(fetchedArticle);
-    } else {
-      setArticle(null);
-    }
-  };
-
-  useEffect(() => {
-    getArticle();
-
-  }, []);
-
-
-  if (!article && loading) {
+  if (!article && isLoading) {
     return (
       <View style={{ padding: 16, paddingTop: Platform.OS == 'android' ? 20 : 130 }}>
         <Skeleton theme={theme} width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} />

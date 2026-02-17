@@ -1,14 +1,10 @@
 import FileItem from "@/src/components/buttons/ItemButton";
 import ContactForm from "@/src/features/tabs/contact/components/contactForm";
-import { officeDataExample } from "@/src/constants/data_example";
-import { Colors, hexToRgba } from "@/src/constants/theme";
+import { Colors } from "@/src/constants/theme";
 import { useColorScheme } from "@/src/hooks/use-color-scheme.web";
 import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
-import { MapParams, OfficeData } from "@/src/types/OfficeData";
-import { fetchOfficeData } from "@/src/services/api/data";
-import { storage } from "@/src/storage/asyncStorage";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
     Image,

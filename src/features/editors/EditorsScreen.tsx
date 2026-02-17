@@ -9,7 +9,7 @@ import { exampleEmployees } from '@/src/constants/data_example';
 import { router, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
-import { storage } from '@/src/storage/asyncStorage';
+import { storage } from '@/src/services/storage/asyncStorage';
 
 export default function EmployeesPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
