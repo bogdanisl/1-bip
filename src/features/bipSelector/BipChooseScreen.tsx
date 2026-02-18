@@ -49,7 +49,6 @@ export default function BipFindScreen() {
     const [isSearching, setIsSearching] = useState(false);
     const [isSearchingLocation, setIsSearchingLocation] = useState(false);
 
-
     const inputRefs = useRef<(TextInput | null)[]>([]);
 
     const shake = useSharedValue(0);
@@ -93,7 +92,7 @@ export default function BipFindScreen() {
         }
     };
 
-    const triggerError = (message:string) => {
+    const triggerError = (message: string) => {
         setError(message);
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
 
@@ -114,27 +113,37 @@ export default function BipFindScreen() {
         const postalCode = digits.join('');
         setIsSearching(true);
 
-        await new Promise(r => setTimeout(r, 1200));
+        try {
+            const res = await fetch(`https://api.voyager.am1.pl/bip/${postalCode}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        const results = FAKE_CITIES.filter(c => c.code.startsWith(postalCode));
-        setIsSearching(false);
-
-        if (results.length === 0) {
-            triggerError(t('no_cities_found_for_code'))
-            return;
+            if (!res) {
+                triggerError(t('no_cities_found_for_code'));
+                return;
+            }
+            const data = await res.json();
+            const bips = data.data;
+            if (bips.length < 1) {
+                triggerError(t('no_cities_found_for_code'));
+                return;
+            }
+            setError('');
+            router.push({
+                pathname: '../selector/select',
+                params: { cities: JSON.stringify(bips) },
+            });
         }
-
-        // Navigate using Expo Router
-        router.push({
-            pathname: '../../settings/BipSelect/select',
-            params: { cities: JSON.stringify(results) },
-        });
+        catch (err) {
+            triggerError(t('no_cities_found_for_code'));
+        }
+        finally {
+            setIsSearching(false);
+        }
     };
 
-
-    const handleSkip = () => {
-        router.replace('./../'); // go with empty list
-    };
 
     const handleUseLocation = async () => {
         setIsSearchingLocation(true);
@@ -182,7 +191,7 @@ export default function BipFindScreen() {
             }
         } catch (error) {
             setError(t('cant_find_postal_code'));
-            
+
         }
         finally {
             setTimeout(() => {

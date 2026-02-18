@@ -21,6 +21,8 @@ const BipSelectorScreen = () => {
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
+    const setSelectedBip = useSelectedBipStore((s) => s.setSelectedBip);
+
     const [savedBips, setSavedBips] = useState<Bip[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -46,7 +48,7 @@ const BipSelectorScreen = () => {
 
     const handleSelectBip = async (bip: Bip) => {
         try {
-            useSelectedBipStore.getState().setSelectedBip(bip);
+            setSelectedBip(bip);
             router.back();
         } catch (error) {
             console.error('Failed to save BIP city:', error);
@@ -88,7 +90,7 @@ const BipSelectorScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 20,paddingTop:40 }}
+                contentContainerStyle={{ paddingBottom: 20, paddingTop: 40 }}
             />
         </SafeAreaView>
     );

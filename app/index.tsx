@@ -66,6 +66,6 @@ export default function App() {
   return hasBip ? (
     <Redirect href="/(tabs)/home" />
   ) : (
-    <Redirect href="/settings/BipSelect" />   // or BipSelect if you prefer
+    <Redirect href="/(preview)/about" /> 
   );
 }

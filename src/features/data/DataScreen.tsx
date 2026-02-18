@@ -37,7 +37,7 @@ const DataScreen = () => {
   const handleCopy = async (content: string) => {
     await Clipboard.setStringAsync(content);
     showMessage({
-      message: t('code_copied'), 
+      message: t('code_copied'),
       description: t('code_copied_desc'),
       type: 'success',
       icon: 'success',
@@ -52,6 +52,7 @@ const DataScreen = () => {
         setOfficeData(officeDataExample);
         return;
       }
+      console.log('test');
       const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
       if (!data) {
         try {

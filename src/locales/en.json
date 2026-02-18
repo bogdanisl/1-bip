@@ -146,5 +146,11 @@
     "surname": "Surname",
     "contact_us": "Contact us",
     "contact_us_desc": "Select the best option for you to contact us",
-    "contact_form":"Contact form"
+    "contact_form": "Contact form",
+    "cancel": "Odwołaj",
+    "change_bip_title": "Uwaga",
+    "change_bip_message": "Zmiana połączonych BIP'ów powoduję usunięcię obecnych połączeń. Czy na pewno chcesz kontynuować?",
+    "access_declaration": "Deklaracja dostępności",
+    "privacy_policy": "Polityka prywatności",
+    "statute": "Regulamin"
 }

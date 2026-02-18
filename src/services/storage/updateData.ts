@@ -7,7 +7,7 @@ import { storage } from "./asyncStorage";
 import { apiRequest } from "../api/client";
 
 export async function updateData(bip: Bip) {
-    const hours = await apiRequest<OpenHours[]>('/api/v1/hour');
+    const hours = await apiRequest<OpenHours[]>('/api/v1/hour', {}, bip);
     if (hours && hours.length > 0) {
         const hoursTransfered: OpenHoursDTO[] = [];
         hours.map(h => {
@@ -33,25 +33,26 @@ export async function updateData(bip: Bip) {
         storage.set<OpenHoursDTO[]>(`${bip.id}/hours`, hoursTransfered);
     }
 
-    const employees = await apiRequest<Employee[]>('/api/v1/employee/list');
+    const employees = await apiRequest<Employee[]>('/api/v1/employee/list', {}, bip);
     if (employees) {
         storage.remove(`${bip.id}/employees`);
         storage.set<Employee[]>(`${bip.id}/employees`, employees)
     }
 
-    const publishers = await apiRequest<Employee[]>('/api/v1/publisher/list');
+    const publishers = await apiRequest<Employee[]>('/api/v1/publisher/list', {}, bip);
     if (publishers) {
         storage.remove(`${bip.id}/editors`);
         storage.set<Employee[]>(`${bip.id}/editors`, publishers)
     }
 
-    const officeData = await apiRequest<OfficeData>('/api/v1/data')
+    const officeData = await apiRequest<OfficeData>('/api/v1/data', {}, bip)
+    //console.log(officeData);
     if (officeData) {
         storage.remove(`${bip.id}/officeData`);
         storage.set<OfficeData>(`${bip.id}/officeData`, officeData)
     }
 
-    const documents = await apiRequest<Document[]>('/api/v1/document/list')
+    const documents = await apiRequest<Document[]>('/api/v1/document/list', {}, bip)
     if (documents) {
         storage.remove(`${bip.id}/documents`)
         storage.set<Document[]>(`${bip.id}/documents`, documents);
@@ -59,7 +60,7 @@ export async function updateData(bip: Bip) {
 }
 
 export async function updateAllData() {
-    console.log('update data');
+    //console.log('update data');
     const saved = await storage.get<Bip[]>(`selectedBipCities`);
     if (saved) {
         for (const bip of saved) {

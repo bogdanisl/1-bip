@@ -53,9 +53,9 @@ export default function ProfileLayout() {
         }} />
 
 
-      <Stack.Screen name="BipSelect/index" options={{ title: t('color_theme'), headerShown: false, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
+      {/* <Stack.Screen name="BipSelect/index" options={{ title: t('color_theme'), headerShown: false, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
       <Stack.Screen name="BipSelect/select" options={{ title: t(''), headerShown: true, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
-      {/* <Stack.Screen name="subpage" options={{ title: 'Подстраница Konto' }} /> */}
+      <Stack.Screen name="subpage" options={{ title: 'Подстраница Konto' }} /> */}
     </Stack>
   );
 }

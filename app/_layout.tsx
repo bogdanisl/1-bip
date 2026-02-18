@@ -19,6 +19,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(preview)" options={{ headerShown: false }} />
           {/* Добавьте другие экраны вне табов, если нужно, напр. модальные */}
         </Stack>
       </GestureHandlerRootView>

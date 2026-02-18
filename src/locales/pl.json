@@ -161,5 +161,11 @@
   "error_sending_desc": "Nie udało się wysłać wiadomości. Proszę spróbować później.",
   "contact_us": "Skontaktuj się z nami",
   "contact_us_desc": "Wybierz najwygodniejszą dla siebie formę kontaktu",
-  "contact_form": "Formularz kontaktowy"
+  "contact_form": "Formularz kontaktowy",
+  "cancel": "Odwołaj",
+  "change_bip_title": "Uwaga",
+  "change_bip_message": "Zmiana połączonych BIP'ów powoduję usunięcię obecnych połączeń. Czy na pewno chcesz kontynuować?",
+  "access_declaration": "Deklaracja dostępności",
+  "privacy_policy": "Polityka prywatności",
+  "statute": "Regulamin"
 }

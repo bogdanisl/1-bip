@@ -10,9 +10,7 @@ import { Platform, useColorScheme } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const themeColors = colorScheme == 'dark'? Colors.dark:Colors.light
   const { t } = useTranslation()
-  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   return (
     (Platform.OS=='android')?(
@@ -29,15 +27,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: selectedBip?t('home_tab'):t('demo'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name={selectedBip?"home":'bolt'} color={color} />,
+          title: t('about'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name={'info'} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="recent"
+        name="instruction"
         options={{
-          title: t('recents'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name='clock-o' color={color} />,
+          title: t('instruction'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name='file' color={color} />,
         }}
       />
       <Tabs.Screen
@@ -48,31 +46,31 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="selector"
 
         options={{
-          title: t('settings'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color} />,
+          title: t('select'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name='sign-in' color={color} />,
         }}
       />
     </Tabs>
     ):(
       <NativeTabs tintColor={'#b50315'} disableTransparentOnScrollEdge>
-      <NativeTabs.Trigger name="home">
-        <Label>{selectedBip?t('home_tab'):t('demo')}</Label>
-        <Icon  sf={{ default:selectedBip?'house':'bolt',selected:selectedBip?'house.fill':'bolt.fill'}}drawable="ic_house" />
+      <NativeTabs.Trigger name="about">
+        <Label>{t('O Aplikacji')}</Label>
+        <Icon  sf={{ default:'info.square',selected:'info.square.fill'}}drawable="ic_house" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="recent">
-        <Label>{t('recents')}</Label>
-        <Icon  sf={{ default:'clock',selected:'clock.fill'}}drawable="ic_house" />
-      </NativeTabs.Trigger>
+      {/* <NativeTabs.Trigger name="instruction">
+        <Label>{t('Instrukcja')}</Label>
+        <Icon  sf={{ default:'book',selected:'book.fill'}}drawable="ic_house" />
+      </NativeTabs.Trigger> */}
           <NativeTabs.Trigger name="contact">
         <Label>{t('contact')}</Label>
         <Icon sf={{ default:'phone',selected:'phone.fill'}} drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name={"settings"}>
-        <Icon sf={{ default:'gearshape',selected:'gearshape.fill'}} drawable="custom_settings_drawable" />
-        <Label>{t('settings')}</Label>
+      <NativeTabs.Trigger name={"selector"}>
+        <Icon sf={{ default:'building.columns',selected:'building.columns.fill'}} drawable="custom_settings_drawable" />
+        <Label>{t('Wybierz BIP')}</Label>
       </NativeTabs.Trigger>
 
     </NativeTabs>)

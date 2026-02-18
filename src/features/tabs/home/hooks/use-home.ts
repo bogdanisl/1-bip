@@ -45,6 +45,20 @@ export function useHome() {
   }, []);
 
   // === Load office data
+  useEffect(() => {
+    const loadData = async () => {
+      if (!selectedBip) {
+        setOfficeData(officeDataExample);
+        return;
+      }
+
+      const data = await storage.get<OfficeData>(`${selectedBip.id}/officeData`);
+      setOfficeData(data || null);
+    };
+
+    loadData();
+  }, [selectedBip]);
+
   const loadOfficeData = useCallback(async () => {
     if (!selectedBip) {
       setOfficeData(officeDataExample);

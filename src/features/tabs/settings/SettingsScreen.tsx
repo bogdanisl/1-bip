@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
 import {
+  Alert,
   Platform,
   ScrollView,
   StyleSheet,
@@ -18,8 +19,7 @@ const SettingsScreen = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
-  const [userName, setUserName] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+
   React.useEffect(() => {
     if (Platform.OS === 'ios') {
       Notifications.requestPermissionsAsync({
@@ -30,6 +30,28 @@ const SettingsScreen = () => {
     }
   }, []);
 
+  const handleChangeBip = async () => {
+    Alert.alert(
+      t('change_bip_title'),
+      t('change_bip_message'),
+      [
+        {
+          text: t('cancel'),
+          style: 'cancel',
+        },
+        {
+          text: t('continue'),
+          style: 'destructive',
+          onPress: () => {
+            router.replace('/(preview)/selector');
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+    //router.replace('/(preview)/selector');
+  }
+
   return (
     <ScrollView contentInsetAdjustmentBehavior='always' contentContainerStyle={styles.scrollContent}>
 
@@ -37,7 +59,7 @@ const SettingsScreen = () => {
         <ListButton
           icon='feed'
           label={t('change_bip_connection')}
-          onPress={() => router.replace('/(tabs)/settings/BipSelect')}
+          onPress={handleChangeBip}
         />
       </View>
 
@@ -53,6 +75,23 @@ const SettingsScreen = () => {
           label={t('color_theme')}
           onPress={() => router.push('/(tabs)/settings/themePage')}
           isLast
+        />
+      </View>
+      <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>
+        <ListButton
+          icon="gavel"
+          label={t('access_declaration')}
+          onPress={() => router.push('/(tabs)/settings/language')}
+        />
+        <ListButton
+          icon='shield'
+          label={t('privacy_policy')}
+          onPress={() => router.push('/(tabs)/settings/language')}
+        />
+        <ListButton
+          icon='file-text'
+          label={t('statute')}
+          onPress={() => router.push('/(tabs)/settings/language')}
         />
       </View>
       <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>
