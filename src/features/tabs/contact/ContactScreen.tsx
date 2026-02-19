@@ -93,39 +93,50 @@ const ContactScreen = () => {
                                 {
                                     <View style={{
                                         backgroundColor: themeColors.background_2,
-                                        
-                                        height: 250, 
-                                        marginTop: 0, 
-                                        padding: 15, 
-                                        paddingTop: 5, 
-                                        borderRadius: 15, 
-                                        elevation:3,
+
+                                        height: 250,
+                                        marginTop: 0,
+                                        padding: 15,
+                                        paddingTop: 5,
+                                        borderRadius: 15,
+
+                                        elevation: 3,
                                         borderTopLeftRadius: 0, borderTopRightRadius: 0
                                     }}>
-                                        <MapView
-                                            key={`${mapParams}`}
-                                            userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
-                                            style={[styles.map, { borderRadius: 12 }]}
-                                            scrollEnabled={false}
-                                            rotateEnabled={false}
-                                            initialRegion={{
-                                                latitude: mapParams?.lat || 50.4933467,
-                                                longitude: mapParams?.lng || 19.4179735,
-                                                latitudeDelta: 0.005,
-                                                longitudeDelta: 0.005,
-                                            }}
-
-                                        >
-                                            <Marker
-                                                coordinate={{
-                                                    latitude: mapParams?.lat ?? 50.4933467,
-                                                    longitude: mapParams?.lng ?? 19.4179835,
+                                        <View
+                                        style={{
+                                            width:'100%',
+                                            height:'100%',
+                                            borderRadius:15,
+                                            backgroundColor:'red',
+                                            overflow:'hidden'
+                                        }}>
+                                            <MapView
+                                                key={`${mapParams}`}
+                                                userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
+                                                style={[styles.map]}
+                                                scrollEnabled={false}
+                                                rotateEnabled={false}
+                                                region={{
+                                                    latitude: mapParams?.lat || 50.4933467,
+                                                    longitude: mapParams?.lng || 19.4179735,
+                                                    latitudeDelta: 0.005,
+                                                    longitudeDelta: 0.005,
                                                 }}
-                                                title="ALPANET"
-                                                description="Polskie Systemy Internetowe"
-                                            />
-                                        </MapView>
 
+
+                                            >
+                                                <Marker
+                                                    coordinate={{
+                                                        latitude: mapParams?.lat ?? 50.4933467,
+                                                        longitude: mapParams?.lng ?? 19.4179835,
+                                                    }}
+                                                    title="ALPANET"
+                                                    description="Polskie Systemy Internetowe"
+                                                />
+                                            </MapView>
+
+                                        </View>
                                     </View>
                                 }
                             </View>

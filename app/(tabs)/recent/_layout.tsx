@@ -24,12 +24,14 @@ export default function RecentLayout() {
           headerTitleStyle: { color: themeColors.text },
           headerStyle: {
             backgroundColor: Platform.OS == 'ios'
-              ? "transparent"
+              ? 'transparent'
               : themeColors.background_2,
           },
-          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
-
-          headerLargeTitle: true,
+          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
+          headerLargeStyle: {
+            backgroundColor: 'transparent'
+          },
+          headerLargeTitleShadowVisible: false, headerLargeTitle: true,
           title: t('recents'),
           headerTitle: () => Platform.OS == 'android' ?
             <Text style={{ color: themeColors.text, fontSize: 24 }}>

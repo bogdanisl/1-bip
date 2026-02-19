@@ -54,9 +54,9 @@ export const PreviewHeader = ({ onSearchPress }: any) => {
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom:30 }}>
                 <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1, textAlign:'center' }}>
-                    {`Witamy w 1BIP.PL`}
+                    {t('welcome_screen.title')}
                     <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
-                        {`\nSzybki dostęp do Biuletynów Informacji Publicznej. Wszystkie urzędy w jednej aplikacji.`}
+                        {t('welcome_screen.desc')}
                     </Text>
                 </Text>
             </View>

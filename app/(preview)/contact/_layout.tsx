@@ -23,8 +23,11 @@ export default function PreviewContactLayout() {
             ? "transparent"
             : themeColors.background_2,
         },
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
-
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
+        headerLargeStyle: {
+          backgroundColor: 'transparent'
+        },
+        headerLargeTitleShadowVisible: false,
         headerLargeTitle: true,
         title: t('contact'),
         headerTitle: () => Platform.OS == 'android' ?

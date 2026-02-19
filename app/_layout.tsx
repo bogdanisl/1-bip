@@ -17,9 +17,9 @@ export default function RootLayout() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* <Header currentRouteName={''} handlePresentModalPress={() => { } } handleSheetChanges={()=>{}}/>; */}
         <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(preview)" options={{ headerShown: false }} />
+          <Stack.Screen name="index" options={{ headerShown: false, animation: 'none' }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: 'fade' }} />
+          <Stack.Screen name="(preview)" options={{ headerShown: false, animation: 'fade' }} />
           {/* Добавьте другие экраны вне табов, если нужно, напр. модальные */}
         </Stack>
       </GestureHandlerRootView>

@@ -66,7 +66,7 @@
     "see_all": "See all",
     "find": "Find",
     "enter_postal_code": "Enter postal code",
-    "enter_postal_code_subtext": "Enter postal code of city, which BIP you want to connect.",
+    "enter_postal_code_subtext": "Enter postal code of city\nwhich BIP you want to connect.",
     "continue_without_connect": "Continue without connect",
     "select_bip": "Select BIP",
     "select_bip_desc": "Select BIP wich you want to connect with application. You can change it anytime in settings",
@@ -147,10 +147,30 @@
     "contact_us": "Contact us",
     "contact_us_desc": "Select the best option for you to contact us",
     "contact_form": "Contact form",
-    "cancel": "Odwołaj",
-    "change_bip_title": "Uwaga",
-    "change_bip_message": "Zmiana połączonych BIP'ów powoduję usunięcię obecnych połączeń. Czy na pewno chcesz kontynuować?",
-    "access_declaration": "Deklaracja dostępności",
-    "privacy_policy": "Polityka prywatności",
-    "statute": "Regulamin"
+    "cancel": "Cancel",
+    "change_bip_title": "Attention",
+    "change_bip_message": "Changing connected BIP's will remove all yours current connections. Are you sure you want to continue?",
+    "access_declaration": "Access declaration",
+    "privacy_policy": "Privacy policy",
+    "statute": "Terms",
+    "about_app": "About app",
+    "welcome_screen": {
+        "title": "Welcome in 1BIP.pl",
+        "desc": "\nQuick access to Public Information Bulletins. All offices in one app.",
+        "get_started": "Get started",
+        "features": {
+            "central_access": {
+                "title": "Central Access",
+                "desc": "Browse information from multiple administrative units in one place. Connect accounts from different offices."
+            },
+            "official_info": {
+                "title": "Official Information",
+                "desc": "Browse official information from multiple administrative units in one place. Connect accounts from different offices."
+            },
+            "current_documents": {
+                "title": "Current Documents",
+                "desc": "Track the latest resolutions and announcements directly in the app. Get instant access to current decisions made by offices."
+            }
+        }
+    }
 }

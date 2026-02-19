@@ -38,11 +38,7 @@ export default function HomeLayout() {
                 ? "transparent"
                 : themeColors.background_2,
           },
-          headerBlurEffect: isLiquidGlassAvailable()
-            ? undefined
-            : colorScheme === "dark"
-              ? "dark"
-              : "light",
+          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         }}
       />
       <Stack.Screen name="bipSelector"

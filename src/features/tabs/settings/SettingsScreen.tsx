@@ -14,11 +14,14 @@ import {
   useColorScheme,
   View
 } from 'react-native';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 const SettingsScreen = () => {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const selectedBip = useSelectedBipStore((s) => s.selectedBip);
+  const link = selectedBip? '/(tabs)/settings':'/(preview)/settings'
 
   React.useEffect(() => {
     if (Platform.OS === 'ios') {
@@ -55,25 +58,27 @@ const SettingsScreen = () => {
   return (
     <ScrollView contentInsetAdjustmentBehavior='always' contentContainerStyle={styles.scrollContent}>
 
-      <View style={[styles.block, { backgroundColor: themeColors.background_2 }]}>
-        <ListButton
-          icon='feed'
-          label={t('change_bip_connection')}
-          onPress={handleChangeBip}
-        />
-      </View>
+      {selectedBip &&
+        <View style={[styles.block, { backgroundColor: themeColors.background_2, marginBottom:30 }]}>
+          <ListButton
+            icon='feed'
+            label={t('change_bip_connection')}
+            onPress={handleChangeBip}
+          />
+        </View>
+      }
 
       {/* Language & Theme */}
-      <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>
+      <View style={[styles.block, { backgroundColor: themeColors.background_2 }]}>
         <ListButton
           icon="language"
           label={t('language')}
-          onPress={() => router.push('/(tabs)/settings/language')}
+          onPress={() => router.push('./settings/language')}
         />
         <ListButton
           icon="adjust"
           label={t('color_theme')}
-          onPress={() => router.push('/(tabs)/settings/themePage')}
+          onPress={() => router.push('./settings/themePage')}
           isLast
         />
       </View>
@@ -81,17 +86,17 @@ const SettingsScreen = () => {
         <ListButton
           icon="gavel"
           label={t('access_declaration')}
-          onPress={() => router.push('/(tabs)/settings/language')}
+          onPress={() => router.push('./settings/agreements/accessDeclaration')}
         />
         <ListButton
           icon='shield'
           label={t('privacy_policy')}
-          onPress={() => router.push('/(tabs)/settings/language')}
+          onPress={() => router.push('./settings/agreements/privacyPolicy')}
         />
         <ListButton
           icon='file-text'
           label={t('statute')}
-          onPress={() => router.push('/(tabs)/settings/language')}
+          onPress={() => router.push('./settings/agreements/statute')}
         />
       </View>
       <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>

@@ -12,7 +12,6 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const themeColors = colorScheme == 'dark'? Colors.dark:Colors.light
   const { t } = useTranslation()
-  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   return (
     (Platform.OS=='android')?(
@@ -29,8 +28,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: selectedBip?t('home_tab'):t('demo'),
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name={selectedBip?"home":'bolt'} color={color} />,
+          title: t('home_tab'),
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name={"home"} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -59,8 +58,8 @@ export default function TabLayout() {
     ):(
       <NativeTabs tintColor={'#b50315'} disableTransparentOnScrollEdge>
       <NativeTabs.Trigger name="home">
-        <Label>{selectedBip?t('home_tab'):t('demo')}</Label>
-        <Icon  sf={{ default:selectedBip?'house':'bolt',selected:selectedBip?'house.fill':'bolt.fill'}}drawable="ic_house" />
+        <Label>{t('home_tab')}</Label>
+        <Icon  sf={{ default:'house',selected:'house.fill'}}drawable="ic_house" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="recent">
         <Label>{t('recents')}</Label>

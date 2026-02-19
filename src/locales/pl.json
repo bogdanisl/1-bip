@@ -71,10 +71,10 @@
   },
   "find": "Znajdź",
   "enter_postal_code": "Podaj kod pocztowy",
-  "enter_postal_code_subtext": "Podaj kod miasta, którego BIP ma zostać połączony z aplikacją.",
+  "enter_postal_code_subtext": "Podaj kod miasta, którego BIP\nma zostać połączony z\u00A0aplikacją.",
   "continue_without_connect": "Kontynuj bez połączenia",
   "select_bip": "Wybierz BIP",
-  "select_bip_desc": "Wybierz z którym BIP'em chcesz połączyć aplikację. Zawsze będziesz mógł zmienić to w ustawieniach",
+  "select_bip_desc": "Wybierz z którym BIP'em chcesz połączyć aplikację. Zawsze będziesz mógł zmienić\u00A0to\u00A0w\u00A0ustawieniach",
   "continue": "Dalej",
   "save": "Zapisz",
   "back": "Powrót",
@@ -167,5 +167,25 @@
   "change_bip_message": "Zmiana połączonych BIP'ów powoduję usunięcię obecnych połączeń. Czy na pewno chcesz kontynuować?",
   "access_declaration": "Deklaracja dostępności",
   "privacy_policy": "Polityka prywatności",
-  "statute": "Regulamin"
+  "statute": "Regulamin",
+  "about_app": "O Aplikacji",
+  "welcome_screen": {
+    "title": "Witamy w 1BIP.pl",
+    "desc": "\nSzybki dostęp do Biuletynów Informacji Publicznej. Wszystkie urzędy w jednej aplikacji.",
+    "get_started": "Rozpocznij",
+    "features": {
+      "central_access": {
+        "title": "Centralny dostęp",
+        "desc": "Przeglądaj informacje z wielu jednostek administracyjnych w jednym miejscu. Połącz konta różnych urzędów."
+      },
+      "official_info": {
+        "title": "Informacje Urzędowe",
+        "desc": "Przeglądaj informacje z wielu jednostek administracyjnych w jednym miejscu. Połącz konta różnych urzędów."
+      },
+      "current_documents": {
+        "title": "Bieżące dokumenty",
+        "desc": "Śledź najnowsze uchwały i ogłoszenia bezpośrednio w aplikacji. Uzyskaj natychmiastowy wgląd w aktualne decyzje podejmowane przez urzędy."
+      }
+    }
+  }
 }

@@ -63,7 +63,9 @@ export default function SelectBipScreen() {
 
         // Navigate back to main screen (or home)
         await updateAllData();
-        router.replace('./../../'); // or router.replace('./../../') if you're deeper
+        router.replace('./../../', {
+
+        });
         setIsLoading(false);
         // Alternative: router.back() if you want simple back
     };
@@ -77,8 +79,8 @@ export default function SelectBipScreen() {
                     styles.cityItem,
                     {
                         backgroundColor: theme.background_2,
-                        borderColor: isSelected? theme.tint : theme.background_2,
-                        borderWidth: isSelected? 2 : 2
+                        borderColor: isSelected ? theme.tint : theme.background_2,
+                        borderWidth: isSelected ? 2 : 2
                     },
                 ]}
                 onPress={() => toggleCity(item.id)}
@@ -88,14 +90,19 @@ export default function SelectBipScreen() {
                 {/* <View style={[styles.checkbox, isSelected && styles.checkboxChecked]}>
                     {isSelected && <View style={styles.checkmark} />}
                 </View> */}
-                {isSelected ?
-                    <MaterialIcons name='check' size={26} color={theme.tint} />
-                    :
-                    <View style={{
-                        width: 26,
-                        height: 26,
-                    }} />
-                }
+                <View style={{
+                    backgroundColor: isSelected ? theme.tint : 'transparent',
+                    borderWidth: 1,
+                    borderColor: isSelected? theme.tint :theme.border,
+                    width: 28,
+                    height: 28,
+                    borderRadius: 5
+                }}>
+                    {isSelected &&
+                        <MaterialIcons name='check' size={26} color={'white'} />
+                    }
+                </View>
+
             </TouchableOpacity>
 
         );

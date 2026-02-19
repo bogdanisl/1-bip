@@ -22,17 +22,17 @@ export const useOfficeMap = () => {
         return;
       }
 
-      if (!selectedBip.url) return;
+      // if (!selectedBip.url) return;
 
-      try {
-        const fetched = await apiRequest<OfficeData>('/api/v1/data')
-        if (!fetched) return;
+      // try {
+      //   const fetched = await apiRequest<OfficeData>('/api/v1/data')
+      //   if (!fetched) return;
 
-        setMapParams(fetched.map ?? null);
-        await storage.set(cacheKey, fetched);
-      } catch (error) {
-        console.error("useOfficeMap error:", error);
-      }
+      //   setMapParams(fetched.map ?? null);
+      //   await storage.set(cacheKey, fetched);
+      // } catch (error) {
+      //   console.error("useOfficeMap error:", error);
+      // }
     };
 
     load();
