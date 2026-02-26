@@ -28,7 +28,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
     <View style={[
       styles.card,
       { backgroundColor: theme.background_2 },
-      isShort && { maxHeight: 240 }, // fixed-ish height range
+      isShort && { maxHeight: 240}, // fixed-ish height range
       style,
     ]}>
       {/* Header row */}

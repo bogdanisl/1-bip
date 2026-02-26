@@ -4,21 +4,21 @@
     "slug": "1bip-pl",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Logo.png",
+    "icon": "./assets/images/Logo_test.png",
     "scheme": "bip-mobilna-platforma-bip",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.alpanet.bip-platform",
-      "buildNumber": "11"
+      "buildNumber": "16"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/Logo.png",
-        "backgroundImage": "./assets/images/Logo.png",
-        "monochromeImage": "./assets/images/Logo.png"
+        "foregroundImage": "./assets/images/Logo_test.png",
+        "backgroundImage": "./assets/images/Logo_test.png",
+        "monochromeImage": "./assets/images/Logo_test.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -26,19 +26,19 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/Logo.png"
+      "favicon": "./assets/images/logo3.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/logo3.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
           "dark": {
-            "image": "./assets/images/splash-icon.png",
+            "image": "./assets/images/logo3.png",
             "backgroundColor": "#000000"
           }
         }

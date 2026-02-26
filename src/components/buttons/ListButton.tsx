@@ -53,7 +53,7 @@ export default function ListButton({
         <Text
           style={[
             styles.label,
-            { color: hexToRgba(themeColors.text, opacity) },
+            { color: hexToRgba(themeColors.text, opacity), marginLeft: icon ? 16 : 0 },
           ]}
         >
           {label}

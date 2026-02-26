@@ -128,7 +128,7 @@ export default function StatisticsScreen() {
                             <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
                             <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
                         </>
-                    ) : (articles.length < 5 ?
+                    ) : (articles.length < 1 ?
                         (
                             <Text
                                 style={{

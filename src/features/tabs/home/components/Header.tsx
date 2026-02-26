@@ -52,12 +52,12 @@ export const Header = ({ onSearchPress }: any) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 16,
+          marginBottom: 0,
           marginTop: insets.top + 310,
         }}
       >
         <View style={{ flexDirection: 'row', gap: 8 }}>
-          {savedBips?.length! > 1 && (
+          {savedBips?.length! > 1 ? (
             <TouchableOpacity
               onPress={() => router.push({ pathname: '/(tabs)/home/bipSelector' })}
               style={{
@@ -76,7 +76,12 @@ export const Header = ({ onSearchPress }: any) => {
               <Text style={{ color: 'white', fontSize: 15 }}>{t('change_bip')}</Text>
               <MaterialIcons name="swap-horiz" size={20} color="white" />
             </TouchableOpacity>
-          )}
+          ) :
+            (
+              <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginBottom: 0 }}>
+                {dateString}
+              </Text>
+            )}
         </View>
 
         <TouchableOpacity
@@ -97,14 +102,28 @@ export const Header = ({ onSearchPress }: any) => {
         </TouchableOpacity>
       </View>
 
-      <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginBottom: 0 }}>
-        {dateString}
-      </Text>
+      {savedBips?.length! > 1 &&
+        <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginTop: 15 }}>
+          {dateString}
+        </Text>
+      }
 
-      <Logo width={90} height={60} fill="white" style={{ marginVertical: 0 }} />
+      <View style={{
+        // flexDirection: 'row',
+       // alignItems:'center',
+      }}>
+        <Logo width={90} height={60} fill="white" style={{ marginVertical: 0 }} />
+        {/* <Image source={require('@/assets/images/logo3.png')}
+          style={{
+            width: 70,
+            height: 70
+          }}
+          resizeMode='contain'
+        /> */}
+      </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1 }}>
+        <Text style={{ fontSize: 22, fontWeight: '800', color: 'white', flex: 1, marginRight:10 }}>
           {officeData?.title.value || 'Brak danych.'}
           <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
             {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}

@@ -23,14 +23,12 @@ const LanguageScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={[styles.block, { backgroundColor: themeColors.background_2 }]}>
           <ListButton
-            icon="flag"
-            label="Polski"
+            label="🇵🇱 Polski"
             onPress={() => setLanguage('pl')}
             rightIcon={currentLang === 'pl' ? 'check' : 'won'}
           />
           <ListButton
-            icon="flag"
-            label="English"
+            label="🇬🇧 English"
             isLast
             onPress={() => setLanguage('en')}
             rightIcon={currentLang === 'en' ? 'check' : 'won'}

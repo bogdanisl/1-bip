@@ -28,7 +28,7 @@ export const PreviewHeader = ({ onSearchPress }: any) => {
             colors={['#b50315', '#20313b']}
             start={{ x: 0.2, y: 0.5 }}
             end={{ x: 1, y: 1.3 }}
-            style={{ marginTop: -300, paddingHorizontal: 20, paddingBottom: 20, alignItems: 'center', borderRadius:25 }}
+            style={{ marginTop: -300, paddingHorizontal: 20, paddingBottom: 20, alignItems: 'center', borderRadius: 25 }}
         >
             <Image
                 source={require('@/assets/images/shape.3.50.webp')}
@@ -50,10 +50,18 @@ export const PreviewHeader = ({ onSearchPress }: any) => {
                 }}
             />
 
-            <Logo width={140} height={90} fill="white" style={{ marginVertical: 20 }} />
+            {/* <Logo width={140} height={90} fill="white" style={{ marginVertical: 20 }} /> */}
+            <Image source={require('@/assets/images/logo3.png')}
+                style={{
+                    marginVertical: 20,
+                    width: 100,
+                    height: 100
+                }}
+                resizeMode='contain'
+            />
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom:30 }}>
-                <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1, textAlign:'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 30 }}>
+                <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1, textAlign: 'center' }}>
                     {t('welcome_screen.title')}
                     <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
                         {t('welcome_screen.desc')}

@@ -33,7 +33,7 @@ export const Colors = {
     tabIconSelected: tintColorDark,
     subText:'#a0a0a0ff',
     inactive:'#b5031565',
-    green:'#1DB954'
+    green:'#009116ff'
   },
 };
 

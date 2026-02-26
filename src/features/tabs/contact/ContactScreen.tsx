@@ -16,8 +16,8 @@ import {
 } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { createContactStyles } from "./ContactScreenStyles";
-import { useOfficeMap } from "./hooks/useOfficeMap";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
+import { useOfficeData } from "./hooks/useOfficeData";
 
 export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
     const url = Platform.select({
@@ -34,7 +34,8 @@ const ContactScreen = () => {
     const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const colorSheme = useColorScheme()
-    const mapParams = useOfficeMap();
+
+    const officeData = useOfficeData();
     const styles = useMemo(
         () => createContactStyles(themeColors),
         [themeColors]
@@ -44,7 +45,7 @@ const ContactScreen = () => {
         <View style={{ flex: 1 }}>
             <ScrollView style={{ flex: 1, backgroundColor: 'transparent' }}>
 
-                {selectedBip != null ? (
+                {selectedBip != null && officeData ? (
                     <>
                         <View style={[styles.section, { marginBottom: 20 }]}>
 
@@ -53,29 +54,35 @@ const ContactScreen = () => {
                             </Text>
                             <Text style={styles.sectionDesc}>{t('contact_us_desc')}</Text>
                             <View style={{ padding: 17, paddingLeft: 0 }}>
-                                <FileItem
-                                    name={"111 222 334"}
-                                    details="Telefon"
-                                    iconBackground={themeColors.background}
-                                    style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
-                                    leftIconName={"phone"}
-                                    rightIconName="call-made"
-                                    onPress={() => {
-                                        console.log(mapParams)
-                                    }}
-                                ></FileItem>
+                                {
+                                    officeData.phone?.value &&
+                                    <FileItem
+                                        name={officeData.phone.value}
+                                        details="Telefon"
+                                        iconBackground={themeColors.background}
+                                        style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
+                                        leftIconName={"phone"}
+                                        rightIconName="call-made"
+                                        onPress={() => {
+                                            Linking.openURL(`tel:${officeData.phone?.value}`)
+                                        }}
+                                    ></FileItem>
 
+                                }
+                                {officeData.email?.value &&
+                                    <FileItem
+                                        name={officeData.email?.value}
+                                        details="E-mail"
+                                        iconBackground={themeColors.background}
+                                        style={{ backgroundColor: themeColors.background_2, marginTop: 10 }}
+                                        leftIconName={"mail"}
+                                        rightIconName="message"
+                                        onPress={() => { Linking.openURL(`mailto:${officeData.email?.value}`); }}
+                                    ></FileItem>
+
+                                }
                                 <FileItem
-                                    name={"biuro@testowo.pl"}
-                                    details="E-mail"
-                                    iconBackground={themeColors.background}
-                                    style={{ backgroundColor: themeColors.background_2, marginTop: 10 }}
-                                    leftIconName={"mail"}
-                                    rightIconName="message"
-                                    onPress={() => { Linking.openURL(`mailto:biuro@testowo.pl`); }}
-                                ></FileItem>
-                                <FileItem
-                                    name={"Testowa 11A,\n42-400 Testowo"}
+                                    name={`${officeData.street?.value},\n${officeData.postalCode?.value}, ${officeData.city?.value}`}
                                     details="Adres"
                                     iconBackground={themeColors.background}
                                     style={{
@@ -87,7 +94,7 @@ const ContactScreen = () => {
                                     leftIconName={"location-on"}
                                     rightIconName={"open-in-new"}
                                     onPress={() => {
-                                        openNavigation(mapParams?.lat ?? 50.4933467, mapParams?.lng ?? 19.4179835, 'ALPANET');
+                                        openNavigation(officeData?.map?.lat ?? 50.4933467, officeData?.map?.lng ?? 19.4179835, 'ALPANET');
                                     }}
                                 ></FileItem>
                                 {
@@ -104,22 +111,22 @@ const ContactScreen = () => {
                                         borderTopLeftRadius: 0, borderTopRightRadius: 0
                                     }}>
                                         <View
-                                        style={{
-                                            width:'100%',
-                                            height:'100%',
-                                            borderRadius:15,
-                                            backgroundColor:'red',
-                                            overflow:'hidden'
-                                        }}>
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                borderRadius: 15,
+                                                backgroundColor: 'red',
+                                                overflow: 'hidden'
+                                            }}>
                                             <MapView
-                                                key={`${mapParams}`}
+                                                key={`${officeData?.map}`}
                                                 userInterfaceStyle={colorSheme == 'dark' ? 'dark' : 'light'}
                                                 style={[styles.map]}
                                                 scrollEnabled={false}
                                                 rotateEnabled={false}
                                                 region={{
-                                                    latitude: mapParams?.lat || 50.4933467,
-                                                    longitude: mapParams?.lng || 19.4179735,
+                                                    latitude: officeData?.map?.lat || 50.4933467,
+                                                    longitude: officeData?.map?.lng || 19.4179735,
                                                     latitudeDelta: 0.005,
                                                     longitudeDelta: 0.005,
                                                 }}
@@ -128,11 +135,11 @@ const ContactScreen = () => {
                                             >
                                                 <Marker
                                                     coordinate={{
-                                                        latitude: mapParams?.lat ?? 50.4933467,
-                                                        longitude: mapParams?.lng ?? 19.4179835,
+                                                        latitude: officeData?.map?.lat ?? 50.4933467,
+                                                        longitude: officeData?.map?.lng ?? 19.4179835,
                                                     }}
-                                                    title="ALPANET"
-                                                    description="Polskie Systemy Internetowe"
+                                                    title={officeData.title.value}
+
                                                 />
                                             </MapView>
 

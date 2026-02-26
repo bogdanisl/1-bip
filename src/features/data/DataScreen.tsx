@@ -52,7 +52,7 @@ const DataScreen = () => {
         setOfficeData(officeDataExample);
         return;
       }
-      console.log('test');
+      //console.log('test');
       const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
       if (!data) {
         try {
@@ -99,9 +99,9 @@ const DataScreen = () => {
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 32, paddingHorizontal: 20 }}
+        contentContainerStyle={{ paddingBottom: 32, paddingHorizontal: 20, paddingTop:10 }}
       >
-        <Text
+        {/* <Text
           style={{
             color: theme.text,
             fontSize: 15,
@@ -113,7 +113,7 @@ const DataScreen = () => {
           {officeData?.title.value ?? t('no_data')}
         </Text>
 
-        <Br />
+        <Br /> */}
 
         <View style={{ gap: 12 }}>
           {officeData?.name?.value && (

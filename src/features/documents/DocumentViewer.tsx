@@ -19,6 +19,7 @@ import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
 import { Colors } from '@/src/constants/theme';
 import { useTranslation } from 'react-i18next';
+import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 const SUPPORTED_PREVIEW_EXTENSIONS = [
   'pdf',
@@ -32,12 +33,13 @@ const SUPPORTED_PREVIEW_EXTENSIONS = [
 const DocumentViewerScreen = () => {
   const [isSharingLoading, setIsSharingLoading] = useState(false);
   const [fileSize, setFileSize] = useState<string | null>(null);
+  const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const router = useRouter();
   const { t } = useTranslation();
   const themeColors = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
   const { file_uri } = useLocalSearchParams<{ file_uri: string }>();
 
-  const fullUrl = `https://www.bip.alpanet.pl/dokumenty/${file_uri}`;
+  const fullUrl = `${selectedBip?.url}/dokumenty/${file_uri}`;
   const pdfUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(fullUrl)}`;
 
   const fileName = (file_uri?.split('/').pop() || 'file').split('?')[0];
@@ -48,7 +50,7 @@ const DocumentViewerScreen = () => {
   const handleShareAndSave = async () => {
     if (!file_uri) return;
     setIsSharingLoading(true);
-    const remoteUrl = `https://www.bip.alpanet.pl/dokumenty/${file_uri}`;
+    const remoteUrl = `${selectedBip?.url}/dokumenty/${file_uri}`;
     const fileName = (file_uri.split('/').pop() || 'document.pdf').split('?')[0];
     const localUri = new File(Paths.cache, fileName);
 
@@ -80,6 +82,7 @@ const DocumentViewerScreen = () => {
 
   useEffect(() => {
     if (!file_uri) router.back();
+    console.log(fullUrl)
   }, [file_uri]);
 
   if (!file_uri) return null;

@@ -109,14 +109,14 @@ export default function DocumentsScreen() {
   return (
 
     <Animated.FlatList
-      ListHeaderComponent={() =>
-        <>
-          <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 }}>
-            {('Dokumenty').toUpperCase()}
-          </Text>
-          <Br />
-        </>
-      }
+      // ListHeaderComponent={() =>
+      //   <>
+      //     <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 }}>
+      //       {('Dokumenty').toUpperCase()}
+      //     </Text>
+      //     <Br />
+      //   </>
+      // }
       style={{ padding: 20 }}
       data={filteredAttachments}
       itemLayoutAnimation={LinearTransition}

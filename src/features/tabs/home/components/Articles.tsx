@@ -66,6 +66,7 @@ export default function HomeArticles() {
                 containerStyle={{ gap: 5 }}
                 activeDotStyle={{ backgroundColor: theme.tint }}
                 onPress={onPressPagination}
+                
             />
             {
                 (isLoading && articles.length === 0) ? (
@@ -79,10 +80,10 @@ export default function HomeArticles() {
                         loop
                         autoPlay
                         autoPlayInterval={6000}
-                        style={{ marginHorizontal: -32 }}
+                        style={{ marginHorizontal: -32, marginTop: 5}}
                         pagingEnabled
                         mode='parallax'
-                        modeConfig={{ parallaxScrollingScale: 0.9, parallaxScrollingOffset: 50 }}
+                        modeConfig={{ parallaxScrollingScale: 1, parallaxAdjacentItemScale:0.8, parallaxScrollingOffset: 65 }}
                         onProgressChange={(offsetProgress, absoluteProgress) => {
                             progress.value = absoluteProgress;
                         }}
@@ -91,7 +92,7 @@ export default function HomeArticles() {
                         }
                         renderItem={({ item }) => (
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <ArticleCard variant='short' style={{ width: width, flex: 1 }} article={item} path={`/(tabs)/home/categories/${item.categoryId}/${item.id}` as RelativePathString} />
+                                <ArticleCard variant='short' style={{ width: width-32, flex: 1 }} article={item} path={`/(tabs)/home/categories/${item.categoryId}/${item.id}` as RelativePathString} />
                             </View>
                         )}
                     />

@@ -99,7 +99,7 @@ export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
           <MaterialIcons name={item.icon as any} size={36} color={theme.tint} />
           <View>
             <Text style={{ fontSize: 15, fontWeight: '700', color: theme.text, marginBottom: 4 }}>{item.title}</Text>
-            <Text style={{ fontSize: 12, color: theme.icon, lineHeight: 14 }}>{item.subtitle}</Text>
+            <Text style={{ fontSize: 12, color: theme.icon, lineHeight: 14, height:28 }}>{item.subtitle}</Text>
           </View>
         </TouchableOpacity>
       ))}

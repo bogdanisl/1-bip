@@ -43,7 +43,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
                         details={
                             `${att.fileSize
                                 ? `${t('size')}: ${formatFileSize(att.fileSize)}` :
-                                ''}, ${att.language ?
+                                ''}, ${att.extension && `${t('format')}: ${att.extension}, `}${att.language ?
                                     t('language') + ': ' + att.language :
                                     ''}`}
                         iconBackground={theme.background}

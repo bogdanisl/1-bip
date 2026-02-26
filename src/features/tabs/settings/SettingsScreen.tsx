@@ -5,7 +5,7 @@ import { Host, Picker } from '@expo/ui/swift-ui';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as Notifications from 'expo-notifications';
+// import * as Notifications from 'expo-notifications';
 import {
   Alert,
   Platform,
@@ -21,17 +21,17 @@ const SettingsScreen = () => {
   const colorScheme = useColorScheme();
   const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((s) => s.selectedBip);
-  const link = selectedBip? '/(tabs)/settings':'/(preview)/settings'
+  const link = selectedBip ? '/(tabs)/settings' : '/(preview)/settings'
 
-  React.useEffect(() => {
-    if (Platform.OS === 'ios') {
-      Notifications.requestPermissionsAsync({
-        ios: {
-          allowBadge: true,
-        },
-      });
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (Platform.OS === 'ios') {
+  //     Notifications.requestPermissionsAsync({
+  //       ios: {
+  //         allowBadge: true,
+  //       },
+  //     });
+  //   }
+  // }, []);
 
   const handleChangeBip = async () => {
     Alert.alert(
@@ -59,7 +59,7 @@ const SettingsScreen = () => {
     <ScrollView contentInsetAdjustmentBehavior='always' contentContainerStyle={styles.scrollContent}>
 
       {selectedBip &&
-        <View style={[styles.block, { backgroundColor: themeColors.background_2, marginBottom:30 }]}>
+        <View style={[styles.block, { backgroundColor: themeColors.background_2, marginBottom: 30 }]}>
           <ListButton
             icon='feed'
             label={t('change_bip_connection')}
@@ -83,16 +83,22 @@ const SettingsScreen = () => {
         />
       </View>
       <View style={[styles.block, { backgroundColor: themeColors.background_2, marginTop: 30 }]}>
-        <ListButton
-          icon="gavel"
-          label={t('access_declaration')}
-          onPress={() => router.push('./settings/agreements/accessDeclaration')}
-        />
-        <ListButton
-          icon='shield'
-          label={t('privacy_policy')}
-          onPress={() => router.push('./settings/agreements/privacyPolicy')}
-        />
+        {selectedBip &&
+          (
+            <>
+              <ListButton
+                icon="gavel"
+                label={t('access_declaration')}
+                onPress={() => router.push('./settings/agreements/accessDeclaration')}
+              />
+              <ListButton
+                icon='shield'
+                label={t('privacy_policy')}
+                onPress={() => router.push('./settings/agreements/privacyPolicy')}
+              />
+            </>
+          )
+        }
         <ListButton
           icon='file-text'
           label={t('statute')}
