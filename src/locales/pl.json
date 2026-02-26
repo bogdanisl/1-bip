@@ -187,5 +187,51 @@
         "desc": "Śledź najnowsze uchwały i ogłoszenia bezpośrednio w aplikacji. Uzyskaj natychmiastowy wgląd w aktualne decyzje podejmowane przez urzędy."
       }
     }
+  },
+  "statute_text": {
+    "title": "Regulamin – aplikacja mobilna 1BIP.pl",
+    "intro": "Alpanet - Polskie Systemy Internetowe Marcin Skipirzepa (dalej: Administrator) udostępnia aplikację mobilną 1BIP.pl na warunkach określonych w niniejszym regulaminie. Korzystanie z aplikacji oznacza akceptację tych zasad.",
+    "definitions": {
+      "title": "1. Definicje",
+      "user": "Użytkownik – osoba korzystająca z aplikacji mobilnej.",
+      "app": "Aplikacja – aplikacja mobilna 1BIP.pl.",
+      "admin": "Administrator – Alpanet - Polskie Systemy Internetowe Marcin Skipirzepa, odpowiedzialny za rozwój i utrzymanie aplikacji.",
+      "data": "Dane BIP – publicznie dostępne informacje pochodzące z Biuletynów Informacji Publicznej poszczególnych jednostek administracyjnych."
+    },
+    "scope": {
+      "title": "2. Zakres i charakter usług",
+      "p1": "Aplikacja 1BIP.pl jest niezależną platformą informacyjną (agregatorem), która umożliwia przeglądanie treści publikowanych w oficjalnych Biuletynach Informacji Publicznej (BIP) przez różne jednostki administracji publicznej w Polsce.",
+      "p2": "Oświadczenie o braku powiązań: Administrator oświadcza, że aplikacja 1BIP.pl ma charakter prywatny. Administrator nie jest organem administracji publicznej, nie reprezentuje żadnego podmiotu państwowego ani nie jest z nim powiązany."
+    },
+    "terms": {
+      "title": "3. Warunki korzystania",
+      "law": "Użytkownik zobowiązuje się korzystać z aplikacji zgodnie z prawem i niniejszym regulaminem.",
+      "interruption": "Zabronione jest podejmowanie działań mogących zakłócić działanie aplikacji lub naruszyć prawa innych użytkowników.",
+      "free": "Korzystanie z podstawowych funkcji aplikacji jest bezpłatne."
+    },
+    "rights": {
+      "title": "4. Prawa i obowiązki administratora",
+      "access": "Administrator zapewnia dostęp do aplikacji zgodnie z jej funkcjonalnością i opisem.",
+      "accuracy": "Administrator dokłada wszelkich starań, aby dane były aktualne, jednak nie ponosi odpowiedzialności za treść informacji publikowanych przez urzędy w ich systemach BIP.",
+      "protection": "Administrator odpowiada za ochronę danych osobowych zgodnie z polityką prywatności."
+    },
+    "liability": {
+      "title": "5. Ograniczenie odpowiedzialności",
+      "text": "Administrator nie ponosi odpowiedzialności za przerwy w działaniu aplikacji spowodowane awariami technicznymi, niezależnymi od administratora (w tym awariami systemów źródłowych BIP), ani za szkody wynikłe z niewłaściwego korzystania z aplikacji przez użytkownika."
+    },
+    "privacy": {
+      "title": "6. Ochrona danych osobowych",
+      "text": "Administrator przetwarza dane zgodnie z Polityką Prywatności, dostępną pod adresem: "
+    },
+    "contact": {
+      "title": "7. Zgłaszanie problemów i kontakt",
+      "text": "Wszelkie pytania dotyczące regulaminu można kierować do administratora:",
+      "email": "E-mail: ",
+      "phone": "Telefon: "
+    },
+    "changes": {
+      "title": "8. Zmiany regulaminu",
+      "text": "Administrator zastrzega sobie prawo do wprowadzania zmian w regulaminie. Aktualna wersja regulaminu zawsze będzie dostępna w aplikacji oraz na stronie 1bip.pl."
+    }
   }
 }

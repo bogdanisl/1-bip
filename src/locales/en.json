@@ -172,5 +172,51 @@
                 "desc": "Track the latest resolutions and announcements directly in the app. Get instant access to current decisions made by offices."
             }
         }
+    },
+    "statute_text": {
+        "title": "Terms and Conditions – 1BIP.pl Mobile App",
+        "intro": "Alpanet - Polskie Systemy Internetowe Marcin Skipirzepa (hereinafter: Administrator) provides the 1BIP.pl mobile application under the terms set forth in these regulations. Using the app constitutes acceptance of these terms.",
+        "definitions": {
+            "title": "1. Definitions",
+            "user": "User – a person using the mobile application.",
+            "app": "Application – the 1BIP.pl mobile application.",
+            "admin": "Administrator – Alpanet - Polskie Systemy Internetowe Marcin Skipirzepa, responsible for the development and maintenance of the app.",
+            "data": "BIP Data – publicly available information from the Public Information Bulletins (BIP) of individual administrative units."
+        },
+        "scope": {
+            "title": "2. Scope and Nature of Services",
+            "p1": "The 1BIP.pl app is an independent information platform (aggregator) that allows browsing content published in official Public Information Bulletins (BIP) by various public administration units in Poland.",
+            "p2": "Disclaimer: The Administrator declares that the 1BIP.pl application is a private entity. The Administrator is not a public administration body, does not represent any state entity, and is not affiliated with any."
+        },
+        "terms": {
+            "title": "3. Terms of Use",
+            "law": "The User agrees to use the application in accordance with the law and these regulations.",
+            "interruption": "Any actions that may disrupt the operation of the application or violate the rights of other users are prohibited.",
+            "free": "The basic functions of the application are free of charge."
+        },
+        "rights": {
+            "title": "4. Rights and Obligations of the Administrator",
+            "access": "The Administrator provides access to the app in accordance with its functionality and description.",
+            "accuracy": "The Administrator makes every effort to ensure the data is up-to-date, but is not responsible for the content published by government offices in their BIP systems.",
+            "protection": "The Administrator is responsible for protecting personal data in accordance with the privacy policy."
+        },
+        "liability": {
+            "title": "5. Limitation of Liability",
+            "text": "The Administrator is not liable for interruptions in the application's operation caused by technical failures beyond the administrator's control (including BIP source system failures), nor for damages resulting from improper use of the application by the user."
+        },
+        "privacy": {
+            "title": "6. Personal Data Protection",
+            "text": "The Administrator processes data in accordance with the Privacy Policy, available at: "
+        },
+        "contact": {
+            "title": "7. Reporting Issues and Contact",
+            "text": "Any questions regarding the regulations should be directed to the administrator:",
+            "email": "E-mail: ",
+            "phone": "Phone: "
+        },
+        "changes": {
+            "title": "8. Changes to Regulations",
+            "text": "The Administrator reserves the right to make changes to the regulations. The current version will always be available in the app and at 1bip.pl."
+        }
     }
 }

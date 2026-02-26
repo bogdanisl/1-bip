@@ -1,59 +1,108 @@
 import { Colors } from '@/src/constants/theme';
 import React from 'react';
 import { ScrollView, Text, Linking, useColorScheme } from 'react-native';
+import { useTranslation } from 'react-i18next'; // Założenie: i18next
 import { styles } from './styles';
 
 const StatuteScreen = () => {
+    const { t } = useTranslation();
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: 'transparent' }]} contentContainerStyle={styles.contentContainer}>
-            <Text style={[styles.heading, { color: theme.text }]}>Regulamin – aplikacja mobilna 1BIP.pl</Text>
-
-            <Text style={[styles.paragraph, { color: theme.text }]}>
-                Alpanet - Polskie Systemy Internetowe udostępnia aplikację mobilną
-                <Text style={[styles.bold, { color: theme.text }]}> 1BIP.pl</Text> na warunkach określonych w niniejszym regulaminie. Korzystanie z aplikacji oznacza akceptację tych zasad.
+            {/* Tytuł i Wstęp */}
+            <Text style={[styles.heading, { color: theme.text }]}>
+                {t('statute_text.title')}
             </Text>
 
-            <Text style={[styles.subheading, { color: theme.text }]}>1. Definicje</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Użytkownik – osoba korzystająca z aplikacji mobilnej.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Aplikacja – aplikacja mobilna 1BIP.pl.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Administrator – Alpanet - Polskie Systemy Internetowe, odpowiedzialny za aplikację.</Text>
-
-            <Text style={[styles.subheading, { color: theme.text }]}>2. Zakres regulaminu</Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
-                Regulamin określa zasady korzystania z aplikacji, prawa i obowiązki użytkowników oraz administratora.
+                {t('statute_text.intro')}
             </Text>
 
-            <Text style={[styles.subheading, { color: theme.text }]}>3. Warunki korzystania</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Użytkownik zobowiązuje się korzystać z aplikacji zgodnie z prawem i niniejszym regulaminem.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Zabronione jest podejmowanie działań mogących zakłócić działanie aplikacji lub naruszyć prawa innych użytkowników.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Użytkownik zobowiązuje się nie udostępniać swoich danych logowania osobom trzecim.</Text>
-
-            <Text style={[styles.subheading, { color: theme.text }]}>4. Prawa i obowiązki administratora</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Administrator zapewnia dostęp do aplikacji zgodnie z jej funkcjonalnością i opisem.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Administrator zastrzega sobie prawo do wprowadzania zmian w funkcjach aplikacji i regulaminie.</Text>
-            <Text style={[styles.listItem, { color: theme.text }]}>• Administrator odpowiada za ochronę danych osobowych zgodnie z polityką prywatności.</Text>
-
-            <Text style={[styles.subheading, { color: theme.text }]}>5. Ograniczenie odpowiedzialności</Text>
-            <Text style={[styles.paragraph, { color: theme.text }]}>
-                Administrator nie ponosi odpowiedzialności za przerwy w działaniu aplikacji spowodowane awariami technicznymi, niezależnymi od administratora, ani za szkody wynikłe z niewłaściwego korzystania z aplikacji przez użytkownika.
+            {/* 1. Definicje */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.definitions.title')}
             </Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.user')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.app')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.admin')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.data')}</Text>
 
-            <Text style={[styles.subheading, { color: theme.text }]}>6. Zgłaszanie problemów i kontakt</Text>
-            <Text style={[styles.paragraph, { color: theme.text }]}>
-                Wszelkie problemy związane z działaniem aplikacji oraz pytania dotyczące regulaminu można kierować do administratora:
+            {/* 2. Zakres i charakter usług */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.scope.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
-                E-mail: <Text style={[styles.link, { color: theme.tint }]} onPress={() => Linking.openURL('mailto:it@alpanet.pl')}>it@alpanet.pl</Text>
+                {t('statute_text.scope.p1')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
-                Telefon: <Text style={[styles.link, { color: theme.tint }]} onPress={() => Linking.openURL('tel:32 67 000 97')}>32 67 000 97</Text>
+                <Text style={styles.bold}>{t('statute_text.scope.p2')}</Text>
             </Text>
 
-            <Text style={[styles.subheading, { color: theme.text }]}>7. Zmiany regulaminu</Text>
+            {/* 3. Warunki korzystania */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.terms.title')}
+            </Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.terms.law')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.terms.interruption')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.terms.free')}</Text>
+
+            {/* 4. Prawa i obowiązki administratora */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.rights.title')}
+            </Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.rights.access')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.rights.accuracy')}</Text>
+            <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.rights.protection')}</Text>
+
+            {/* 5. Ograniczenie odpowiedzialności */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.liability.title')}
+            </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
-                Administrator zastrzega sobie prawo do wprowadzania zmian w regulaminie. Aktualna wersja regulaminu zawsze będzie dostępna w aplikacji.
+                {t('statute_text.liability.text')}
+            </Text>
+
+            {/* 6. Ochrona danych osobowych */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.privacy.title')}
+            </Text>
+            <Text style={[styles.paragraph, { color: theme.text }]}>
+                {t('statute_text.privacy.text')}
+                <Text 
+                    style={[styles.link, { color: theme.tint }]} 
+                    onPress={() => Linking.openURL('https://1bip.pl/privacy')}
+                >
+                    1bip.pl/polityka_prywatnosci
+                </Text>
+            </Text>
+
+            {/* 7. Kontakt */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.contact.title')}
+            </Text>
+            <Text style={[styles.paragraph, { color: theme.text }]}>
+                {t('statute_text.contact.text')}
+            </Text>
+            <Text style={[styles.paragraph, { color: theme.text }]}>
+                {t('statute_text.contact.email')}
+                <Text style={[styles.link, { color: theme.tint }]} onPress={() => Linking.openURL('mailto:it@alpanet.pl')}>
+                    it@alpanet.pl
+                </Text>
+            </Text>
+            <Text style={[styles.paragraph, { color: theme.text }]}>
+                {t('statute_text.contact.phone')}
+                <Text style={[styles.link, { color: theme.tint }]} onPress={() => Linking.openURL('tel:326700097')}>
+                    32 67 000 97
+                </Text>
+            </Text>
+
+            {/* 8. Zmiany */}
+            <Text style={[styles.subheading, { color: theme.text }]}>
+                {t('statute_text.changes.title')}
+            </Text>
+            <Text style={[styles.paragraph, { color: theme.text }]}>
+                {t('statute_text.changes.text')}
             </Text>
         </ScrollView>
     );
