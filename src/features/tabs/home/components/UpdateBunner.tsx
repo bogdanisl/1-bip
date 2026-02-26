@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export const UpdateBanner = () => {
     const { t } = useTranslation();
     const GOOGLE_PLAY_STORE_LINK =
-        'https://play.google.com/store/apps/details?id=com.anonymous.Alpanet&hl=pl';
+        'https://play.google.com/store/apps/details?id=com.alpanet.bip_platform';
     const APP_STORE_LINK =
         'https://apps.apple.com/pl/app/alpanet/id6749890567?l=pl';
     return (
