@@ -16,9 +16,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/Logo_test.png",
-        "backgroundImage": "./assets/images/Logo_test.png",
-        "monochromeImage": "./assets/images/Logo_test.png"
+        "foregroundImage": "./assets/images/icon_android.png",
+        "backgroundImage": "./assets/images/icon_android.png",
+        "monochromeImage": "./assets/images/icon_android.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -43,7 +43,8 @@
           }
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true,
