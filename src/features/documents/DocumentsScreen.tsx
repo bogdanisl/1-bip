@@ -1,9 +1,9 @@
 
 // app/webview/[slug].tsx
 import { Colors } from '@/src/constants/theme';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Text, View, useColorScheme, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, useColorScheme, StyleSheet, TouchableOpacity, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { formatFileSize } from '@/src/features/articles/components/AttachmentList';
 import { Document } from '@/src/types/Article';
@@ -15,6 +15,8 @@ import { Br } from '@/src/components/Br';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { showMessage } from 'react-native-flash-message';
 import { storage } from '@/src/services/storage/asyncStorage';
+import { EmptyState } from '@/src/components/EmptyState';
+import { apiRequest } from '@/src/services/api/client';
 
 
 export default function DocumentsScreen() {
@@ -25,6 +27,7 @@ export default function DocumentsScreen() {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const [attachmnets, setAttachments] = useState<Document[]>([])
+  const [refreshing, setRefreshing] = useState(false);
 
   const params = useLocalSearchParams<{ q?: string }>();
 
@@ -37,29 +40,45 @@ export default function DocumentsScreen() {
     return attachement.fileName.toLowerCase().includes(searchText);
   });
 
-  useEffect(() => {
-
-    const loadFiles = async () => {
-      if (selectedBip == null) {
-        setAttachments(attachmentExamples);
-        return;
-      }
-      if (selectedBip.url == '') {
-        setAttachments([]);
-        return;
-      }
-      const saved_files = await storage.get<Document[]>(`${selectedBip.id}/documents`);
-      if (!saved_files) {
-        setAttachments([]);
-        return;
-      }
-      setAttachments(saved_files);
+  const loadFiles = async () => {
+    if (selectedBip == null) {
+      setAttachments(attachmentExamples);
       return;
     }
+    if (selectedBip.url == '') {
+      setAttachments([]);
+      return;
+    }
+    const saved_files = await storage.get<Document[]>(`${selectedBip.id}/documents`);
+    if (!saved_files) {
+      setAttachments([]);
+      return;
+    }
+    setAttachments(saved_files);
+    return;
+  }
 
+  useEffect(() => {
     loadFiles();
-
   }, [slug]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    const updateFiles = async () => {
+      if (!selectedBip) return;
+      const documents = await apiRequest<Document[]>('/api/v1/document/list', {}, selectedBip);
+      if (documents) {
+        storage.remove(`${selectedBip.id}/documents`);
+        storage.set<Document[]>(`${selectedBip.id}/documents`, documents)
+      }
+    }
+    await updateFiles();
+    await loadFiles();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000)
+
+  };
 
   const renderAttachment = ({ item }: { item: Document }) => {
     return (
@@ -107,37 +126,49 @@ export default function DocumentsScreen() {
   }
 
   return (
+    <>
+      <Stack.Screen
+        options={filteredAttachments.length > 0 ? {
+          headerSearchBarOptions: {
+            headerIconColor: theme.icon,
+            tintColor: theme.tint,
+            textColor: theme.text,
+            hintTextColor: theme.tint,
+            placeholder: t('find'),
+            onChangeText: (event) => {
+              router.setParams({
+                q: event.nativeEvent.text,
+              });
+            },
+          },
+        } : {}}
+      />
+      <Animated.FlatList
+        style={{ padding: 20 }}
+        data={filteredAttachments}
+        itemLayoutAnimation={LinearTransition}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={theme.tint}
+          />
+        }
+        ListEmptyComponent={
+          <EmptyState
+            iconName='download'
+            onRefresh={handleRefresh}
+            loading={refreshing}
+            title={t('empty_list_downloads_title')}
+            description={t('empty_list_downloads_desc')}
+          />
+        }
+        renderItem={renderAttachment}
+        keyExtractor={(item) => item.id.toString()}
+        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        contentInsetAdjustmentBehavior={'automatic'}
+      />
 
-    <Animated.FlatList
-      // ListHeaderComponent={() =>
-      //   <>
-      //     <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 }}>
-      //       {('Dokumenty').toUpperCase()}
-      //     </Text>
-      //     <Br />
-      //   </>
-      // }
-      style={{ padding: 20 }}
-      data={filteredAttachments}
-      itemLayoutAnimation={LinearTransition}
-      ListEmptyComponent={
-        <>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20, alignContent: 'center' }}>
-            {selectedBip?.url == '' ?
-              (
-                <Text style={{ color: theme.text, textAlign: 'center', fontSize: 18 }}>{t('unsupported_bip', { name: selectedBip.name })}</Text>
-              ) : (
-                <Text style={{ color: theme.text, textAlign: 'center' }}>{t('empty_list_downloads')}</Text>
-              )
-            }
-          </View>
-        </>
-      }
-      renderItem={renderAttachment}
-      keyExtractor={(item) => item.id.toString()}
-      ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-      contentInsetAdjustmentBehavior={'automatic'}
-    />
-
+    </>
   );
 }

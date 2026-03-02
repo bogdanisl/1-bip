@@ -1,4 +1,5 @@
 // app/components/ArticleContent.tsx
+import { Br } from '@/src/components/Br';
 import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
 import RenderHTML from 'react-native-render-html';
@@ -19,13 +20,13 @@ export function ArticleContent({ content, theme }: Props) {
     return (
         <View
             style={{
-                borderTopWidth: 1,
                 borderBottomWidth: 1,
                 borderColor: theme.border,
                 paddingVertical: 12,
                 marginBottom: 16
             }}
         >
+            <Br/>
             <RenderHTML
                 contentWidth={width}
                 source={{ html: transformedIMG }}

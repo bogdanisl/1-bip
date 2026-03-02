@@ -1,16 +1,19 @@
 // app/(tabs)/employees/EmployeesPage.tsx
 import React, { useEffect, useState, useTransition } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, Dimensions, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { Colors } from '@/src/constants/theme';
 import { Employee } from '@/src/types/Employee';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { exampleEmployees } from '@/src/constants/data_example';
 import { useTranslation } from 'react-i18next';
+import { Br } from '@/src/components/Br';
+import { apiRequest } from '@/src/services/api/client';
+import { EmptyState } from '@/src/components/EmptyState';
 
 export default function EmployeesScreen() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
@@ -18,30 +21,51 @@ export default function EmployeesScreen() {
     const [employees, setEmplpoyees] = useState<Employee[]>([])
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { t } = useTranslation();
+    const [refreshing, setRefreshing] = useState(false);
 
     const searchText = params?.q?.toLowerCase() || "";
     const handlePress = (employee: Employee) => {
         router.push(`/(tabs)/home/employees/${employee.id}`)
     };
 
+    const loadEmployees = async () => {
+        if (selectedBip == null) {
+            setEmplpoyees(exampleEmployees);
+            return;
+        }
+
+        const savedEmployees = await storage.get<Employee[]>(
+            `${selectedBip.id}/employees`
+        );
+
+        if (savedEmployees) {
+            setEmplpoyees(savedEmployees);
+        } else {
+            setEmplpoyees([]);
+        }
+    };
+
     useEffect(() => {
-        const getEmployee = async () => {
-            if(selectedBip == null){
-                setEmplpoyees(exampleEmployees)
-                return;
-            }
-            const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
-            if (savedEmployees) {
-                setEmplpoyees(savedEmployees)
-                return;
-            }
-            else{
-                setEmplpoyees([]);
-                return;
+        loadEmployees();
+    }, [selectedBip])
+
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        const updateEmpoyees = async () => {
+            if (!selectedBip) return;
+            const employees = await apiRequest<Employee[]>('/api/v1/employee/list', {}, selectedBip);
+            if (employees) {
+                storage.remove(`${selectedBip.id}/employees`);
+                storage.set<Employee[]>(`${selectedBip.id}/employees`, employees)
             }
         }
-        getEmployee();
-    }, [])
+        await updateEmpoyees();
+        await loadEmployees();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000)
+
+    };
 
     const filteredSpeakers = employees.filter((employee) => {
         if (!searchText) {
@@ -71,25 +95,52 @@ export default function EmployeesScreen() {
     );
 
     return (
-        <Animated.FlatList
-            style={{ padding: 20 }}
-            data={filteredSpeakers}
-            itemLayoutAnimation={LinearTransition}
-            renderItem={renderEmployee}
-            keyExtractor={(item) => item.id.toString()}
-            ListFooterComponent={<>
-            <View style={{height:50}}></View>
-            </>}
-            ListEmptyComponent={
-                  <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }]}>
-                          <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 10, marginTop: 10 }}>
-                            {t('no_data')}
-                          </Text>
-                        </View>
-            }
-            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-            contentInsetAdjustmentBehavior={'automatic'}
-        />
+        <>
+            <Stack.Screen
+                options={filteredSpeakers.length > 0 ? {
+                    headerSearchBarOptions: {
+                        headerIconColor: theme.icon,
+                        tintColor: theme.tint,
+                        textColor: theme.text,
+                        hintTextColor: theme.tint,
+                        placeholder: t('home.search_employee'),
+                        onChangeText: (event) => {
+                            router.setParams({
+                                q: event.nativeEvent.text,
+                            });
+                        },
+                    },
+                } : {}}
+            />
+            <Animated.FlatList
+                style={{ padding: 20 }}
+                // scrollEnabled={filteredSpeakers.length > 0}
+                data={filteredSpeakers}
+                itemLayoutAnimation={LinearTransition}
+                renderItem={renderEmployee}
+                keyExtractor={(item) => item.id.toString()}
+                ListFooterComponent={<>
+                    <View style={{ height: 50 }}></View>
+                </>}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={theme.tint}
+                    />
+                }
+                ListEmptyComponent={
+                    <EmptyState
+                        iconName='work'
+                        onRefresh={handleRefresh}
+                        loading={refreshing}
+                    />
+                }
+                ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+                contentInsetAdjustmentBehavior={'automatic'}
+            />
+
+        </>
     );
 }
 
