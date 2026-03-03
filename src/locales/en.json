@@ -222,5 +222,6 @@
     "empty_list_downloads_title": "Here is no added documents at this moment",
     "empty_list_downloads_desc": "Try to check again later,\n or refresh list",
     "check_later_or_update": "Try to check again later,\nor refresh list",
-    "update_list": "Refresh list"
+    "update_list": "Refresh list",
+    "empty_article_list": "No Articles found for this category"
 }

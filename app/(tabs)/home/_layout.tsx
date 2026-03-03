@@ -120,20 +120,7 @@ export default function HomeLayout() {
       />
       <Stack.Screen
         name="categories/[id]/index"
-        options={{
-          headerSearchBarOptions: {
-            headerIconColor: themeColors.icon,
-            tintColor: themeColors.tint,
-            textColor: themeColors.text,
-            hintTextColor: themeColors.tint,
-            placeholder: t('search_article'),
-            onChangeText: (event) => {
-              router.setParams({
-                q: event.nativeEvent.text,
-              });
-            },
-          },
-        }}
+
       />
       <Stack.Screen
         name="categories/[id]/[slug]/index"

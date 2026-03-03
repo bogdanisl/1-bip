@@ -1,4 +1,4 @@
-import { Text, View, useColorScheme } from 'react-native';
+import { RefreshControl, Text, View, useColorScheme } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { RelativePathString, router, Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,7 @@ import { Category } from '@/src/types/Category';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 import { apiRequest } from '@/src/services/api/client';
+import { EmptyState } from '@/src/components/EmptyState';
 
 const CategoryScreen = () => {
     const { t } = useTranslation();
@@ -22,6 +23,7 @@ const CategoryScreen = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [category, setCategory] = useState<Category>();
     const [isLoading, setIsLoading] = useState(true);
+    const [isRefreshing, setRefreshing] = useState(false);
     const params = useLocalSearchParams<{ q?: string }>();
     const searchText = params?.q?.toLowerCase() || '';
 
@@ -33,25 +35,31 @@ const CategoryScreen = () => {
         id: -i - 1,
     }));
 
-    useEffect(() => {
-        const loadCategory = async () => {
+    const loadCategory = async () => {
 
-            const categoryLoad = await apiRequest<Category>(`/api/v1/category/${id}`, {
-                body: {
-                    offset: 0,
-                    limit: 20,
-                }
-            }); 
-            if (!categoryLoad) return;
-            setCategory(categoryLoad);
-            if (categoryLoad.articles) {
-                setArticles(categoryLoad.articles);
-                setIsLoading(false);
+        const categoryLoad = await apiRequest<Category>(`/api/v1/category/${id}`, {
+            body: {
+                offset: 0,
+                limit: 20,
             }
+        });
+        if (!categoryLoad) return;
+        setCategory(categoryLoad);
+        if (categoryLoad.articles) {
+            setArticles(categoryLoad.articles);
+            setIsLoading(false);
         }
+    }
+
+    useEffect(() => {
         loadCategory();
     }, [])
 
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        loadCategory();
+        setTimeout(() => { setRefreshing(false) }, 1000)
+    }
     const filteredArticles = articles.filter(a =>
         !searchText || a.title?.toLowerCase().includes(searchText)
     );
@@ -59,9 +67,25 @@ const CategoryScreen = () => {
     return (
         <>
             <Stack.Screen
-                options={{
-                    title: title
-                }}
+                options={
+
+                    articles.length > 0 ? {
+                        title: title,
+                        headerSearchBarOptions: {
+                            headerIconColor: theme.icon,
+                            tintColor: theme.tint,
+                            textColor: theme.text,
+                            hintTextColor: theme.tint,
+                            placeholder: t('search_article'),
+                            onChangeText: (event) => {
+                                router.setParams({
+                                    q: event.nativeEvent.text,
+                                });
+                            },
+                        },
+                    } : {
+                        title: title,
+                    }}
             >
             </Stack.Screen>
             <Animated.FlatList
@@ -114,18 +138,19 @@ const CategoryScreen = () => {
                 itemLayoutAnimation={LinearTransition}
                 // onEndReached={loadMore}
                 // onEndReachedThreshold={0.3}
-                // refreshControl={
-                //     <RefreshControl
-                //         refreshing={isRefreshing}
-                //         onRefresh={refresh}
-                //         tintColor={theme.tint}
-                //         colors={[theme.text]}
-                //     />
-                // }
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={theme.tint}
+                        colors={[theme.text]}
+                    />
+                }
                 ListEmptyComponent={
-                    <View style={{ padding: 20, alignItems: 'center' }}>
-                        <Text style={{ color: theme.text }}>{t('empty_list')}</Text>
-                    </View>
+                    <EmptyState
+                        title={t('empty_article_list')}
+                        onRefresh={handleRefresh}
+                    />
                 }
             />
 
