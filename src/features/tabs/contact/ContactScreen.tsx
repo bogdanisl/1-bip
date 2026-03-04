@@ -88,8 +88,9 @@ const ContactScreen = () => {
                                     style={{
                                         backgroundColor: themeColors.background_2,
                                         marginTop: 10,
-                                        borderBottomRightRadius: 0,
-                                        borderBottomLeftRadius: 0
+                                        
+                                        borderBottomRightRadius: Platform.OS == 'android' ? 15 : 0,
+                                        borderBottomLeftRadius: Platform.OS == 'android' ? 15 : 0
                                     }}
                                     leftIconName={"location-on"}
                                     rightIconName={"open-in-new"}
@@ -97,7 +98,7 @@ const ContactScreen = () => {
                                         openNavigation(officeData?.map?.lat ?? 50.4933467, officeData?.map?.lng ?? 19.4179835, 'ALPANET');
                                     }}
                                 ></FileItem>
-                                {
+                                { Platform.OS == 'ios' &&
                                     <View style={{
                                         backgroundColor: themeColors.background_2,
 
