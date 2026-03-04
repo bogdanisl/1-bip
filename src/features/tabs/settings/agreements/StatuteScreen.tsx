@@ -11,7 +11,7 @@ const StatuteScreen = () => {
     return (
         <ScrollView style={[styles.container, { backgroundColor: 'transparent' }]} contentContainerStyle={styles.contentContainer}>
             {/* Tytuł i Wstęp */}
-            <Text style={[styles.heading, { color: theme.text }]}>
+            <Text style={[styles.heading, { color: theme.tint }]}>
                 {t('statute_text.title')}
             </Text>
 
@@ -20,7 +20,7 @@ const StatuteScreen = () => {
             </Text>
 
             {/* 1. Definicje */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.definitions.title')}
             </Text>
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.user')}</Text>
@@ -29,7 +29,7 @@ const StatuteScreen = () => {
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.definitions.data')}</Text>
 
             {/* 2. Zakres i charakter usług */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.scope.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
@@ -40,7 +40,7 @@ const StatuteScreen = () => {
             </Text>
 
             {/* 3. Warunki korzystania */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.terms.title')}
             </Text>
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.terms.law')}</Text>
@@ -48,7 +48,7 @@ const StatuteScreen = () => {
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.terms.free')}</Text>
 
             {/* 4. Prawa i obowiązki administratora */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.rights.title')}
             </Text>
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.rights.access')}</Text>
@@ -56,7 +56,7 @@ const StatuteScreen = () => {
             <Text style={[styles.listItem, { color: theme.text }]}>• {t('statute_text.rights.protection')}</Text>
 
             {/* 5. Ograniczenie odpowiedzialności */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.liability.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
@@ -64,7 +64,7 @@ const StatuteScreen = () => {
             </Text>
 
             {/* 6. Ochrona danych osobowych */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.privacy.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
@@ -78,7 +78,7 @@ const StatuteScreen = () => {
             </Text>
 
             {/* 7. Kontakt */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.contact.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
@@ -98,7 +98,7 @@ const StatuteScreen = () => {
             </Text>
 
             {/* 8. Zmiany */}
-            <Text style={[styles.subheading, { color: theme.text }]}>
+            <Text style={[styles.subheading, { color: theme.tint }]}>
                 {t('statute_text.changes.title')}
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>

@@ -1,21 +1,26 @@
 // app/(tabs)/employees/EmployeesPage.tsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { Colors } from '@/src/constants/theme';
 import { Employee } from '@/src/types/Employee';
 import { exampleEmployees } from '@/src/constants/data_example';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { storage } from '@/src/services/storage/asyncStorage';
+import { EmptyState } from '@/src/components/EmptyState';
+import { useTranslation } from 'react-i18next';
+import { apiRequest } from '@/src/services/api/client';
 
 export default function EmployeesPage() {
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { t } = useTranslation();
     const params = useLocalSearchParams<{ q?: string }>();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const [editors, setEditors] = useState<Employee[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     const searchText = params?.q?.toLowerCase() || "";
     //Agnconsole.log(searchText)
@@ -23,24 +28,43 @@ export default function EmployeesPage() {
         router.push(`/(tabs)/home/editors/${employee.id}`)
     };
 
+    const loadEditors = async () => {
+        if (selectedBip == null) {
+            setEditors(exampleEmployees)
+            return;
+        }
+        const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/editors`);
+        if (savedEmployees) {
+            setEditors(savedEmployees);
+            return;
+        }
+        else {
+            setEditors([]);
+            return;
+        }
+    }
+
     useEffect(() => {
-        const getEmployee = async () => {
-            if (selectedBip == null) {
-                setEditors(exampleEmployees)
-                return;
-            }
-            const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/editors`);
-            if (savedEmployees) {
-                setEditors(savedEmployees)
-                return;
-            }
-            else {
-                setEditors([]);
-                return;
+        loadEditors();
+    }, [])
+
+    const handleRefresh = async () => {
+        setRefreshing(true);
+        const updateEditors = async () => {
+            if (!selectedBip) return;
+            const publishers = await apiRequest<Employee[]>('/api/v1/publisher/list', {}, selectedBip);
+            if (publishers) {
+                storage.remove(`${selectedBip.id}/editors`);
+                storage.set<Employee[]>(`${selectedBip.id}/editors`, publishers)
             }
         }
-        getEmployee();
-    }, [])
+        await updateEditors();
+        await loadEditors();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000)
+
+    };
 
     const filteredSpeakers = editors.filter((employee) => {
         if (!searchText) {
@@ -69,15 +93,49 @@ export default function EmployeesPage() {
     );
 
     return (
-        <Animated.FlatList
-            style={{ padding: 20 }}
-            data={filteredSpeakers}
-            itemLayoutAnimation={LinearTransition}
-            renderItem={renderEmployee}
-            keyExtractor={(item) => item.id.toString()}
-            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
-            contentInsetAdjustmentBehavior={'automatic'}
-        />
+        <>
+            <Stack.Screen
+                options={filteredSpeakers.length > 0 ? {
+                    headerSearchBarOptions: {
+                        headerIconColor: theme.icon,
+                        tintColor: theme.tint,
+                        textColor: theme.text,
+                        hintTextColor: theme.tint,
+                        placeholder: t('home.search_editor'),
+                        onChangeText: (event) => {
+                            router.setParams({
+                                q: event.nativeEvent.text,
+                            });
+                        },
+                    },
+
+                } : {}}
+            />
+            <Animated.FlatList
+                style={{ padding: 20 }}
+                data={filteredSpeakers}
+                itemLayoutAnimation={LinearTransition}
+                renderItem={renderEmployee}
+                keyExtractor={(item) => item.id.toString()}
+                ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={theme.tint}
+                    />
+                }
+                ListEmptyComponent={
+                    <EmptyState
+                        iconName='group'
+                        onRefresh={handleRefresh}
+                        loading={refreshing}
+                    />
+                }
+                contentInsetAdjustmentBehavior={'automatic'}
+            />
+
+        </>
     );
 }
 

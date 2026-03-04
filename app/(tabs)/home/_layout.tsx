@@ -63,36 +63,13 @@ export default function HomeLayout() {
         options={{
           title: t('home.bip_editors'),
          
-          headerSearchBarOptions: {
-            headerIconColor: themeColors.icon,
-            tintColor: themeColors.tint,
-            textColor: themeColors.text,
-            hintTextColor: themeColors.tint,
-            placeholder: t('home.search_editor'),
-            onChangeText: (event) => {
-              router.setParams({
-                q: event.nativeEvent.text,
-              });
-            },
-          },
-        
+         
         }}
       />
       <Stack.Screen name="employees/index"
         options={{
           title: t('home.positions'),
-          headerSearchBarOptions: {
-            headerIconColor: themeColors.icon,
-            tintColor: themeColors.tint,
-            textColor: themeColors.text,
-            hintTextColor: themeColors.tint,
-            placeholder: t('home.search_employee'),
-            onChangeText: (event) => {
-              router.setParams({
-                q: event.nativeEvent.text,
-              });
-            },
-          },
+
         }}
       />
       <Stack.Screen name="employees/[id]"
@@ -139,36 +116,11 @@ export default function HomeLayout() {
       />
       <Stack.Screen name="categories/index" options={{
         title: t('home.categories'),
-        headerSearchBarOptions: {
-          headerIconColor: themeColors.icon,
-          tintColor: themeColors.tint,
-          textColor: themeColors.text,
-          hintTextColor: themeColors.tint,
-          placeholder: t('find'),
-          onChangeText: (event) => {
-            router.setParams({
-              q: event.nativeEvent.text,
-            });
-          }
-        }
       }}
       />
       <Stack.Screen
         name="categories/[id]/index"
-        options={{
-          headerSearchBarOptions: {
-            headerIconColor: themeColors.icon,
-            tintColor: themeColors.tint,
-            textColor: themeColors.text,
-            hintTextColor: themeColors.tint,
-            placeholder: t('search_article'),
-            onChangeText: (event) => {
-              router.setParams({
-                q: event.nativeEvent.text,
-              });
-            },
-          },
-        }}
+
       />
       <Stack.Screen
         name="categories/[id]/[slug]/index"
@@ -215,18 +167,6 @@ export default function HomeLayout() {
       }} />
       <Stack.Screen name="documents/index" options={{
         title: t('home.downloads'),
-        headerSearchBarOptions: {
-          headerIconColor: themeColors.icon,
-          tintColor: themeColors.tint,
-          textColor: themeColors.text,
-          hintTextColor: themeColors.tint,
-          placeholder: t('find'),
-          onChangeText: (event) => {
-            router.setParams({
-              q: event.nativeEvent.text,
-            });
-          },
-        },
       }} />
       <Stack.Screen name="documents/[file_uri]"
         options={{

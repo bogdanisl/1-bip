@@ -131,8 +131,11 @@
   "search_in_app": "Szukaj w aplikacji...",
   "unsupported_bip": "BIP \"{{name}}\" nie jest obsługiwany przez aplikację.\n\nSpróbuj połączyć się z innym BIP'em, albo spróbuj później",
   "empty_list": "Jeszcze nie dodano żadnych artykułów. Sprawdź później.",
-  "empty_list_downloads": "Jeszcze nie dodano żadnych plików. Sprawdź później.",
+  "empty_list_downloads_title": "Jeszcze nie dodano żadnych plików",
+  "empty_list_downloads_desc": "Sprawdź później, albo odśwież listę",
   "no_data": "Brak danych do wyświetlenia.",
+  "check_later_or_update":"Sprawdź ponownie później\nlub odśwież listę",
+  "update_list":"Odśwież listę",
   "office_name": "Nazwa urzędu",
   "address": "Adres",
   "postal_code": "Kod pocztowy",
@@ -233,5 +236,6 @@
       "title": "8. Zmiany regulaminu",
       "text": "Administrator zastrzega sobie prawo do wprowadzania zmian w regulaminie. Aktualna wersja regulaminu zawsze będzie dostępna w aplikacji oraz na stronie 1bip.pl."
     }
-  }
+  },
+  "empty_article_list":"Brak artykułów w tej kategorii"
 }
