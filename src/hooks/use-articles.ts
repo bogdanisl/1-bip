@@ -36,7 +36,7 @@ export function useArticles({ initialLimit = DEFAULT_LIMIT }: UseArticlesOptions
       append ? setIsLoadingMore(true) : setIsLoading(true);
       const data = await apiRequest<Article[]>(`/api/v1/article/list`, {
         body: {
-          nextOffset,
+          offset: nextOffset,
           limit,
         }
       });

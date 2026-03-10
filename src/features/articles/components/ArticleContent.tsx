@@ -22,7 +22,7 @@ export function ArticleContent({ content, theme }: Props) {
             style={{
                 borderBottomWidth: 1,
                 borderColor: theme.border,
-                paddingVertical: 12,
+                paddingBottom:12,
                 marginBottom: 16
             }}
         >

@@ -23,7 +23,7 @@ export function ArticleHeader({ article, theme }: Props) {
     var he = require('he');
 
     return (
-        <View style={{ marginBottom: 12 }}>
+        <View style={{ marginBottom: 10 }}>
             {/* TITLE */}
             <Text style={{ fontSize: 22, fontWeight: 'bold', color: theme.text, paddingRight:50 }}>
                 {he.decode(article.title)}
@@ -39,7 +39,7 @@ export function ArticleHeader({ article, theme }: Props) {
             ) : null}
             {/* VIEWS */}
             <View style={{alignItems:'flex-end'}}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                     <MaterialIcons name="visibility" size={18} color={theme.subText} />
                     <Text style={{ color: theme.subText, marginLeft: 4 }}>
                         {article.views ?? 0}
