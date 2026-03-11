@@ -18,6 +18,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { createContactStyles } from "./ContactScreenStyles";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { useOfficeData } from "./hooks/useOfficeData";
+import { Br } from "@/src/components/Br";
 
 export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
     const url = Platform.select({
@@ -53,14 +54,28 @@ const ContactScreen = () => {
                                 {t('contact_us')}
                             </Text>
                             <Text style={styles.sectionDesc}>{t('contact_us_desc')}</Text>
-                            <View style={{ padding: 17, paddingLeft: 0 }}>
+
+                            <Text
+                            style={{
+                                marginTop:25,
+                                marginBottom:12,
+                                fontSize:18,
+                                fontWeight:'700',
+                                color:themeColors.text,
+                                paddingRight:120
+                            }}
+                            >
+                                {selectedBip.name}
+                            </Text>
+                            <Br />
+                            <View style={{ paddingHorizontal: 17, paddingLeft: 0 }}>
                                 {
                                     officeData.phone?.value &&
                                     <FileItem
                                         name={officeData.phone.value}
                                         details="Telefon"
                                         iconBackground={themeColors.background}
-                                        style={{ backgroundColor: themeColors.background_2, marginTop: 20 }}
+                                        style={{ backgroundColor: themeColors.background_2 }}
                                         leftIconName={"phone"}
                                         rightIconName="call-made"
                                         onPress={() => {
@@ -88,7 +103,7 @@ const ContactScreen = () => {
                                     style={{
                                         backgroundColor: themeColors.background_2,
                                         marginTop: 10,
-                                        
+
                                         borderBottomRightRadius: Platform.OS == 'android' ? 15 : 0,
                                         borderBottomLeftRadius: Platform.OS == 'android' ? 15 : 0
                                     }}
@@ -98,7 +113,7 @@ const ContactScreen = () => {
                                         openNavigation(officeData?.map?.lat ?? 50.4933467, officeData?.map?.lng ?? 19.4179835, 'ALPANET');
                                     }}
                                 ></FileItem>
-                                { Platform.OS == 'ios' &&
+                                {Platform.OS == 'ios' &&
                                     <View style={{
                                         backgroundColor: themeColors.background_2,
 

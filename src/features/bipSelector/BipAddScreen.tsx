@@ -26,6 +26,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function SelectBipScreen() {
     const { t } = useTranslation();
+    var he = require('he');
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { cities: citiesJson } = useLocalSearchParams();
@@ -86,14 +87,14 @@ export default function SelectBipScreen() {
                 onPress={() => toggleCity(item.id)}
                 activeOpacity={0.7}
             >
-                <Text style={[styles.cityName, { color: theme.text }]}>{item.name}</Text>
+                <Text style={[styles.cityName, { color: theme.text, paddingRight:40 }]}>{he.decode(item.name)}</Text>
                 {/* <View style={[styles.checkbox, isSelected && styles.checkboxChecked]}>
                     {isSelected && <View style={styles.checkmark} />}
                 </View> */}
                 <View style={{
                     backgroundColor: isSelected ? theme.tint : 'transparent',
                     borderWidth: 1,
-                    borderColor: isSelected? theme.tint :theme.border,
+                    borderColor: isSelected ? theme.tint : theme.border,
                     width: 28,
                     height: 28,
                     borderRadius: 5

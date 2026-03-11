@@ -1,5 +1,5 @@
-import AccessDeclarationScreen from "@/src/features/tabs/settings/agreements/AccessDeclarationScreen";
+import AgreementScreen from "@/src/features/tabs/settings/agreements/AgreementScreen";
 
 export default function AccessDeclaration(){
-    return <AccessDeclarationScreen/>
+    return <AgreementScreen type={"accessibility"}/>
 }

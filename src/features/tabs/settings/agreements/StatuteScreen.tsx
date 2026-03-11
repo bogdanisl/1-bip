@@ -3,6 +3,7 @@ import React from 'react';
 import { ScrollView, Text, Linking, useColorScheme } from 'react-native';
 import { useTranslation } from 'react-i18next'; // Założenie: i18next
 import { styles } from './styles';
+import { Br } from '@/src/components/Br';
 
 const StatuteScreen = () => {
     const { t } = useTranslation();
@@ -11,9 +12,10 @@ const StatuteScreen = () => {
     return (
         <ScrollView style={[styles.container, { backgroundColor: 'transparent' }]} contentContainerStyle={styles.contentContainer}>
             {/* Tytuł i Wstęp */}
-            <Text style={[styles.heading, { color: theme.tint }]}>
+            <Text style={[styles.heading, { color: theme.text }]}>
                 {t('statute_text.title')}
             </Text>
+            <Br/>
 
             <Text style={[styles.paragraph, { color: theme.text }]}>
                 {t('statute_text.intro')}

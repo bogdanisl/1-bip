@@ -30,9 +30,7 @@ export default function HomeArticles() {
 
     if (!isLoading && articles.length === 0) {
         return (
-            <View style={{ marginVertical: 16 }}>
-                <ArticleCardPreloader />
-            </View>
+           <></>
         );
     }
     const panGesture = Gesture.Pan()
@@ -66,11 +64,17 @@ export default function HomeArticles() {
                 containerStyle={{ gap: 5 }}
                 activeDotStyle={{ backgroundColor: theme.tint }}
                 onPress={onPressPagination}
-                
+
             />
             {
                 (isLoading && articles.length === 0) ? (
-                    <ArticleCardPreloader />
+                    <View
+                    style={{
+                        marginHorizontal:-20
+                    }}
+                    >
+                        <ArticleCardPreloader />
+                    </View>
                 ) : (
                     <Carousel
                         ref={ref}
@@ -80,10 +84,10 @@ export default function HomeArticles() {
                         loop
                         autoPlay
                         autoPlayInterval={6000}
-                        style={{ marginHorizontal: -32, marginTop: 5}}
+                        style={{ marginHorizontal: -32, marginTop: 5 }}
                         pagingEnabled
                         mode='parallax'
-                        modeConfig={{ parallaxScrollingScale: 1, parallaxAdjacentItemScale:0.8, parallaxScrollingOffset: 65 }}
+                        modeConfig={{ parallaxScrollingScale: 1, parallaxAdjacentItemScale: 0.8, parallaxScrollingOffset: 65 }}
                         onProgressChange={(offsetProgress, absoluteProgress) => {
                             progress.value = absoluteProgress;
                         }}
@@ -92,7 +96,7 @@ export default function HomeArticles() {
                         }
                         renderItem={({ item }) => (
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <ArticleCard variant='short' style={{ width: width-32, flex: 1 }} article={item} path={`/(tabs)/home/categories/${item.categoryId}/${item.id}` as RelativePathString} />
+                                <ArticleCard variant='short' style={{ width: width - 32, flex: 1 }} article={item} path={`/(tabs)/home/categories/${item.categoryId}/${item.id}` as RelativePathString} />
                             </View>
                         )}
                     />

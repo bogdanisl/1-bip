@@ -18,7 +18,8 @@ export default function ProfileLayout() {
         headerTransparent: Platform.OS == 'ios' ? true : false,
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
+        headerTitleStyle: { color: colorScheme.text },
+        headerLargeStyle: { backgroundColor: 'transparent' }
       }}
     >
       <Stack.Screen name="index" options={{
@@ -50,30 +51,10 @@ export default function ProfileLayout() {
         title: t('color_theme'),
       }} />
       <Stack.Screen name="agreements/accessDeclaration" options={{
-        title: t('access_declaration'),
-        headerShown: Platform.OS === "ios" ? true : true,
-        presentation:
-          Platform.OS === "ios"
-            ? isLiquidGlassAvailable() && osName !== "iPadOS"
-              ? 'modal'
-              : 'modal'
-            : 'card',
-        sheetGrabberVisible: true,
-        sheetAllowedDetents: [0.7],
-        sheetInitialDetentIndex: 0,
+        title: t('access_declaration'),  
       }} />
       <Stack.Screen name="agreements/privacyPolicy" options={{
         title: t('privacy_policy'),
-        headerShown: Platform.OS === "ios" ? true : true,
-        presentation:
-          Platform.OS === "ios"
-            ? isLiquidGlassAvailable() && osName !== "iPadOS"
-              ? 'modal'
-              : 'modal'
-            : 'card',
-        sheetGrabberVisible: true,
-        sheetAllowedDetents: [0.7],
-        sheetInitialDetentIndex: 0,
       }} />
       <Stack.Screen name="agreements/statute" options={{
         title: t('statute'),

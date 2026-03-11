@@ -14,7 +14,7 @@ export const UpdateBanner = () => {
     const GOOGLE_PLAY_STORE_LINK =
         'https://play.google.com/store/apps/details?id=com.alpanet.bip_platform';
     const APP_STORE_LINK =
-        'https://apps.apple.com/pl/app/alpanet/id6749890567?l=pl';
+        'https://apps.apple.com/pl/app/1bip/id6757152474';
     return (
         <TouchableOpacity
             style={{ backgroundColor: 'black', marginTop: -30, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}

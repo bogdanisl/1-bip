@@ -58,6 +58,7 @@ export default function RecentLayout() {
           {
             title: '',
             headerShown: true,
+            headerLargeStyle: { backgroundColor: 'transparent' },
             headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
             headerTransparent: Platform.OS == 'ios' ? true : false,
             headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',

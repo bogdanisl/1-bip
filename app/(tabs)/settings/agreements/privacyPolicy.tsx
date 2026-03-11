@@ -1,5 +1,5 @@
-import PrivacyPolicyScreen from "@/src/features/tabs/settings/agreements/PrivacyPolicyScreen";
+import AgreementScreen from "@/src/features/tabs/settings/agreements/AgreementScreen";
 
 export default function PrivacyPolicy() {
-    return <PrivacyPolicyScreen />
+    return <AgreementScreen type={"privacy"} />
 }

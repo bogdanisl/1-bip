@@ -11,7 +11,13 @@ export default function ProfileLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+        headerTransparent: Platform.OS == 'ios' ? true : false,
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+        headerTintColor: colorScheme.tint,
+        headerTitleStyle: { color: colorScheme.text },
+        headerLargeStyle: { backgroundColor: 'transparent' }
       }}
     >
       <Stack.Screen name="index" options={{
@@ -37,49 +43,13 @@ export default function ProfileLayout() {
           : undefined,
       }} />
       <Stack.Screen name="language" options={{
-        headerShown: true,
-        headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
-        headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
         title: t('language'),
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
       }} />
       <Stack.Screen name="themePage" options={{
-        headerShown: true,
-        headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
-        headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
         title: t('color_theme'),
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
-      }} />
-      <Stack.Screen name="agreements/accessDeclaration" options={{
-        headerShown: true,
-        headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
-        headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
-        title: t('access_declaration'),
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
-      }} />
-      <Stack.Screen name="agreements/privacyPolicy" options={{
-        headerShown: true,
-        headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
-        headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
-        title: t('privacy_policy'),
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
       }} />
       <Stack.Screen name="agreements/statute" options={{
-        headerShown: true,
-        headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
-        headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         title: t('statute'),
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text }
       }} />
       {/* <Stack.Screen name="BipSelect/index" options={{ title: t('color_theme'), headerShown: false, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
       <Stack.Screen name="BipSelect/select" options={{ title: t(''), headerShown: true, headerTransparent: true, headerBackButtonDisplayMode: 'minimal', headerTintColor: colorScheme.tint, headerTitleStyle: { color: colorScheme.text } }} />
