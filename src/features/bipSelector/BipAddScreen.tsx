@@ -21,6 +21,7 @@ import { Bip } from '@/src/types/Bip';
 import { updateAllData } from '@/src/services/storage/updateData';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { MaterialIcons } from '@expo/vector-icons';
+import Logo from '@/assets/images/icon_svg.svg';
 
 
 
@@ -87,10 +88,12 @@ export default function SelectBipScreen() {
                 onPress={() => toggleCity(item.id)}
                 activeOpacity={0.7}
             >
-                <Text style={[styles.cityName, { color: theme.text, paddingRight:40 }]}>{he.decode(item.name)}</Text>
+                <Text style={[styles.cityName, { color: theme.text, paddingRight: 40 }]}>{item.name}</Text>
                 {/* <View style={[styles.checkbox, isSelected && styles.checkboxChecked]}>
                     {isSelected && <View style={styles.checkmark} />}
                 </View> */}
+                <Logo width={50} height={25} fill={theme.tint} style={{ marginHorizontal: 15 }} />
+
                 <View style={{
                     backgroundColor: isSelected ? theme.tint : 'transparent',
                     borderWidth: 1,

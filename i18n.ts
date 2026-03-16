@@ -5,10 +5,12 @@ import { initReactI18next } from 'react-i18next';
 
 import en from '@/src/locales/en.json';
 import pl from '@/src/locales/pl.json';
+import uk from '@/src/locales/uk.json';
 
 const resources = {
   en: { translation: en },
   pl: { translation: pl },
+  uk: { translation: uk }
 };
 
 // Получение сохранённого языка
@@ -20,9 +22,9 @@ const getMemoryLanguage = async () => {
 // Получение языка устройства
 export const getDeviceLanguage = () => {
   const deviceLang = Localization.getLocales()[0]?.languageCode;
-  if(deviceLang)
-    return ['en', 'pl'].includes(deviceLang) ? deviceLang : 'pl';
-  else{
+  if (deviceLang)
+    return ['en', 'pl', 'uk'].includes(deviceLang) ? deviceLang : 'pl';
+  else {
     return 'pl'
   }
 };
@@ -30,8 +32,8 @@ export const getDeviceLanguage = () => {
 // Инициализация i18n
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en', // временно, позже сменим на реальный
-  fallbackLng: 'en',
+  lng: 'en',
+  fallbackLng: 'pl',
   interpolation: {
     escapeValue: false,
   },

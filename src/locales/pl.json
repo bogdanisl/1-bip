@@ -46,7 +46,7 @@
     "welcome": "Biuletyn Informacji Publicznej",
     "welcome_back": "Witaj w e-Urzędzie",
     "guest_message": "Zaloguj się, aby uzyskać pełny dostęp",
-    "office_data": "Dane urzędu",
+    "office_data": "Dane jednostki",
     "office_data_desc": "Adres, NIP, REGON, KRS",
     "opening_hours": "Godziny pracy",
     "opening_hours_desc": "",
@@ -119,7 +119,7 @@
   "read_more": "Czytaj dalej",
   "added": "Dodano: ",
   "added_by_2": "Wprowadził: ",
-  "fess": "Opłaty",
+  "fees": "Opłaty",
   "resolution_type": "Rodzaj sprawy",
   "resolution_place": "Miejsce załatwienia",
   "required_documents": "Wymagane dokumenty",
@@ -130,12 +130,12 @@
   "resolution_content": "Treść",
   "search_in_app": "Szukaj w aplikacji...",
   "unsupported_bip": "BIP \"{{name}}\" nie jest obsługiwany przez aplikację.\n\nSpróbuj połączyć się z innym BIP'em, albo spróbuj później",
-  "empty_list": "Jeszcze nie dodano żadnych artykułów. Sprawdź później.",
+  "empty_list": "Jeszcze nie dodano żadnych artykułów.",
   "empty_list_downloads_title": "Jeszcze nie dodano żadnych plików",
   "empty_list_downloads_desc": "Sprawdź później, albo odśwież listę",
   "no_data": "Brak danych do wyświetlenia.",
-  "check_later_or_update":"Sprawdź ponownie później\nlub odśwież listę",
-  "update_list":"Odśwież listę",
+  "check_later_or_update": "Sprawdź ponownie później\nlub odśwież listę",
+  "update_list": "Odśwież listę",
   "office_name": "Nazwa urzędu",
   "address": "Adres",
   "postal_code": "Kod pocztowy",
@@ -237,5 +237,12 @@
       "text": "Administrator zastrzega sobie prawo do wprowadzania zmian w regulaminie. Aktualna wersja regulaminu zawsze będzie dostępna w aplikacji oraz na stronie 1bip.pl."
     }
   },
-  "empty_article_list":"Brak artykułów w tej kategorii"
+  "empty_article_list": "Brak artykułów w tej kategorii",
+  "app_version": "Wersja aplikacji",
+  "phone_number": "Numer telefonu",
+  "top_articles": "Najpopularniejsze artykuły",
+  "top_categories": "Kategorie z największym udziałem",
+  "empty_category": "W tej kategorii jeszcze\nnie dodano żadnych danych",
+  "articles": "Artykuły",
+  "subcategories": "Podkategorie"
 }

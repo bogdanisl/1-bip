@@ -56,14 +56,14 @@ const ContactScreen = () => {
                             <Text style={styles.sectionDesc}>{t('contact_us_desc')}</Text>
 
                             <Text
-                            style={{
-                                marginTop:25,
-                                marginBottom:12,
-                                fontSize:18,
-                                fontWeight:'700',
-                                color:themeColors.text,
-                                paddingRight:120
-                            }}
+                                style={{
+                                    marginTop: 25,
+                                    marginBottom: 12,
+                                    fontSize: 18,
+                                    fontWeight: '700',
+                                    color: themeColors.text,
+                                    paddingRight: 120
+                                }}
                             >
                                 {selectedBip.name}
                             </Text>
@@ -73,7 +73,7 @@ const ContactScreen = () => {
                                     officeData.phone?.value &&
                                     <FileItem
                                         name={officeData.phone.value}
-                                        details="Telefon"
+                                        details={t('phone_number')}
                                         iconBackground={themeColors.background}
                                         style={{ backgroundColor: themeColors.background_2 }}
                                         leftIconName={"phone"}
@@ -98,7 +98,7 @@ const ContactScreen = () => {
                                 }
                                 <FileItem
                                     name={`${officeData.street?.value},\n${officeData.postalCode?.value}, ${officeData.city?.value}`}
-                                    details="Adres"
+                                    details={t('address')}
                                     iconBackground={themeColors.background}
                                     style={{
                                         backgroundColor: themeColors.background_2,

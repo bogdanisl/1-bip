@@ -115,8 +115,8 @@ const CategoryScreen = () => {
                                         <FileItem
                                             key={c.id}
                                             name={c.title}
-                                            detailsAccent={c.articleCount ? 'Artykuły: ' + c.articleCount : ''}
-                                            details={c.subcategoryCount ? 'Podkategorie: ' + c.subcategoryCount + ' • ' : ''}
+                                            detailsAccent={c.articleCount ? t('articles') + ': ' + c.articleCount : ''}
+                                            details={c.subcategoryCount ? t('subcategories') + + c.subcategoryCount + ' • ' : ''}
                                             style={{ backgroundColor: theme.background_2 }}
                                             onPress={() => router.push({
                                                 pathname: (`/(tabs)/home/categories/${c.id}` as RelativePathString),

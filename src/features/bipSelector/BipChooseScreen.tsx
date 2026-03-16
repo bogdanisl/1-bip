@@ -40,7 +40,8 @@ const NUM_DIGITS = 5;
 
 
 export default function BipFindScreen() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const [gpsButtonWidth, setGpsButtonWidth] = useState(120);
     const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
     const [Error, setError] = useState<string | null>(null)
 
@@ -50,7 +51,6 @@ export default function BipFindScreen() {
     const [isSearchingLocation, setIsSearchingLocation] = useState(false);
 
     const inputRefs = useRef<(TextInput | null)[]>([]);
-
     const shake = useSharedValue(0);
     const rotation = useSharedValue(0);
     const textProgress = useSharedValue(1);
@@ -69,6 +69,23 @@ export default function BipFindScreen() {
         setIsComplete(digits.every(d => d.length === 1));
         clearStorage();
     }, [digits]);
+
+    useEffect(() => {
+        switch (i18n.language) {
+            case 'uk':
+                setGpsButtonWidth(180);
+                break;
+            case 'pl':
+                setGpsButtonWidth(120);
+                break;
+            case 'en':
+                setGpsButtonWidth(120);
+                break;
+            default:
+                setGpsButtonWidth(120);
+                break;
+        }
+    }, [i18n.language])
 
     const updateDigit = (val: string, index: number) => {
         const newDigits = [...digits];
@@ -205,7 +222,7 @@ export default function BipFindScreen() {
     }));
 
     const textStyle = useAnimatedStyle(() => ({
-        width: interpolate(textProgress.value, [0, 1], [0, 130]),
+        width: interpolate(textProgress.value, [0, 1], [0, gpsButtonWidth]),
         justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: textProgress.value * 5,

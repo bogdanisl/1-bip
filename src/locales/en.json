@@ -114,7 +114,7 @@
     "read_more": "Read more",
     "added": "Added: ",
     "added_by_2": "Added by: ",
-    "fess": "Fees",
+    "fees": "Fees",
     "resolution_type": "Resolution type",
     "resolution_place": "Place of settlement",
     "required_documents": "Required documents",
@@ -221,7 +221,15 @@
     },
     "empty_list_downloads_title": "Here is no added documents at this moment",
     "empty_list_downloads_desc": "Try to check again later,\n or refresh list",
+    "empty_list": "Here is no articles added yet.",
     "check_later_or_update": "Try to check again later,\nor refresh list",
     "update_list": "Refresh list",
-    "empty_article_list": "No Articles found for this category"
+    "empty_article_list": "No Articles found for this category",
+    "app_version": "Application version",
+    "phone_number": "Phone number",
+    "top_articles": "Most popular articles",
+    "top_categories": "Most popular categories",
+    "empty_category": "This category\ndon't have any data yet",
+    "articles": "Articles",
+    "subcategories": "Subcategories"
 }

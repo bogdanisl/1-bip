@@ -14,6 +14,8 @@ import { Section } from '@/src/types/Category';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 import { RelativePathString, router } from 'expo-router';
+import { EmptyState } from '@/src/components/EmptyState';
+import { useTranslation } from 'react-i18next';
 
 const ROW_HEIGHT = 60;
 const GAP = 8;
@@ -27,13 +29,17 @@ interface SectionCardProps {
 const SectionCard: React.FC<SectionCardProps> = ({ section }) => {
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { t } = useTranslation();
 
     const [expanded, setExpanded] = useState(section.expanded || false);
     const animatedHeight = useRef(new Animated.Value(expanded ? ROW_HEIGHT * ((section.categories?.length || 0)) : 0)).current;
     const arrowRotation = useRef(new Animated.Value(expanded ? 1 : 0)).current;
+    const categoriesCount = section.categories?.length ?? 0
 
     const toggleExpand = () => {
-        const toValue = expanded ? 0 : ROW_HEIGHT_SUM * ((section.categories?.length || 0)) + PADDING_TOP;
+        const toValue = expanded ? 0 : categoriesCount > 0 
+        ? ROW_HEIGHT_SUM * (categoriesCount) + PADDING_TOP 
+        : 250;
 
         Animated.parallel([
             Animated.timing(animatedHeight, {
@@ -81,7 +87,7 @@ const SectionCard: React.FC<SectionCardProps> = ({ section }) => {
                     </View> */}
                     <View>
                         <Text style={[styles.titleText, { color: theme.text }]}>{section.name}</Text>
-                        <Text style={{ color: theme.subText }}>{'Kategorie: ' + section.categories?.length}</Text>
+                        <Text style={{ color: theme.subText }}>{t('home.categories') + ': ' + section.categories?.length}</Text>
                     </View>
                 </View>
 
@@ -122,8 +128,8 @@ const SectionCard: React.FC<SectionCardProps> = ({ section }) => {
                                         subcategoriesCount: category.subcategoryCount
                                     }
                                 })}
-                                detailsAccent={`Artykuły: ${category.articleCount}`}
-                                details={(category.subcategoryCount ? `Podkategorie: ${category.subcategoryCount} • ` : ``)}
+                                detailsAccent={`${t('articles')}: ${category.articleCount}`}
+                                details={(category.subcategoryCount ? `${t('subcategories')}: ${category.subcategoryCount} • ` : ``)}
                                 key={category.id}
                                 style={{
                                     flex: 1,
@@ -137,7 +143,15 @@ const SectionCard: React.FC<SectionCardProps> = ({ section }) => {
                                 rightIconName='chevron-right' />
                         </View>
                     ))}
-
+                    {categoriesCount < 1 &&
+                        <View style={{
+                            height:150
+                        }}> 
+                            <EmptyState
+                            title={t('empty_category')}
+                            />
+                        </View>
+                    }
                 </View>
 
             </Animated.View>

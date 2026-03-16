@@ -18,6 +18,7 @@ import { useRouter } from 'expo-router';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
 
+
 const BipSelectorScreen = () => {
     const router = useRouter();
     const colorScheme = useColorScheme();

@@ -12,11 +12,12 @@ import { Colors } from '@/src/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import Logo from '@/assets/images/icon_svg.svg';
-
 import { useHome } from '../hooks/use-home';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
-export const Header = ({ onSearchPress }: any) => {
+const columns = 36;
+
+export const Header = () => {
 
   const { i18n, t } = useTranslation();
   const { officeData, savedBips } = useHome();
@@ -34,8 +35,12 @@ export const Header = ({ onSearchPress }: any) => {
       ? officeData.logo.src
       : `/${officeData.logo.src}`;
 
-    return `${base}${path}`;
+    return {
+      url: `${base}${path}?v=${Date.now()}`,
+      width: 100 / (columns / (officeData.logo.width ?? 22))
+    }
   }, [selectedBip?.url, officeData?.logo?.src]);
+
 
   return (
     <LinearGradient
@@ -116,7 +121,7 @@ export const Header = ({ onSearchPress }: any) => {
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Text style={{ fontSize: 22, fontWeight: '800', color: 'white', flex: 1, marginRight: 10 }}>
-          {officeData?.title.value || 'Brak danych.'}
+          {selectedBip?.name || ''}
           <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
             {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
           </Text>
@@ -128,12 +133,22 @@ export const Header = ({ onSearchPress }: any) => {
             style={{ width: 140, height: 140, position: 'absolute' }}
             resizeMode="contain"
           />
-          <Image
-            key={selectedBip?.id ?? logo_bip}
-            source={logo_bip ? { uri: logo_bip } : undefined}
-            style={{ width: 60, height: 60, backgroundColor: 'transparent', borderRadius: 0 }}
-            resizeMode="contain"
-          />
+          <View
+            style={{
+              width: 140,
+              height: 140,
+              borderRadius: 100,
+              justifyContent: 'center',
+              alignItems: 'center',
+              overflow: 'hidden'
+            }}>
+            <Image
+              source={{ uri: logo_bip?.url }}
+
+              style={{ width: logo_bip?.width, height: '100%' }}
+              resizeMode='contain'
+            />
+          </View>
         </View>
       </View>
     </LinearGradient>

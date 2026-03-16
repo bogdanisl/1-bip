@@ -7,10 +7,15 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Application from 'expo-application'
+import { useHome } from '../hooks/use-home';
+import { useTranslation } from 'react-i18next';
 
 
 export const Footer = () => {
   const version = Application.nativeApplicationVersion || '1.0.0'
+  const { officeData } = useHome();
+  const bip_version = officeData?.system ? officeData.system.version.toUpperCase() : null
+  const { t } = useTranslation();
 
   return (
     <LinearGradient
@@ -21,12 +26,16 @@ export const Footer = () => {
     >
       <View style={{ position: 'absolute', top: 50, left: 0, right: 0, zIndex: 100, padding: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ flexDirection: 'row' }}>
-          <FontAwesome style={{ marginRight: 5 }} color="#bababaff" size={13} name="code" />
-          <Text style={{ textAlign: 'center', color: '#bababaff', fontSize: 11, fontWeight: '500' }}>WERSJA 6.1.0 0001032511</Text>
+          {bip_version &&
+            <>
+              <FontAwesome style={{ marginRight: 5 }} color="#bababaff" size={13} name="code" />
+              <Text style={{ textAlign: 'center', color: '#bababaff', fontSize: 11, fontWeight: '500' }}>{bip_version}</Text>
+            </>
+          }
         </View>
         <View style={{ flexDirection: 'row' }}>
           <FontAwesome style={{ marginRight: 5 }} color="#bababaff" size={14} name="mobile-phone" />
-          <Text style={{ textAlign: 'center', color: '#bababaff', fontSize: 11, fontWeight: '500' }}>WERSJA APLIKACJI {version}</Text>
+          <Text style={{ textAlign: 'center', color: '#bababaff', fontSize: 11, fontWeight: '500' }}>{t('app_version').toUpperCase()} {version}</Text>
         </View>
       </View>
       <Image

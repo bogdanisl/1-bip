@@ -38,19 +38,6 @@ export default function RecentLayout() {
               {t('recents')}
             </Text>
             : undefined,
-
-          headerSearchBarOptions: {
-            headerIconColor: themeColors.icon,
-            tintColor: themeColors.tint,
-            textColor: themeColors.text,
-            hintTextColor: themeColors.tint,
-            placeholder: t('search_article'),
-            onChangeText: (event) => {
-              router.setParams({
-                q: event.nativeEvent.text,
-              });
-            },
-          },
         }}
       />
       < Stack.Screen name="[slug]/index"

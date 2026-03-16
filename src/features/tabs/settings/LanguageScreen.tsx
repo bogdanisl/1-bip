@@ -15,7 +15,7 @@ const LanguageScreen = () => {
   const setLanguage = async (lang: string) => {
     await AsyncStorage.setItem('app_language', lang);
     await i18n.changeLanguage(lang);
-    
+
   };
 
   return (
@@ -29,10 +29,15 @@ const LanguageScreen = () => {
           />
           <ListButton
             label="🇬🇧 English"
-            isLast
             onPress={() => setLanguage('en')}
             rightIcon={currentLang === 'en' ? 'check' : 'won'}
-          /> 
+          />
+          <ListButton
+            label="🇺🇦 Українська"
+            isLast
+            onPress={() => setLanguage('uk')}
+            rightIcon={currentLang === 'uk' ? 'check' : 'won'}
+          />
         </View>
       </ScrollView>
     </View>
