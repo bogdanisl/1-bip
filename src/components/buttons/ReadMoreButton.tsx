@@ -12,7 +12,7 @@ export const ReadMoreButton = ({ article, theme, path }: { article: Article; the
 
   const handlePress = () => {
     setLoading(true);
-    console.log(path);
+    //console.log(path);
     setTimeout(() => {
       router.push({
         pathname: path ?? `../recent/${article.id}`,

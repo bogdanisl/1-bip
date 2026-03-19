@@ -29,14 +29,16 @@ export const Header = () => {
 
   const logo_bip = useMemo(() => {
     if (!selectedBip?.url || !officeData?.logo?.src) return null;
+    //console.log(officeData.logo)
 
     const base = selectedBip.url.replace(/\/$/, '');
     const path = officeData.logo.src.startsWith('/')
       ? officeData.logo.src
       : `/${officeData.logo.src}`;
 
-    const percent = (100 * (officeData.logo.width ?? 36)) / columns;
+    const percent = (100 * (officeData.logo.width ?? 20)) / columns;
     const logoWidth = percent ? (percent / 100) * 160 : 100;
+    //console.log(logoWidth)
 
     return {
       url: `${base}${path}?v=${Date.now()}`,

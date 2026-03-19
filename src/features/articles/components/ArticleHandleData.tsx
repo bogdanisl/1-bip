@@ -36,11 +36,7 @@ export function HandleDataSection({ article, theme }: Props) {
 
                     {article.resolutionDate && (
                         <FileItem
-                            name={new Date(article.resolutionDate.date!).toLocaleDateString('pl-PL', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}
+                            name={article.resolutionDate}
                             style={{ backgroundColor: theme.background_2 }}
                             iconBackground={theme.background}
                             leftIconName="calendar-month"

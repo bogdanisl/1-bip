@@ -14,7 +14,7 @@ export function ArticleContent({ content, theme }: Props) {
     const { width } = useWindowDimensions();
     //var he = require('he');
     //const decoded = he.decode(content || '');
-    console.log(content);
+    //(content);
     const transformedIMG = content.replaceAll('<img src="', `<img src="${'https://www.bip.alpanet.pl/'}`)
 
     return (

@@ -35,7 +35,7 @@ export default function StatisticsScreen() {
                 setTopArticle(data[0]);
             }
             catch (err: any) {
-                console.log(err?.message);
+                //console.log(err?.message);
             }
         }
 

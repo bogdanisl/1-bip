@@ -168,7 +168,7 @@ export default function BipFindScreen() {
             // Zapytanie o uprawnienia do używania lokalizacji
             const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
-                console.log('Brak uprawnień do lokalizacji');
+               // console.log('Brak uprawnień do lokalizacji');
                 return;
             }
             // Pobranie współrzędnych użytkownika
@@ -186,7 +186,7 @@ export default function BipFindScreen() {
             if (postalCodeRaw) {
 
                 const postalCode = postalCodeRaw.replace(/\D/g, '');
-                console.log('Kod pocztowy (tylko cyfry):', postalCode);
+              //  console.log('Kod pocztowy (tylko cyfry):', postalCode);
 
                 // Wypełnienie inputów
                 setTimeout(() => {
@@ -204,7 +204,7 @@ export default function BipFindScreen() {
                     setIsSearchingLocation(false);
                 }, 500)
             } else {
-                console.log('Nie udało się znaleźć kodu pocztowego.');
+               // console.log('Nie udało się znaleźć kodu pocztowego.');
             }
         } catch (error) {
             setError(t('cant_find_postal_code'));

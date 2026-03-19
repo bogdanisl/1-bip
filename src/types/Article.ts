@@ -21,7 +21,7 @@ export interface Article {
     articleType?: number | null ;
     subtitle?: string | null ;
     resolutionNumber?: string | null ;
-    resolutionDate?: DateObject | null ;
+    resolutionDate?: string | null ;
     resolutionSubject?: string | null ;
     resolutionText?: string | null ;
     category1Id?: number | null ;

@@ -82,7 +82,7 @@ const DocumentViewerScreen = () => {
 
   useEffect(() => {
     if (!file_uri) router.back();
-    console.log(fullUrl)
+    //console.log(fullUrl)
   }, [file_uri]);
 
   if (!file_uri) return null;
