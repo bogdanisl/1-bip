@@ -25,7 +25,7 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
-        <Header onSearchPress={() => setIsSearchModalVisible(true)} />
+        <Header />
         {isUpdateAvailable && <UpdateBanner />}
 
         <View style={{

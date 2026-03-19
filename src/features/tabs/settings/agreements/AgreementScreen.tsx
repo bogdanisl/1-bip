@@ -59,7 +59,7 @@ export default function AgreementScreen({ type }: Props) {
             marginTop: 15,
             marginBottom: 8,
         },
-        h3: { color: theme.tint, fontSize: 16, fontWeight: '600' as const, marginBottom: 5 },
+        h3: { color: theme.tint, fontSize: 18, fontWeight: '600' as const, marginBottom: 5, marginTop: 15 },
     }), [theme]);
 
     if (loading) {

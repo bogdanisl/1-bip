@@ -35,9 +35,12 @@ export const Header = () => {
       ? officeData.logo.src
       : `/${officeData.logo.src}`;
 
+    const percent = (100 * (officeData.logo.width ?? 36)) / columns;
+    const logoWidth = percent ? (percent / 100) * 160 : 100;
+
     return {
       url: `${base}${path}?v=${Date.now()}`,
-      width: 100 / (columns / (officeData.logo.width ?? 22))
+      width: logoWidth
     }
   }, [selectedBip?.url, officeData?.logo?.src]);
 
@@ -130,13 +133,13 @@ export const Header = () => {
         <View style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', width: 140, height: 140, padding: 80, borderRadius: 90 }}>
           <Image
             source={require('@/assets/images/sphere.1.webp')}
-            style={{ width: 140, height: 140, position: 'absolute' }}
+            style={{ width: 160, height: 160, position: 'absolute' }}
             resizeMode="contain"
           />
           <View
             style={{
-              width: 140,
-              height: 140,
+              width: 160,
+              height: 160,
               borderRadius: 100,
               justifyContent: 'center',
               alignItems: 'center',
@@ -144,7 +147,6 @@ export const Header = () => {
             }}>
             <Image
               source={{ uri: logo_bip?.url }}
-
               style={{ width: logo_bip?.width, height: '100%' }}
               resizeMode='contain'
             />
