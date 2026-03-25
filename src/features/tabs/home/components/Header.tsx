@@ -36,7 +36,7 @@ export const Header = () => {
       ? officeData.logo.src
       : `/${officeData.logo.src}`;
 
-    const percent = (100 * (officeData.logo.width ?? 20)) / columns;
+    const percent = (100 * (officeData.logo.width ?? 16)) / columns;
     const logoWidth = percent ? (percent / 100) * 160 : 100;
     //console.log(logoWidth)
 

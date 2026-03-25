@@ -14,6 +14,7 @@
     "@codler/react-native-keyboard-aware-scroll-view": "^2.0.1",
     "@expo/ui": "~0.2.0-beta.9",
     "@expo/vector-icons": "^15.0.3",
+    "@native-html/table-plugin": "^5.3.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",

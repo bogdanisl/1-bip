@@ -20,12 +20,12 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: true,
         headerTransparent: Platform.OS === "ios" ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable()? 'none': 'regular',
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerLargeTitle: false,
         headerTintColor: themeColors.tint,
         headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
         headerTitleStyle: { color: themeColors.text },
-        headerLargeStyle: {backgroundColor: 'transparent'}
+        headerLargeStyle: { backgroundColor: 'transparent' }
       }}
     >
       <Stack.Screen name="index" options={{ title: t('home_tab'), headerShown: false, headerTransparent: true }} />
@@ -63,8 +63,8 @@ export default function HomeLayout() {
       <Stack.Screen name="editors/index"
         options={{
           title: t('home.bip_editors'),
-         
-         
+
+
         }}
       />
       <Stack.Screen name="employees/index"
@@ -166,9 +166,82 @@ export default function HomeLayout() {
       <Stack.Screen name="statistics" options={{
         title: t('home.visit_statistics'),
       }} />
+
+      <Stack.Screen name="changeRegister/index" options={{
+        title: t('home.change_log'),
+      }} />
+      <Stack.Screen name='changeRegister/[slug]/index' options={{
+        title: ''
+      }} />
+      <Stack.Screen name="changeRegister/[slug]/[file_uri]"
+        options={{
+          headerShown: Platform.OS === "ios" ? true : true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
+              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
+            </TouchableOpacity>
+          ),
+          title: "",
+          presentation:
+            Platform.OS === "ios"
+              ? isLiquidGlassAvailable() && osName !== "iPadOS"
+                ? 'modal'
+                : 'modal'
+              : 'card',
+          sheetGrabberVisible: true,
+          sheetAllowedDetents: [0.7],
+          sheetInitialDetentIndex: 0,
+
+          contentStyle: {
+            backgroundColor: isLiquidGlassAvailable()
+              ? "transparent"
+              : themeColors.background,
+          },
+          headerStyle: {
+            backgroundColor:
+              Platform.OS === "ios"
+                ? "transparent"
+                : themeColors.background,
+          }
+        }}
+      />
       <Stack.Screen name="documents/index" options={{
         title: t('home.downloads'),
       }} />
+
+      <Stack.Screen name="instruction_bip"
+        options={{
+          headerShown: Platform.OS === "ios" ? true : true,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => { router.back() }} style={{ width: 34, height: 34, justifyContent: 'center', alignItems: 'center' }}>
+              <MaterialIcons name='close' size={28} color={isLiquidGlassAvailable() ? themeColors.text : themeColors.tint} style={isLiquidGlassAvailable() ? { paddingLeft: 2 } : {}}></MaterialIcons>
+            </TouchableOpacity>
+          ),
+          title: "",
+          presentation:
+            Platform.OS === "ios"
+              ? isLiquidGlassAvailable() && osName !== "iPadOS"
+                ? 'modal'
+                : 'modal'
+              : 'card',
+          sheetGrabberVisible: true,
+          sheetAllowedDetents: [0.7],
+          sheetInitialDetentIndex: 0,
+
+          contentStyle: {
+            backgroundColor: isLiquidGlassAvailable()
+              ? "transparent"
+              : themeColors.background,
+          },
+          headerStyle: {
+            backgroundColor:
+              Platform.OS === "ios"
+                ? "transparent"
+                : themeColors.background,
+          }
+        }}
+      />
+
       <Stack.Screen name="documents/[file_uri]"
         options={{
           headerShown: Platform.OS === "ios" ? true : true,

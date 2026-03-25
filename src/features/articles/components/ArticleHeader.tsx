@@ -9,15 +9,6 @@ interface Props {
     theme: any;
 }
 
-const getSubTitle = (article: Article, t: any) => {
-    switch (article.articleType) {
-        case 0: return article.subtitle;
-        case 1: return `${t('from_day')}: ${article.resolutionDate?.date}`;
-        case 2: return `${t('settle_place')}: ${article.resolutionPlace}`;
-        default: return '';
-    }
-}
-
 export function ArticleHeader({ article, theme }: Props) {
     const { t } = useTranslation();
     var he = require('he');

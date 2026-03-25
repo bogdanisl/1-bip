@@ -92,7 +92,7 @@ const CategoryScreen = () => {
                 data={isLoading ? skeletonData : filteredArticles}
                 keyExtractor={(_, i) => i.toString()}
                 renderItem={({ item }: { item: Article }) =>
-                    isLoading ? <ArticleCardPreloader /> : <ArticleCard article={item} path={(`/(tabs)/home/categories/${id}/${item.id}` as RelativePathString)} />
+                    isLoading ? <ArticleCardPreloader /> : <ArticleCard article={item} path={(`.${id}/${item.id}` as RelativePathString)} />
                 }
 
                 ListHeaderComponent={

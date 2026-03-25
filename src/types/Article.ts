@@ -5,6 +5,7 @@ export interface Article {
     categoryId?: number;
     title: string;
     slug: string;
+    versionCount?: number | null;
     content?: string;
     createdAt?: DateObject | null ;
     position?: number | null ;
@@ -65,5 +66,4 @@ export interface Document{
     fileSize: number,
     language: string
 }
-
 

@@ -9,16 +9,17 @@ interface SkeletonProps {
   height: number;
   borderRadius?: number;
   style?: object;
+  duration?: number;
   theme: any;
 }
 
-export const Skeleton = ({ width, height, borderRadius = 8, style, theme }: SkeletonProps) => {
+export const Skeleton = ({ width, height, borderRadius = 8, style, theme, duration = 800 }: SkeletonProps) => {
   const animatedValue = useRef(new Animated.Value(-1)).current;
   useEffect(() => {
     Animated.loop(
       Animated.timing(animatedValue, {
         toValue: 1,
-        duration: 600,
+        duration: duration,
         useNativeDriver: true,
       })
     ).start();
@@ -38,7 +39,7 @@ export const Skeleton = ({ width, height, borderRadius = 8, style, theme }: Skel
         }}
       >
         <LinearGradient
-          colors={[theme.background_2 ,theme.background,theme.background_2]}
+          colors={[theme.background_2, theme.background, theme.background_2]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={{ flex: 1, width: 200 }}

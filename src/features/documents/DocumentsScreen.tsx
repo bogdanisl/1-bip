@@ -17,6 +17,7 @@ import { showMessage } from 'react-native-flash-message';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { EmptyState } from '@/src/components/EmptyState';
 import { apiRequest } from '@/src/services/api/client';
+import FileItem from '@/src/components/buttons/ItemButton';
 
 
 export default function DocumentsScreen() {
@@ -82,46 +83,21 @@ export default function DocumentsScreen() {
 
   const renderAttachment = ({ item }: { item: Document }) => {
     return (
-      <TouchableOpacity
+      <FileItem
         key={item.id}
-        onPress={() => {
-          if (selectedBip == null) {
-            showMessage({
-              message: t('preview_not_available_example_bip'),
-              icon: 'auto',
-              type: "warning",
-            });
-            return;
-          }
-          router.push(`/(tabs)/home/documents/${item.fileName}.${item.extension}`) //${item.fileName}.${item.extension}
-        }}
-        style={{
-          flexDirection: 'row',
-
-          alignItems: 'center',
-          borderRadius: 12,
-          paddingRight: 80,
-          paddingVertical: 12,
-          padding: 16,
-          backgroundColor: theme.background_2,
-          shadowColor: Colors.light.text,
-          shadowOpacity: 0.1,
-          shadowRadius: 6,
-          shadowOffset: { width: 0, height: 2 },
-          elevation: 3,
-
-        }}
-      >
-        <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
-          <MaterialIcons name={getFileIcon(item.extension)} size={24} color={theme.tint} />
-        </View>
-        <Text style={{ color: theme.text, fontSize: 16 }}>
-          {item.fileName}.{item.extension}{'\n'}
-          <Text style={{ fontSize: 14, color: theme.subText }}>
-            {`${t('size')}:\u00A0${formatFileSize(item.fileSize)}, ${t('format')}:\u00A0${item.extension}, ${t('language')}:\u00A0${item.language}`}
-          </Text>
-        </Text>
-      </TouchableOpacity>
+        name={`${item.fileName}.${item.extension}`}
+        details={
+          `${item.fileSize
+            ? `${t('size')}: ${formatFileSize(item.fileSize)}` :
+            ''}, ${item.extension && `${t('format')}: ${item.extension}, `}${item.language ?
+              t('language') + ': ' + item.language :
+              ''}`}
+        iconBackground={theme.background}
+        style={{ backgroundColor: theme.background_2 }}
+        leftIconName={getFileIcon(item.extension)}
+        rightIconName='chevron-right'
+        onPress={() => router.push(`./documents/${item.fileName}.${item.extension}`)}
+      />
     )
   }
 

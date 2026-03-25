@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useLocalSearchParams } from 'expo-router';
 import { Stack } from 'expo-router/stack';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, Share, Platform, View, ScrollView } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
@@ -17,6 +17,7 @@ import { ArticleContent } from './components/ArticleContent';
 import { AttachmentsList } from './components/AttachmentList';
 import { MatrykaSection } from './components/MetricSection';
 import { useArticle } from '@/src/hooks/use-article';
+import { ArticleChangeHistorySection } from './components/ArticleChangeHistorySection';
 
 export default function ArticleScreen() {
   const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
@@ -24,8 +25,8 @@ export default function ArticleScreen() {
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const { slug } = useLocalSearchParams<{ slug: string }>();
-
-  const { article, isLoading } = useArticle({ id: Number(slug) });
+  const articleId = Number(slug);
+  const { article, isLoading } = useArticle({ id: articleId });
   const [isMatrykaOpen, setIsMatrykaOpen] = useState(false);
 
 
@@ -40,7 +41,6 @@ export default function ArticleScreen() {
         return;
       };
       await Share.share({
-        message: `${t('check_this_message')}: https://www.bip.alpanet.pl/artykuly/${slug}`,
         url: `${selectedBip?.url}/artykuly/${slug}`,
         title: 'Awesome website',
       });
@@ -115,7 +115,14 @@ export default function ArticleScreen() {
             isOpen={isMatrykaOpen}
             toggle={() => setIsMatrykaOpen(prev => !prev)}
             theme={theme} />
-          <View style={{ height: 60 }} />
+
+          {(article.versionCount && article.versionCount > 0) &&
+            <ArticleChangeHistorySection
+              article={article}
+              theme={theme}
+            />
+          }
+          <View style={{ height: 120 }} />
 
         </View>
       </ScrollView>

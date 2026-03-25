@@ -12,11 +12,16 @@ export const ReadMoreButton = ({ article, theme, path }: { article: Article; the
 
   const handlePress = () => {
     setLoading(true);
-    //console.log(path);
     setTimeout(() => {
-      router.push({
-        pathname: path ?? `../recent/${article.id}`,
-      });
+      if (path) {
+        router.push({
+          pathname: path,
+        });
+      } else {
+        router.push({
+          pathname: `../recent/${article.id}`
+        });
+      }
       setLoading(false);
     }, 0);
   };

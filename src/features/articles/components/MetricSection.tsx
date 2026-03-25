@@ -23,7 +23,6 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
     const animatedHeight = useRef(new Animated.Value(0)).current;
     const arrowRotation = useRef(new Animated.Value(0)).current;
     const [lang, setLang] = useState('pl-PL');
-    const [expanded, setExpanded] = useState(isOpen);
     const { t } = useTranslation()
     useEffect(() => {
         const toValue = isOpen ? 1 : 0;
@@ -40,13 +39,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
             toValue: isOpen ? 1 : 0,
             duration: 260,
             useNativeDriver: false,
-        }).start(() => {
-            if (!isOpen) {
-                setExpanded(false);
-            } else {
-                setExpanded(true);
-            }
-        });
+        }).start();
     }, [isOpen]);
 
     useEffect(() => {

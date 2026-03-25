@@ -30,7 +30,15 @@ const SUPPORTED_PREVIEW_EXTENSIONS = [
   'webm',
 ];
 
-const DocumentViewerScreen = () => {
+interface Props {
+  file?: {
+    url: string,
+    extension: string,
+    name: string
+  }
+}
+
+const DocumentViewerScreen = ({ file }: Props) => {
   const [isSharingLoading, setIsSharingLoading] = useState(false);
   const [fileSize, setFileSize] = useState<string | null>(null);
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
@@ -39,19 +47,18 @@ const DocumentViewerScreen = () => {
   const themeColors = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
   const { file_uri } = useLocalSearchParams<{ file_uri: string }>();
 
-  const fullUrl = `${selectedBip?.url}/dokumenty/${file_uri}`;
+  const fullUrl = file ? file.url : `${selectedBip?.url}/dokumenty/${file_uri}`;
   const pdfUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(fullUrl)}`;
-
-  const fileName = (file_uri?.split('/').pop() || 'file').split('?')[0];
-  const extension = fileName.split('.').pop()?.toLowerCase() || '';
+  const fileName = file ? file.name : (file_uri?.split('/').pop() || 'file').split('?')[0];
+  const extension = file ? file.extension : fileName.split('.').pop()?.toLowerCase() || '';
 
   const isPreviewSupported = SUPPORTED_PREVIEW_EXTENSIONS.includes(extension);
 
   const handleShareAndSave = async () => {
-    if (!file_uri) return;
+    if (!file_uri && !file) return;
     setIsSharingLoading(true);
     const remoteUrl = `${selectedBip?.url}/dokumenty/${file_uri}`;
-    const fileName = (file_uri.split('/').pop() || 'document.pdf').split('?')[0];
+    const fileName = file ? file.name : (file_uri.split('/').pop() || 'document.pdf').split('?')[0];
     const localUri = new File(Paths.cache, fileName);
 
     if (localUri.exists) {
@@ -81,11 +88,11 @@ const DocumentViewerScreen = () => {
 
 
   useEffect(() => {
-    if (!file_uri) router.back();
+    if (!file_uri && !file) router.back();
     //console.log(fullUrl)
   }, [file_uri]);
 
-  if (!file_uri) return null;
+  if (!file_uri && !file) return null;
 
 
   return (

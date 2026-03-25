@@ -7,11 +7,13 @@ import {
   Dimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/src/constants/theme';
 import { router, RelativePathString } from 'expo-router';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import IconPdf from '@/assets/icons/file-pdf-regular-full.svg';
+import { ReadMoreButton } from '@/src/components/buttons/ReadMoreButton';
 
 interface MenuProps {
   type?: 'top' | 'bottom';
@@ -46,21 +48,27 @@ export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
       { title: t('home.positions'), subtitle: t('home.positions_desc'), icon: 'work', route: '/(tabs)/home/employees' },
       { title: t('home.bip_editors'), subtitle: t('home.bip_editors_desc'), icon: 'group', route: '/(tabs)/home/editors' },
       { title: t('home.visit_statistics'), subtitle: t('home.visit_statistics_desc'), icon: 'bar-chart', route: '/(tabs)/home/statistics' },
+      { title: t('home.change_log'), subtitle: t('home.change_log_desc'), icon: 'history', route: '/(tabs)/home/changeRegister' },
+      { title: t('home.instruction'), subtitle: t('home.instruction_desc'), icon: 'file-open', route: '/(tabs)/home/instruction_bip' },
     ],
     [t, documentsCount]
   );
 
   const displayedItems = useMemo(() => {
     if (type === 'top') {
-      return menuItems.slice(0, 2);        // first 2
+      return menuItems.slice(0, 2);
     }
 
     if (type === 'bottom') {
-      return menuItems.slice(-4);          // last 4
+      return menuItems.slice(2);
     }
 
     return menuItems;
   }, [menuItems, type]);
+
+  const handlePressInstruction = () => {
+    router.push('/(tabs)/home/instruction_bip');
+  }
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 16, justifyContent: 'center' }}>
@@ -84,8 +92,8 @@ export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
               position: 'absolute',
               top: 8,
               right: 8,
-              minWidth: 28,
-              height: 28,
+              minWidth: 25,
+              height: 25,
               borderRadius: 25,
               backgroundColor: 'red',
               justifyContent: 'center',
@@ -99,10 +107,48 @@ export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
           <MaterialIcons name={item.icon as any} size={36} color={theme.tint} />
           <View>
             <Text style={{ fontSize: 15, fontWeight: '700', color: theme.text, marginBottom: 4 }}>{item.title}</Text>
-            <Text style={{ fontSize: 12, color: theme.icon, lineHeight: 14, height:28 }}>{item.subtitle}</Text>
+            <Text style={{ fontSize: 12, color: theme.icon, lineHeight: 14, height: 28 }}>{item.subtitle}</Text>
           </View>
         </TouchableOpacity>
       ))}
+      {/* {type == 'bottom' &&
+        <View style={{
+          width: (width - 48) / 2,
+          elevation: 8,
+        }}>
+          <View style={{ alignItems: 'center' }}>
+            <IconPdf width={50} height={50} fill={theme.subText} style={{ marginVertical: 0 }} />
+          </View>
+          <TouchableOpacity
+            onPress={handlePressInstruction}
+            style={{
+              backgroundColor: theme.tint,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              marginTop: 10,
+              borderRadius: 10
+            }}
+          >
+            <Text style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 13,
+              fontFamily: 'Poppins-Bold',
+            }}>
+              {t('home.instruction').toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              color: theme.subText,
+              fontSize: 13,
+              marginTop: 10
+            }}
+          >
+            {t('home.instruction_desc')}
+          </Text>
+        </View>
+      } */}
     </View>
   )
 };

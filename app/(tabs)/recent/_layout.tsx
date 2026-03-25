@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Text, TouchableOpacity } from 'react-native';
 
 export default function RecentLayout() {
-  const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+  const colorScheme = useColorScheme();
+  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const { t } = useTranslation();
   return (
     <Stack
@@ -23,7 +24,7 @@ export default function RecentLayout() {
           headerTintColor: themeColors.tint,
           headerTitleStyle: { color: themeColors.text },
           headerStyle: {
-            backgroundColor: Platform.OS == 'ios'
+            backgroundColor: Platform.OS === 'ios'
               ? 'transparent'
               : themeColors.background_2,
           },
@@ -33,7 +34,7 @@ export default function RecentLayout() {
           },
           headerLargeTitleShadowVisible: false, headerLargeTitle: true,
           title: t('recents'),
-          headerTitle: () => Platform.OS == 'android' ?
+          headerTitle: () => Platform.OS === 'android' ?
             <Text style={{ color: themeColors.text, fontSize: 24 }}>
               {t('recents')}
             </Text>
@@ -46,12 +47,24 @@ export default function RecentLayout() {
             title: '',
             headerShown: true,
             headerLargeStyle: { backgroundColor: 'transparent' },
-            headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
-            headerTransparent: Platform.OS == 'ios' ? true : false,
-            headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+            headerBackButtonDisplayMode: Platform.OS === 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+            headerTransparent: Platform.OS === 'ios' ? true : false,
+            headerBlurEffect: isLiquidGlassAvailable() ? 'none' : colorScheme === 'dark' ? 'dark' : 'light',
             headerTintColor: themeColors.tint
           }
         }
+      />
+      <Stack.Screen
+        name="[slug]/version/[versionId]"
+        options={{
+          title: t('change_register.compare_title'),
+          headerShown: true,
+          headerLargeStyle: { backgroundColor: 'transparent' },
+          headerBackButtonDisplayMode: Platform.OS === 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
+          headerTransparent: Platform.OS === 'ios' ? true : false,
+          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : colorScheme === 'dark' ? 'dark' : 'light',
+          headerTintColor: themeColors.tint,
+        }}
       />
       < Stack.Screen name="[slug]/[file_uri]"
         options={{
@@ -88,7 +101,7 @@ export default function RecentLayout() {
           },
           headerBlurEffect: isLiquidGlassAvailable()
             ? undefined
-            : useColorScheme() === "dark"
+            : colorScheme === "dark"
               ? "dark"
               : "light",
         }}

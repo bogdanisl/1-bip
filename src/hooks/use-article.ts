@@ -18,6 +18,13 @@ export function useArticle({ id }: { id: number }) {
         setIsLoading(true);
         setError(null);
 
+        if (!id || Number.isNaN(id)) {
+            setArticle(null);
+            setError('Invalid article id');
+            setIsLoading(false);
+            return;
+        }
+
         if (!selectedBip) {
             setArticle(ArtilcesExample.find(a => a.id === id) || null);
             setIsLoading(false);
