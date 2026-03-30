@@ -1,7 +1,6 @@
 // src/components/forms/ContactForm.tsx — с KeyboardAwareScrollView
 
 import { API_URL } from '@/src/constants/keys';
-import { Colors } from '@/src/constants/theme';
 import { KeyboardAwareScrollView } from '@codler/react-native-keyboard-aware-scroll-view';
 import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
@@ -11,12 +10,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import AlpiInput from '../../../../components/AlpiInput';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { background } from '@expo/ui/swift-ui/modifiers';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const ContactForm: React.FC<{
   endpoint?: string;
@@ -33,10 +33,8 @@ const ContactForm: React.FC<{
     const [consentData, setConsentData] = useState(false);
     const [consentPrivacy, setConsentPrivacy] = useState(false);
     const [loading, setLoading] = useState(false);
-    const colorScheme = useColorScheme();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
-
-    const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme: themeColors } = useAppTheme();
     const { t } = useTranslation();
 
     // errors
@@ -296,7 +294,7 @@ const ContactForm: React.FC<{
             disabled={loading}
             style={[styles.submitBtn, { backgroundColor: themeColors.tint, opacity: loading ? 0.7 : 1 }]}
           >
-            <Text style={styles.submitText}>
+            <Text style={[styles.submitText, { color: themeColors.whiteText }]}>
               {loading ? t('sending...') : t('send_email')}
             </Text>
           </TouchableOpacity>
@@ -309,7 +307,7 @@ const ContactForm: React.FC<{
                   textAlign: 'center',
                   fontSize: 16,
                   marginLeft: 0,
-                  marginTop:0,
+                  marginTop: 0,
                 }]}
             >
               {submitError}

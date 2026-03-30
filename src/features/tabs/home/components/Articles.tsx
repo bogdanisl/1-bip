@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, useColorScheme, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { useArticles } from '@/src/hooks/use-articles';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { Colors } from '@/src/constants/theme';
@@ -9,10 +9,11 @@ import { RelativePathString, router } from 'expo-router';
 import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
 import { useSharedValue } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 export default function HomeArticles() {
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
+    const isContrastTheme = theme.text == '#ffff00';
     const width = Dimensions.get('window').width;
     const ref = React.useRef<ICarouselInstance>(null);
 
@@ -30,7 +31,7 @@ export default function HomeArticles() {
 
     if (!isLoading && articles.length === 0) {
         return (
-           <></>
+            <></>
         );
     }
     const panGesture = Gesture.Pan()
@@ -50,7 +51,7 @@ export default function HomeArticles() {
                     onPress={() => { router.push('/(tabs)/recent'); }}
                     style={{ paddingVertical: 12, borderRadius: 8, paddingHorizontal: 12, alignItems: 'center', backgroundColor: theme.tint }}
                 >
-                    <Text style={{ color: 'white', fontFamily: 'Poppins-Bold', fontSize: 13, letterSpacing: 1.2 }}>
+                    <Text style={{ color: theme.whiteText, fontFamily: 'Poppins-Bold', fontSize: 13, letterSpacing: 1.2 }}>
                         {t('see_all').toUpperCase()}
                     </Text>
                 </TouchableOpacity>
@@ -62,16 +63,16 @@ export default function HomeArticles() {
                 data={articles}
                 dotStyle={{ backgroundColor: theme.border, borderRadius: 50 }}
                 containerStyle={{ gap: 5 }}
-                activeDotStyle={{ backgroundColor: theme.tint }}
+                activeDotStyle={{ backgroundColor: isContrastTheme? theme.background_2: theme.tint }}
                 onPress={onPressPagination}
 
             />
             {
                 (isLoading && articles.length === 0) ? (
                     <View
-                    style={{
-                        marginHorizontal:-20
-                    }}
+                        style={{
+                            marginHorizontal: -20
+                        }}
                     >
                         <ArticleCardPreloader />
                     </View>

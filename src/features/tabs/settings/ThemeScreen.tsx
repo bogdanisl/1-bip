@@ -1,60 +1,30 @@
 // app/profile_tabs/theme.tsx — БЕЗ NativeWind + useColorScheme
 import ListButton from '@/src/components/buttons/ListButton';
-import { Colors } from '@/src/constants/theme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
+import { AppTheme } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Appearance,
-  ScrollView,
-  StyleSheet,
-  useColorScheme,
-  View
-} from 'react-native';
-
-type AppTheme = 'light' | 'dark' | 'system';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 const ThemeScreen = () => {
   const { t } = useTranslation();
-  const systemScheme = useColorScheme(); // 'light' | 'dark' | null
-  const [appTheme, setAppTheme] = useState<AppTheme>('system');
+  const { appTheme, theme, setAppTheme } = useAppTheme();
 
-  // Загрузка сохранённой темы
-  useEffect(() => {
-    (async () => {
-      const saved = await AsyncStorage.getItem('app_theme');
-      if (saved === 'light' || saved === 'dark' || saved === 'system') {
-        setAppTheme(saved);
-      }
-    })();
-  }, []);
-
-  // Применение темы
   const applyTheme = async (theme: AppTheme) => {
-    setAppTheme(theme);
-    await AsyncStorage.setItem('app_theme', theme);
-    // Expo не меняет тему автоматически — эмулируем
-    if (theme !== 'system') {
-      Appearance.setColorScheme(theme);
-    } else {
-      Appearance.setColorScheme(null);
-    }
+    await setAppTheme(theme);
   };
-
-  // Определяем текущую активную тему
-  const activeTheme =
-    appTheme === 'system'
-      ? systemScheme || 'light'
-      : appTheme;
-  const colorScheme = useColorScheme();
-
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
 
   return (
     <View style={[styles.container, { backgroundColor: 'transparent' }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
 
-        <View style={[styles.block, { backgroundColor: themeColors.background_2 }]}>
+        <View style={[styles.block, { backgroundColor: theme.background_2 }]}>
+          <ListButton
+            icon='adjust'
+            label={t('system')}
+            onPress={() => applyTheme('system')}
+            rightIcon={appTheme === 'system' ? 'check' : 'won'}
+          />
           <ListButton
             icon='moon-o'
             label={t('dark')}
@@ -68,11 +38,17 @@ const ThemeScreen = () => {
             rightIcon={appTheme === 'light' ? 'check' : 'won'}
           />
           <ListButton
+            icon='universal-access'
+            label={t('contrast')}
+            onPress={() => applyTheme('contrast')}
+            rightIcon={appTheme === 'contrast' ? 'check' : 'won'}
+          />
+          <ListButton
             icon='adjust'
-            label={t('system')}
-            onPress={() => applyTheme('system')}
+            label={t('monochrome')}
+            onPress={() => applyTheme('monochrome')}
             isLast
-            rightIcon={appTheme === 'system' ? 'check' : 'won'}
+            rightIcon={appTheme === 'monochrome' ? 'check' : 'won'}
           />
         </View>
       </ScrollView>

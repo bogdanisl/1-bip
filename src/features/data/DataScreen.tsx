@@ -4,10 +4,8 @@ import {
   Text,
   StyleSheet,
   Linking,
-  useColorScheme,
   ScrollView
 } from 'react-native';
-import { Colors } from '@/src/constants/theme';
 import FileItem from '@/src/components/buttons/ItemButton';
 import * as Clipboard from 'expo-clipboard';
 import { showMessage } from 'react-native-flash-message';
@@ -18,12 +16,12 @@ import { officeDataExample } from '@/src/constants/data_example';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { apiRequest } from '@/src/services/api/client';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 
 
 const DataScreen = () => {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const { t, i18n } = useTranslation();
   var he = require('he');
 

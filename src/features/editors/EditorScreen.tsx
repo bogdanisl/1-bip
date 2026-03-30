@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useLocalSearchParams } from 'expo-router';
 import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
@@ -15,8 +14,7 @@ import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import FileItem from '@/src/components/buttons/ItemButton';
 
 export default function EmployeeDetailPage() {
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme, colorScheme } = useAppTheme();
     const { id } = useLocalSearchParams<{ id: string }>();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
@@ -83,7 +81,7 @@ export default function EmployeeDetailPage() {
     return (
         <View style={{ backgroundColor: 'transparent', padding: 16 }}>
             <View style={[styles.card, { backgroundColor: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'transparent' : 'transparent' : theme.background }]}>
-                <View style={[styles.iconCircle, { backgroundColor: colorScheme == 'dark'? theme.background : theme.background_2, width: 70, height: 70, borderRadius: 50, marginRight: 0, marginBottom: 10 }]}>
+                <View style={[styles.iconCircle, { backgroundColor: colorScheme == 'dark' ? theme.background : theme.background_2, width: 70, height: 70, borderRadius: 50, marginRight: 0, marginBottom: 10 }]}>
                     <MaterialIcons name={'person'} size={60} color={theme.text} />
                 </View>
                 <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>

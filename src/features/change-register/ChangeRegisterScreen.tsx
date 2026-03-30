@@ -1,7 +1,6 @@
 import { EmptyState } from '@/src/components/EmptyState';
-import { Colors } from '@/src/constants/theme';
 import { useChangeRegisterList } from '@/src/hooks/use-change-register';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { ChangeRegisterEntry } from '@/src/types/ChangeRegister';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +19,7 @@ import { ChangeRegisterCard } from './components/ChangeRegisterCard';
 
 export default function ChangeRegisterScreen() {
   const { t } = useTranslation();
-  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const { width } = useWindowDimensions();
   const {
     items,
@@ -87,7 +86,7 @@ export default function ChangeRegisterScreen() {
                   activeOpacity={0.85}
                   style={[styles.loadMoreButton, { backgroundColor: theme.tint }]}
                 >
-                  <Text style={styles.loadMoreText}>{t('change_register.load_more').toUpperCase()}</Text>
+                  <Text style={[styles.loadMoreText, { color: theme.whiteText }]}>{t('change_register.load_more').toUpperCase()}</Text>
                 </TouchableOpacity>
               ) : (
                 <Text style={[styles.endText, { color: theme.subText }]}>
@@ -143,7 +142,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadMoreText: {
-    color: 'white',
     fontSize: 13,
     letterSpacing: 1,
     fontFamily: 'Poppins-Bold',

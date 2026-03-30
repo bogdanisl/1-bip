@@ -10,22 +10,18 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/src/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Logo from '@/assets/images/icon_svg.svg';
 
-import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
-export const PreviewHeader = ({ onSearchPress }: any) => {
 
-    const { i18n, t } = useTranslation();
+export const PreviewHeader = ({ theme }: any) => {
+
+    const { t } = useTranslation();
     const insets = useSafeAreaInsets();
-    const selectedBip = useSelectedBipStore((s) => s.selectedBip);
-
-    const date = new Date().toLocaleDateString(i18n.language, { dateStyle: 'full' });
-    const dateString = date.charAt(0).toUpperCase() + date.slice(1);
-
+    const isContrastTheme = theme.text == '#ffff00';
+    const isMonochromeTheme = theme.background_2 = '#F2F2F2ff'
     return (
         <LinearGradient
-            colors={['#b50315', '#20313b']}
+            colors={isContrastTheme ? ['#d0c600ff', '#bab700ff'] : [theme.tint, '#20313b']}
             start={{ x: 0.2, y: 0.5 }}
             end={{ x: 1, y: 1.3 }}
             style={{ marginTop: -300, paddingHorizontal: 20, paddingBottom: 20, alignItems: 'center', borderRadius: 25 }}
@@ -61,9 +57,9 @@ export const PreviewHeader = ({ onSearchPress }: any) => {
             />
 
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 30 }}>
-                <Text style={{ fontSize: 24, fontWeight: '800', color: 'white', flex: 1, textAlign: 'center' }}>
+                <Text style={{ fontSize: 24, fontWeight: '800', color: theme.whiteText, flex: 1, textAlign: 'center' }}>
                     {t('welcome_screen.title')}
-                    <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
+                    <Text style={{ fontSize: 15, color: isContrastTheme || isMonochromeTheme ? theme.whiteText : Colors.dark.subText, fontWeight: '600' }}>
                         {t('welcome_screen.desc')}
                     </Text>
                 </Text>

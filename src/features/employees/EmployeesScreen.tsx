@@ -2,8 +2,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, Dimensions, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { Employee } from '@/src/types/Employee';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
@@ -16,7 +15,7 @@ import { apiRequest } from '@/src/services/api/client';
 import { EmptyState } from '@/src/components/EmptyState';
 
 export default function EmployeesScreen() {
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const params = useLocalSearchParams<{ q?: string }>();
     const [employees, setEmplpoyees] = useState<Employee[]>([])
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);

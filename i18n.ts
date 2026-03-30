@@ -6,11 +6,20 @@ import { initReactI18next } from 'react-i18next';
 import en from '@/src/locales/en.json';
 import pl from '@/src/locales/pl.json';
 import uk from '@/src/locales/uk.json';
+import fr from '@/src/locales/fr.json';
+import de from '@/src/locales/de.json';
+import it from '@/src/locales/it.json';
+import es from '@/src/locales/es.json';
+
 
 const resources = {
   en: { translation: en },
   pl: { translation: pl },
-  uk: { translation: uk }
+  fr: { translation: fr },
+  de: { translation: de },
+  it: { translation: it },
+  uk: { translation: uk },
+  es: { translation: es }
 };
 
 // Получение сохранённого языка
@@ -23,7 +32,7 @@ const getMemoryLanguage = async () => {
 export const getDeviceLanguage = () => {
   const deviceLang = Localization.getLocales()[0]?.languageCode;
   if (deviceLang)
-    return ['en', 'pl', 'uk'].includes(deviceLang) ? deviceLang : 'pl';
+    return ['en', 'pl', 'uk', 'de', 'fr', 'it', 'es'].includes(deviceLang) ? deviceLang : 'pl';
   else {
     return 'pl'
   }

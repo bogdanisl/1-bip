@@ -32,7 +32,7 @@ export default function ListSwitch({ icon, label, value, onValueChange }: Props)
       <Switch
         value={value}
         onValueChange={onValueChange}
-        thumbColor='white'
+        thumbColor={themeColors.whiteText}
         trackColor={{
           false: themeColors.background,
           true: themeColors.tint,

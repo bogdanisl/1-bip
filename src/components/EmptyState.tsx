@@ -6,9 +6,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { Colors } from '@/src/constants/theme';
 import { useTranslation } from 'react-i18next';
+import { useAppTheme } from '../hooks/use-theme-colors';
 
 type EmptyStateProps = {
   /**
@@ -62,10 +61,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   loading = false,
 }) => {
   const { t } = useTranslation();
-  const theme =
-    useColorScheme() === 'dark'
-      ? Colors.dark
-      : Colors.light;
+  const { theme } = useAppTheme();
 
   // 🔹 Default translations
   const resolvedTitle = title ?? t('no_data');

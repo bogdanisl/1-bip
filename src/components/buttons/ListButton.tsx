@@ -1,8 +1,9 @@
 // src/components/buttons/ListButton.tsx — БЕЗ NativeWind
-import { Colors, hexToRgba } from '@/src/constants/theme';
+import { hexToRgba } from '@/src/constants/theme';
 import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 interface Props {
   icon?: keyof typeof FontAwesome.glyphMap;
@@ -23,8 +24,7 @@ export default function ListButton({
   rightIcon = 'chevron-right',
   rightElement,
 }: Props) {
-  const colorScheme = useColorScheme();
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme: themeColors } = useAppTheme();
 
   const opacity = disabled ? 0.3 : 1;
   const backgroundColor = disabled ? hexToRgba(themeColors.background, 0.5) : 'transparent';

@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { Employee } from '@/src/types/Employee';
 import { exampleEmployees } from '@/src/constants/data_example';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
@@ -15,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { apiRequest } from '@/src/services/api/client';
 
 export default function EmployeesPage() {
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const { t } = useTranslation();
     const params = useLocalSearchParams<{ q?: string }>();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);

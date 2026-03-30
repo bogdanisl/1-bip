@@ -1,9 +1,8 @@
-import { RefreshControl, Text, View, useColorScheme } from 'react-native';
+import { RefreshControl, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { styles } from '@/assets/styles/recent_index';
 import { useEffect, useState } from 'react';
 import { Section } from '@/src/types/Category';
@@ -15,8 +14,7 @@ import { storage } from '@/src/services/storage/asyncStorage';
 
 const CategoriesScreen = () => {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams<{ q?: string }>();
 
   const [sections, setSections] = useState<Section[]>([]);

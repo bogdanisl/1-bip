@@ -19,10 +19,13 @@ import { openHoursExample } from '@/src/constants/data_example';
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;
 
-const OpeningHoursCard = () => {
+interface Props {
+  theme: any
+}
+
+const OpeningHoursCard = ({ theme }: Props) => {
   const colorScheme = useColorScheme();
   const { t } = useTranslation();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [expanded, setExpanded] = useState(false);
@@ -205,12 +208,12 @@ const OpeningHoursCard = () => {
                     <MaterialIcons
                       name="access-time"
                       size={20}
-                      color={isToday ? 'white' : theme.icon}
+                      color={isToday ? theme.whiteText : theme.icon}
                     />
                     <Text
                       style={[
                         styles.timeText,
-                        { color: isToday ? 'white' : theme.text },
+                        { color: isToday ? theme.whiteText : theme.text },
                       ]}
                     >
                       {item.startAt} – {item.endAt}

@@ -1,4 +1,3 @@
-import { Colors } from '@/src/constants/theme';
 import * as Haptics from 'expo-haptics';
 import React, { forwardRef, useEffect } from 'react';
 import {
@@ -7,7 +6,6 @@ import {
   Text,
   TextInput,
   TextInputProps,
-  useColorScheme,
   View,
 } from 'react-native';
 import Animated, {
@@ -18,6 +16,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 interface AlpiInputProps extends TextInputProps {
   styles?: any;
@@ -48,7 +47,7 @@ const AlpiInput = forwardRef<TextInput, AlpiInputProps>(
     },
     ref
   ) => {
-    const themeColors = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme: themeColors } = useAppTheme();
     const shakeX = useSharedValue(0);
     const focused = useSharedValue(0);
 
@@ -102,7 +101,7 @@ const AlpiInput = forwardRef<TextInput, AlpiInputProps>(
               style={[
                 styles.inputContainer,
                 {
-                  borderBottomColor: errorValue ? 'red' : 'transparent',
+                  borderBottomColor: errorValue ? themeColors.tint : 'transparent',
                   backgroundColor: themeColors.background_2,
                 },
                 customStyles,

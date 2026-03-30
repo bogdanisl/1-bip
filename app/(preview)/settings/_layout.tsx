@@ -1,12 +1,13 @@
-import { Colors } from '@/src/constants/theme';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Platform, useColorScheme, Text } from 'react-native';
+import { Platform, Text } from 'react-native';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 export default function ProfileLayout() {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme() == 'dark' ? Colors.dark : Colors.light
+  const { colorScheme, theme: colorTheme } = useAppTheme();
+  const headerBlurEffect = colorScheme === 'dark' ? 'dark' : 'light';
 
   return (
     <Stack
@@ -14,20 +15,21 @@ export default function ProfileLayout() {
         headerShown: true,
         headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
         headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text },
-        headerLargeStyle: { backgroundColor: 'transparent' }
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : headerBlurEffect,
+        headerTintColor: colorTheme.tint,
+        headerTitleStyle: { color: colorTheme.text },
+        headerLargeStyle: { backgroundColor: 'transparent' },
+        contentStyle: { backgroundColor: colorTheme.background }
       }}
     >
       <Stack.Screen name="index" options={{
         headerShown: true,
-        headerTintColor: colorScheme.tint,
-        headerTitleStyle: { color: colorScheme.text },
+        headerTintColor: colorTheme.tint,
+        headerTitleStyle: { color: colorTheme.text },
         headerStyle: {
           backgroundColor: Platform.OS == 'ios'
             ? "transparent"
-            : colorScheme.background_2,
+            : colorTheme.background_2,
         },
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerLargeStyle: {
@@ -37,7 +39,7 @@ export default function ProfileLayout() {
         headerLargeTitle: true,
         title: t('settings'),
         headerTitle: () => Platform.OS == 'android' ?
-          <Text style={{ color: colorScheme.text, fontSize: 24 }}>
+          <Text style={{ color: colorTheme.text, fontSize: 24 }}>
             {t('settings')}
           </Text>
           : undefined,

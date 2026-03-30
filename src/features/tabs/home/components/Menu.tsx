@@ -17,12 +17,12 @@ import { ReadMoreButton } from '@/src/components/buttons/ReadMoreButton';
 
 interface MenuProps {
   type?: 'top' | 'bottom';
+  theme: any
 }
 
-export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
+export const Menu: React.FC<MenuProps> = ({ type = 'bottom', theme }) => {
   const { t } = useTranslation();
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
-  const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
   const [documentsCount, setDocumentsCount] = useState(0);
 
 
@@ -95,12 +95,12 @@ export const Menu: React.FC<MenuProps> = ({ type = 'bottom' }) => {
               minWidth: 25,
               height: 25,
               borderRadius: 25,
-              backgroundColor: 'red',
+              backgroundColor: theme.tint,
               justifyContent: 'center',
               alignItems: 'center',
               paddingHorizontal: 6,
             }}>
-              <Text style={{ color: 'white', fontSize: 14, fontWeight: '700' }}>{item.badge}</Text>
+              <Text style={{ color: theme.whiteText, fontSize: 14, fontWeight: '700' }}>{item.badge}</Text>
             </View>
           )}
 

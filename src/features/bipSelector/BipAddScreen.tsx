@@ -1,5 +1,4 @@
 // app/bip/select.tsx
-import { Colors } from '@/src/constants/theme';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,7 +9,6 @@ import {
     SafeAreaView,
     FlatList,
     Alert,
-    useColorScheme,
     ActivityIndicator,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -22,13 +20,14 @@ import { updateAllData } from '@/src/services/storage/updateData';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { MaterialIcons } from '@expo/vector-icons';
 import Logo from '@/assets/images/icon_svg.svg';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 
 
 export default function SelectBipScreen() {
     const { t } = useTranslation();
     var he = require('he');
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { cities: citiesJson } = useLocalSearchParams();
 
@@ -103,7 +102,7 @@ export default function SelectBipScreen() {
                     borderRadius: 5
                 }}>
                     {isSelected &&
-                        <MaterialIcons name='check' size={26} color={'white'} />
+                        <MaterialIcons name='check' size={26} color={theme.whiteText} />
                     }
                 </View>
 
@@ -147,9 +146,10 @@ export default function SelectBipScreen() {
                             disabled={selectedIds.size === 0 || isLoading}
                         >
                             {isLoading ?
-                                <ActivityIndicator color="#FFFFFF" />
+                                <ActivityIndicator color={theme.whiteText} />
                                 :
-                                <Text style={styles.buttonText}>
+                                <Text style={[styles.buttonText, { color: theme.whiteText },
+                                ]}>
                                     {t('save')}
                                 </Text>
                             }

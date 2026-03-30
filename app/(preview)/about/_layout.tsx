@@ -1,17 +1,17 @@
-import { Colors } from '@/src/constants/theme';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Platform, Text } from 'react-native';
 
 export default function AboutLayout() {
-  const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+  const { colorScheme, theme: themeColors } = useAppTheme();
   const { t } = useTranslation();
   return (
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: themeColors.background }
       }}
     >
       <Stack.Screen name="index" options={{
@@ -23,7 +23,7 @@ export default function AboutLayout() {
             ? "transparent"
             : themeColors.background_2,
         },
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : useColorScheme() == 'dark' ? 'dark' : 'light',
+        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : colorScheme === 'dark' ? 'dark' : 'light',
 
         headerLargeTitle: true,
         title: "O Aplikacji",

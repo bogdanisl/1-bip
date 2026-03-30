@@ -26,7 +26,6 @@ import {
     SafeAreaView,
     ActivityIndicator,
     Alert,
-    useColorScheme,
 } from 'react-native';
 import { router } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
@@ -34,6 +33,7 @@ import { FAKE_CITIES } from '@/src/constants/data_example';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const NUM_DIGITS = 5;
 
@@ -42,7 +42,7 @@ const NUM_DIGITS = 5;
 export default function BipFindScreen() {
     const { t, i18n } = useTranslation();
     const [gpsButtonWidth, setGpsButtonWidth] = useState(120);
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme, isContrast, isMonochrome } = useAppTheme();
     const [Error, setError] = useState<string | null>(null)
 
     const [digits, setDigits] = useState<string[]>(Array(NUM_DIGITS).fill(''));
@@ -272,8 +272,8 @@ export default function BipFindScreen() {
                                         style={[
                                             styles.inputBox,
                                             Error
-                                                ? { borderColor: 'red' }
-                                                : digit ? { borderColor: '#0f79d0ff' } : { borderColor: theme.border },
+                                                ? { borderColor: theme.tint }
+                                                : digit ? { borderColor: isContrast || isMonochrome ? theme.text :'#0f79d0ff' } : { borderColor: theme.border },
                                             { color: theme.text, backgroundColor: theme.background_2 },
                                         ]}
                                         value={digit}
@@ -343,9 +343,9 @@ export default function BipFindScreen() {
                         disabled={!isComplete || isSearching}
                     >
                         {isSearching ? (
-                            <ActivityIndicator color="#FFFFFF" />
+                            <ActivityIndicator color={theme.whiteText} />
                         ) : (
-                            <Text style={styles.buttonText}>{t('find')}</Text>
+                            <Text style={[styles.buttonText,{ color: theme.whiteText }]}>{t('find')}</Text>
                         )}
                     </TouchableOpacity>
 
@@ -354,4 +354,3 @@ export default function BipFindScreen() {
         </TouchableWithoutFeedback>
     );
 }
-

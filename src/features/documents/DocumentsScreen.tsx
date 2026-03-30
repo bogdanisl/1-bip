@@ -3,8 +3,9 @@
 import { Colors } from '@/src/constants/theme';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Text, View, useColorScheme, StyleSheet, TouchableOpacity, RefreshControl } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { formatFileSize } from '@/src/features/articles/components/AttachmentList';
 import { Document } from '@/src/types/Article';
 import { attachmentExamples } from '@/src/constants/data_example';
@@ -25,8 +26,7 @@ export default function DocumentsScreen() {
   const { t } = useTranslation();
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const [attachmnets, setAttachments] = useState<Document[]>([])
   const [refreshing, setRefreshing] = useState(false);
 

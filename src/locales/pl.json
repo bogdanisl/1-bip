@@ -9,6 +9,8 @@
   "dark": "Ciemny",
   "light": "Jasny",
   "system": "Systemowy",
+  "contrast": "Wysoki kontrast",
+  "monochrome": "Czarno-biały",
   "full_name": "Imię i\u00A0Nazwisko",
   "phone": "Telefon",
   "content": "Treść",

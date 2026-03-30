@@ -23,6 +23,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
     const animatedHeight = useRef(new Animated.Value(0)).current;
     const arrowRotation = useRef(new Animated.Value(0)).current;
     const [lang, setLang] = useState('pl-PL');
+    var he = require('he');
     const { t } = useTranslation()
     useEffect(() => {
         const toValue = isOpen ? 1 : 0;
@@ -80,7 +81,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                 </Animated.View>
             </TouchableOpacity>
 
-            <Br />
+            <Br theme={theme} />
 
             <Animated.View
                 style={{
@@ -91,17 +92,17 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                     overflow: 'hidden',
                 }}
             >
-                <View style={{ marginTop: 10, gap:10 }}>
+                <View style={{ marginTop: 10, gap: 10 }}>
 
                     {article.author && (
 
-                        <FileItem 
-                        name={article.author} 
-                        details={t('author')} 
-                        iconBackground={theme.background} 
-                        style={{ backgroundColor: theme.background_2 }} 
-                        leftIconName={'edit'}
-                        disabled
+                        <FileItem
+                            name={he.decode(article.author)}
+                            details={t('author')}
+                            iconBackground={theme.background}
+                            style={{ backgroundColor: theme.background_2 }}
+                            leftIconName={'edit'}
+                            disabled
                         />
                     )}
 
@@ -120,7 +121,7 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                             iconBackground={theme.background}
                             style={{ backgroundColor: theme.background_2 }}
                             leftIconName={'calendar-month'}
-                                disabled
+                            disabled
                         />
 
                     )}
@@ -128,15 +129,15 @@ export function MatrykaSection({ article, isOpen, toggle, theme }: Props) {
                     {article.acceptedBy && (
                         <>
                             <FileItem
-                                name={ article.acceptedBy }
+                                name={he.decode(article.acceptedBy)}
                                 details={t('acceptedBy')}
                                 iconBackground={theme.background}
                                 style={{ backgroundColor: theme.background_2 }}
                                 leftIconName={'person-add-alt-1'}
                                 disabled
                             />
-                             <FileItem
-                                name={ article.approvedBy ?? article.acceptedBy }
+                            <FileItem
+                                name={article.approvedBy ? he.decode(article.approvedBy) : he.decode(article.acceptedBy)}
                                 details={t('approvedBy')}
                                 iconBackground={theme.background}
                                 style={{ backgroundColor: theme.background_2 }}

@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   ScrollView,
-  useColorScheme,
 } from 'react-native';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import SearchModal from './components/AnimatedSearchButton';
 import { useHome } from './hooks/use-home';
 import OpeningHoursCard from './components/OpenHours';
@@ -17,15 +16,14 @@ import { Footer } from './components/Footer';
 
 
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme, isContrast, isMonochrome } = useAppTheme();
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
   const { isUpdateAvailable } = useHome();
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
-        <Header />
+        <Header theme={theme} isContrast={isContrast} isMonochrome={isMonochrome} />
         {isUpdateAvailable && <UpdateBanner />}
 
         <View style={{
@@ -38,16 +36,16 @@ export default function HomeScreen() {
           paddingBottom: 20,
           marginBottom: 80
         }}>
-          <HomeArticles/>
-          <Menu type='top' />
-          <View style={{height:20}}></View>
+          <HomeArticles />
+          <Menu type='top' theme={theme} />
+          <View style={{ height: 20 }}></View>
 
-          <OpeningHoursCard />
-          <BankAccountCard />
-          <Menu />
+          <OpeningHoursCard theme={theme} />
+          <BankAccountCard theme={theme} />
+          <Menu theme={theme} />
         </View>
 
-        <Footer />
+        <Footer theme={theme} />
 
         <SearchModal visible={isSearchModalVisible} onClose={() => setIsSearchModalVisible(false)} />
       </ScrollView>

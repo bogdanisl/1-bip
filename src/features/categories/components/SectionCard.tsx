@@ -5,17 +5,17 @@ import {
     StyleSheet,
     TouchableOpacity,
     Animated,
-    useColorScheme,
     FlatList,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors, hexToRgba } from '@/src/constants/theme';
+import { hexToRgba } from '@/src/constants/theme';
 import { Section } from '@/src/types/Category';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { Skeleton } from '@/src/components/skeleton';
 import { RelativePathString, router } from 'expo-router';
 import { EmptyState } from '@/src/components/EmptyState';
 import { useTranslation } from 'react-i18next';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const ROW_HEIGHT = 60;
 const GAP = 8;
@@ -27,8 +27,7 @@ interface SectionCardProps {
 }
 
 const SectionCard: React.FC<SectionCardProps> = ({ section }) => {
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const { t } = useTranslation();
 
     const [expanded, setExpanded] = useState(section.expanded || false);
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
 export default SectionCard;
 
 export const SectionCardPreloader = () => {
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     return (
         <Skeleton borderRadius={15} width={'100%'} height={ROW_HEIGHT_SUM} theme={theme}></Skeleton>
     );

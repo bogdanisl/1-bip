@@ -80,8 +80,8 @@ export function ArticleChangeHistorySection({ article, theme }: Props) {
             {t('change_register.page_title')}
           </Text>
 
-          <View style={[styles.countBadge, { backgroundColor: 'red' }]}>
-            <Text style={[styles.countText, { color: 'white' }]}>
+          <View style={[styles.countBadge, { backgroundColor: theme.tint }]}>
+            <Text style={[styles.countText, { color: theme.whiteText }]}>
               {article.versionCount ?? 0}
             </Text>
           </View>
@@ -92,7 +92,7 @@ export function ArticleChangeHistorySection({ article, theme }: Props) {
         </Animated.View>
       </TouchableOpacity>
 
-      <Br />
+      <Br theme={theme}/>
 
       <Animated.View
         style={{

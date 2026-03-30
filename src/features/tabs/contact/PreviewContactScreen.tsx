@@ -1,6 +1,4 @@
 import ContactForm from "@/src/features/tabs/contact/components/contactForm";
-import { Colors } from "@/src/constants/theme";
-import { useColorScheme } from "@/src/hooks/use-color-scheme.web";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,12 +10,13 @@ import {
     View,
 } from "react-native";
 import { createContactStyles } from "./ContactScreenStyles";
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 
 
 const PreviewContactScreen = () => {
     const { t } = useTranslation();
-    const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
+    const { theme: themeColors } = useAppTheme();
     const styles = useMemo(
         () => createContactStyles(themeColors),
         [themeColors]
@@ -106,5 +105,4 @@ const PreviewContactScreen = () => {
 };
 
 export default PreviewContactScreen;
-
 

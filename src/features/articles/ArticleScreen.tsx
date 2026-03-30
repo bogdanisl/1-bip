@@ -1,6 +1,5 @@
 import { Skeleton } from '@/src/components/skeleton';
-import { Colors } from '@/src/constants/theme';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { MaterialIcons } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
@@ -20,7 +19,7 @@ import { useArticle } from '@/src/hooks/use-article';
 import { ArticleChangeHistorySection } from './components/ArticleChangeHistorySection';
 
 export default function ArticleScreen() {
-  const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const { t } = useTranslation();
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 

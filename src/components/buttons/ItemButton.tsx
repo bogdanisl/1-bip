@@ -1,10 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
-import { Colors } from '@/src/constants/theme';
 import { background } from '@expo/ui/swift-ui/modifiers';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 interface FileItemProps extends TouchableOpacityProps {
     name: string; // required
@@ -25,7 +24,7 @@ const FileItem: React.FC<FileItemProps> = ({
     style,
     ...touchableProps
 }) => {
-    const theme = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     return (
         <TouchableOpacity
             style={[styles.container, { backgroundColor: theme.background, shadowColor: '#000', shadowOpacity: isLiquidGlassAvailable() ? 0 : 0 }, style]}

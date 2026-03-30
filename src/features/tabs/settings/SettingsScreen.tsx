@@ -1,6 +1,5 @@
 // src/components/pages/profile/Profile.tsx — БЕЗ NativeWind
 import ListButton from '@/src/components/buttons/ListButton';
-import { Colors } from '@/src/constants/theme';
 import { Host, Picker } from '@expo/ui/swift-ui';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -11,15 +10,14 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  useColorScheme,
   View
 } from 'react-native';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const SettingsScreen = () => {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme();
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme: themeColors } = useAppTheme();
   const selectedBip = useSelectedBipStore((s) => s.selectedBip);
   const link = selectedBip ? '/(tabs)/settings' : '/(preview)/settings'
 

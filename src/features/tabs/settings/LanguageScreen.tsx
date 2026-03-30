@@ -1,15 +1,14 @@
 // app/profile_tabs/language.tsx — БЕЗ NativeWind
 import ListButton from '@/src/components/buttons/ListButton';
-import { Colors } from '@/src/constants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, useColorScheme, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const LanguageScreen = () => {
-  const { i18n, t } = useTranslation();
-  const colorScheme = useColorScheme();
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { i18n } = useTranslation();
+  const { theme: themeColors } = useAppTheme();
   const currentLang = i18n.language;
 
   const setLanguage = async (lang: string) => {
@@ -34,10 +33,31 @@ const LanguageScreen = () => {
           />
           <ListButton
             label="🇺🇦 Українська"
-            isLast
             onPress={() => setLanguage('uk')}
             rightIcon={currentLang === 'uk' ? 'check' : 'won'}
           />
+          <ListButton
+            label="🇩🇪 Deutsch"
+            onPress={() => setLanguage('de')}
+            rightIcon={currentLang === 'de' ? 'check' : 'won'}
+          />
+          <ListButton
+            label="🇫🇷 Français"
+            onPress={() => setLanguage('fr')}
+            rightIcon={currentLang === 'fr' ? 'check' : 'won'}
+          />
+          <ListButton
+            label="🇮🇹 Italiano"
+            onPress={() => setLanguage('it')}
+            rightIcon={currentLang === 'it' ? 'check' : 'won'}
+          />
+          <ListButton
+            label="🇪🇸 Española"
+            isLast
+            onPress={() => setLanguage('es')}
+            rightIcon={currentLang === 'es' ? 'check' : 'won'}
+          />
+
         </View>
       </ScrollView>
     </View>

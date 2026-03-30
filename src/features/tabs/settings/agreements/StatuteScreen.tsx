@@ -1,13 +1,14 @@
 import { Colors } from '@/src/constants/theme';
 import React from 'react';
-import { ScrollView, Text, Linking, useColorScheme } from 'react-native';
+import { ScrollView, Text, Linking } from 'react-native';
 import { useTranslation } from 'react-i18next'; // Założenie: i18next
 import { styles } from './styles';
 import { Br } from '@/src/components/Br';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const StatuteScreen = () => {
     const { t } = useTranslation();
-    const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: 'transparent' }]} contentContainerStyle={styles.contentContainer}>
@@ -15,7 +16,7 @@ const StatuteScreen = () => {
             <Text style={[styles.heading, { color: theme.text }]}>
                 {t('statute_text.title')}
             </Text>
-            <Br/>
+            <Br theme={theme} />
 
             <Text style={[styles.paragraph, { color: theme.text }]}>
                 {t('statute_text.intro')}
@@ -71,8 +72,8 @@ const StatuteScreen = () => {
             </Text>
             <Text style={[styles.paragraph, { color: theme.text }]}>
                 {t('statute_text.privacy.text')}
-                <Text 
-                    style={[styles.link, { color: theme.tint }]} 
+                <Text
+                    style={[styles.link, { color: theme.tint }]}
                     onPress={() => Linking.openURL('https://1bip.pl/privacy')}
                 >
                     1bip.pl/polityka_prywatnosci

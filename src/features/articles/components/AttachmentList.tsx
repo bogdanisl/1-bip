@@ -33,7 +33,7 @@ export function AttachmentsList({ attachments, theme, slug }: Props) {
             <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', marginBottom: 5 }}>
                 {t('documents').toUpperCase()}
             </Text>
-            <Br />
+            <Br theme={theme}/>
             <View style={{ gap: 10 }}>
                 {attachments.map(att => (
 

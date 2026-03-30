@@ -1,5 +1,4 @@
-import { Colors } from '@/src/constants/theme';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { osName } from 'expo-device';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
@@ -8,13 +7,13 @@ import { useTranslation } from 'react-i18next';
 import { Platform, Text, TouchableOpacity } from 'react-native';
 
 export default function RecentLayout() {
-  const colorScheme = useColorScheme();
-  const themeColors = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme: themeColors, isDark } = useAppTheme();
   const { t } = useTranslation();
   return (
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: themeColors.background }
       }}
     >
       <Stack.Screen
@@ -49,7 +48,7 @@ export default function RecentLayout() {
             headerLargeStyle: { backgroundColor: 'transparent' },
             headerBackButtonDisplayMode: Platform.OS === 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
             headerTransparent: Platform.OS === 'ios' ? true : false,
-            headerBlurEffect: isLiquidGlassAvailable() ? 'none' : colorScheme === 'dark' ? 'dark' : 'light',
+            headerBlurEffect: isLiquidGlassAvailable() ? 'none' : isDark ? 'dark' : 'light',
             headerTintColor: themeColors.tint
           }
         }
@@ -62,7 +61,7 @@ export default function RecentLayout() {
           headerLargeStyle: { backgroundColor: 'transparent' },
           headerBackButtonDisplayMode: Platform.OS === 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
           headerTransparent: Platform.OS === 'ios' ? true : false,
-          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : colorScheme === 'dark' ? 'dark' : 'light',
+          headerBlurEffect: isLiquidGlassAvailable() ? 'none' : isDark ? 'dark' : 'light',
           headerTintColor: themeColors.tint,
         }}
       />
@@ -101,7 +100,7 @@ export default function RecentLayout() {
           },
           headerBlurEffect: isLiquidGlassAvailable()
             ? undefined
-            : colorScheme === "dark"
+            : isDark
               ? "dark"
               : "light",
         }}

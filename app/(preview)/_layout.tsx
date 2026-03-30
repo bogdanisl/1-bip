@@ -1,22 +1,24 @@
 import { HapticTab } from "@/src/components/haptic-tab";
 import { Colors } from "@/src/constants/theme";
 import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
+import { useAppTheme } from "@/src/hooks/use-theme-colors";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { useTranslation } from 'react-i18next';
-import { Platform, useColorScheme } from 'react-native';
+import { Platform } from 'react-native';
 
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { colorScheme, theme} = useAppTheme();
   const { t } = useTranslation()
+
 
   return (
     (Platform.OS == 'android') ? (
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: colorScheme === 'dark' ? '#b50315' : '#b50315',
+          tabBarActiveTintColor: theme.tint,
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: { backgroundColor: colorScheme === 'dark' ? '#000' : '#fff' },
           headerShown: false,
@@ -55,7 +57,7 @@ export default function TabLayout() {
           />
       </Tabs>
     ) : (
-      <NativeTabs tintColor={'#b50315'} disableTransparentOnScrollEdge>
+      <NativeTabs tintColor={theme.tint} disableTransparentOnScrollEdge>
         <NativeTabs.Trigger name="about">
           <Label>{t('about_app')}</Label>
           <Icon sf={{ default: 'info.square', selected: 'info.square.fill' }} drawable="ic_house" />

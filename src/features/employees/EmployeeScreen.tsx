@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useLocalSearchParams } from 'expo-router';
 import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
@@ -14,8 +13,7 @@ import FileItem from '@/src/components/buttons/ItemButton';
 import { storage } from '@/src/services/storage/asyncStorage';
 
 export default function EmployeeScreen() {
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { colorScheme, theme } = useAppTheme();
     const { id } = useLocalSearchParams<{ id: string }>();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 

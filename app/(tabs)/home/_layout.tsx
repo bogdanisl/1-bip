@@ -1,19 +1,17 @@
 import { Stack } from 'expo-router/stack';
 import { useTranslation } from 'react-i18next';
-import { Platform, useColorScheme, Text, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { osName } from "expo-device";
 import { router } from 'expo-router';
-import { HeaderButton } from '@/src/components/buttons/HeaderButtons/HeaderButton';
-import { Icon } from 'expo-router/unstable-native-tabs';
+
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 
 export default function HomeLayout() {
   const { t } = useTranslation()
-  const colorScheme = useColorScheme()
-  const themeColors = colorScheme == 'dark' ? Colors.dark : Colors.light
+  const { theme: themeColors, isDark } = useAppTheme();
 
   return (
     <Stack
@@ -25,7 +23,8 @@ export default function HomeLayout() {
         headerTintColor: themeColors.tint,
         headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
         headerTitleStyle: { color: themeColors.text },
-        headerLargeStyle: { backgroundColor: 'transparent' }
+        headerLargeStyle: { backgroundColor: 'transparent' },
+        contentStyle: {backgroundColor:themeColors.background}
       }}
     >
       <Stack.Screen name="index" options={{ title: t('home_tab'), headerShown: false, headerTransparent: true }} />
@@ -90,7 +89,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : colorScheme == 'light' ? themeColors.background : themeColors.background_2,
+              : !isDark ? themeColors.background : themeColors.background_2,
           },
         }}
       />
@@ -111,7 +110,7 @@ export default function HomeLayout() {
           contentStyle: {
             backgroundColor: isLiquidGlassAvailable()
               ? "transparent"
-              : colorScheme == 'light' ? themeColors.background : themeColors.background_2,
+              : !isDark ? themeColors.background : themeColors.background_2,
           },
         }}
       />

@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { useColorScheme, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Colors, hexToRgba } from "@/src/constants/theme";
 import { Br } from "@/src/components/Br";
@@ -10,12 +10,13 @@ import { CategoryStat } from "@/src/types/Category";
 import { apiRequest } from "@/src/services/api/client";
 import { useTranslation } from "react-i18next";
 import { Skeleton } from "@/src/components/skeleton";
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 
 export default function StatisticsScreen() {
-    const colorScheme = useColorScheme();
+    const { isContrast, isMonochrome, theme } = useAppTheme();
+    const contrast = isContrast == true || isMonochrome == true
     const { t } = useTranslation();
-    const theme = colorScheme === "dark" ? Colors.dark : Colors.light;
     const [topArticle, setTopArticle] = useState<Article>();
     const [topCategory, setTopCategory] = useState<CategoryStat>();
     const [articles, setArticles] = useState<Article[]>([]);
@@ -76,7 +77,7 @@ export default function StatisticsScreen() {
                     <LinearGradient
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
-                        colors={[theme.tint, "#ff2600ff"]} // red → orange subtle gradient
+                        colors={[contrast ? theme.background_2 : theme.tint, contrast ? theme.tint : "#ff2600ff"]} // red → orange subtle gradient
                         style={{ width: `${percent}%`, height: 8, borderRadius: 10 }}
                     />
                 ) : (
@@ -113,7 +114,7 @@ export default function StatisticsScreen() {
                         Najpopularniejsze artykuły
                     </Text>
                 </View>
-                <Br />
+                <Br theme={theme} />
 
                 <View style={{
                     marginTop: 10,
@@ -175,7 +176,7 @@ export default function StatisticsScreen() {
                                             >
                                                 <Text
                                                     style={{
-                                                        color: articles[0].id === article.id ? "white" : theme.text,
+                                                        color: articles[0].id === article.id ? theme.whiteText : theme.text,
                                                         textAlign: "center",
                                                         fontWeight: "700",
                                                     }}
@@ -231,9 +232,9 @@ export default function StatisticsScreen() {
                         Kategorie z największym udziałem
                     </Text>
                 </View>
-                <Br />
+                <Br theme={theme} />
 
-                <View style={{ marginTop: 10, gap: 12, paddingBottom:80 }}>
+                <View style={{ marginTop: 10, gap: 12, paddingBottom: 80 }}>
                     {isLoading ? (
                         <>
                             <Skeleton borderRadius={15} width={"100%"} height={80} theme={theme} />
@@ -286,7 +287,7 @@ export default function StatisticsScreen() {
                                             >
                                                 <Text
                                                     style={{
-                                                        color: category.id === topCategory?.id ? "white" : theme.text,
+                                                        color: category.id === topCategory?.id ? theme.whiteText : theme.text,
                                                         textAlign: "center",
                                                         fontWeight: "700",
                                                     }}

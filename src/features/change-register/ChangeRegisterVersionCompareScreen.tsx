@@ -1,8 +1,7 @@
 import { EmptyState } from '@/src/components/EmptyState';
-import { Colors } from '@/src/constants/theme';
 import { useArticle } from '@/src/hooks/use-article';
 import { useChangeRegisterVersion } from '@/src/hooks/use-change-register';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +14,7 @@ import { diffHtml } from './utils/diff';
 
 export default function ChangeRegisterVersionCompareScreen() {
   const { t, i18n } = useTranslation();
-  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const { width } = useWindowDimensions();
   const { slug, versionId } = useLocalSearchParams<{
     slug: string;

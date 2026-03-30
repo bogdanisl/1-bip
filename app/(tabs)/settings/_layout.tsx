@@ -1,14 +1,14 @@
-import { Colors } from '@/src/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { osName } from 'expo-device';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { router, Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Platform, useColorScheme, Text, TouchableOpacity } from 'react-native';
+import { Platform, Text, TouchableOpacity } from 'react-native';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 export default function ProfileLayout() {
   const { t } = useTranslation();
-  const colorScheme = useColorScheme() == 'dark' ? Colors.dark : Colors.light
+  const { theme: colorScheme } = useAppTheme();
 
   return (
     <Stack
@@ -19,7 +19,8 @@ export default function ProfileLayout() {
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerTintColor: colorScheme.tint,
         headerTitleStyle: { color: colorScheme.text },
-        headerLargeStyle: { backgroundColor: 'transparent' }
+        headerLargeStyle: { backgroundColor: 'transparent' },
+        contentStyle:{backgroundColor:colorScheme.background}
       }}
     >
       <Stack.Screen name="index" options={{

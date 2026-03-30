@@ -143,7 +143,7 @@ export function ArticleContent({ content, theme }: Props) {
         marginBottom: 16,
       }}
     >
-      <Br />
+      <Br theme={theme}/>
       <RenderHTML
         WebView={WebView}
         contentWidth={width}

@@ -1,7 +1,8 @@
 import { Colors } from '@/src/constants/theme';
 import React, { useEffect, useRef } from 'react';
-import { Animated, DimensionValue, Easing, StyleProp, StyleSheet, useColorScheme, View, ViewStyle } from 'react-native';
+import { Animated, DimensionValue, Easing, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 
 interface ImagePreloaderProps {
     width?: DimensionValue;

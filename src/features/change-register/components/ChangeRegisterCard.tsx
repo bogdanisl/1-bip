@@ -1,8 +1,5 @@
 import { Skeleton } from '@/src/components/skeleton';
-import { Colors } from '@/src/constants/theme';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
 import { ChangeRegisterEntry } from '@/src/types/ChangeRegister';
-import { background } from '@expo/ui/swift-ui/modifiers';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';

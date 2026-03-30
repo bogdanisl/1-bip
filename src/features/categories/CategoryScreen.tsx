@@ -1,10 +1,9 @@
-import { RefreshControl, Text, View, useColorScheme } from 'react-native';
+import { RefreshControl, Text, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { RelativePathString, router, Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
-import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import { Article } from '@/src/types/Article';
 import { useEffect, useState } from 'react';
@@ -16,8 +15,7 @@ import { EmptyState } from '@/src/components/EmptyState';
 
 const CategoryScreen = () => {
     const { t } = useTranslation();
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const { id, title, articleCount, subcategoriesCount } = useLocalSearchParams<{ id: string, title: string, articleCount: string, subcategoriesCount: string }>();
 
     const [articles, setArticles] = useState<Article[]>([]);

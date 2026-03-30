@@ -1,7 +1,5 @@
 import FileItem from "@/src/components/buttons/ItemButton";
 import ContactForm from "@/src/features/tabs/contact/components/contactForm";
-import { Colors } from "@/src/constants/theme";
-import { useColorScheme } from "@/src/hooks/use-color-scheme.web";
 import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React, { useMemo } from "react";
@@ -19,6 +17,7 @@ import { createContactStyles } from "./ContactScreenStyles";
 import { isLiquidGlassAvailable } from "expo-glass-effect";
 import { useOfficeData } from "./hooks/useOfficeData";
 import { Br } from "@/src/components/Br";
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
     const url = Platform.select({
@@ -32,9 +31,8 @@ export const openNavigation = (lat: any, lng: any, label = 'Punkt') => {
 
 const ContactScreen = () => {
     const { t } = useTranslation();
-    const themeColors = useColorScheme() == "dark" ? Colors.dark : Colors.light;
+    const { theme: themeColors, colorScheme: colorSheme } = useAppTheme();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
-    const colorSheme = useColorScheme()
 
     const officeData = useOfficeData();
     const styles = useMemo(
@@ -67,7 +65,7 @@ const ContactScreen = () => {
                             >
                                 {selectedBip.name}
                             </Text>
-                            <Br />
+                            <Br theme={themeColors} />
                             <View style={{ paddingHorizontal: 17, paddingLeft: 0 }}>
                                 {
                                     officeData.phone?.value &&
@@ -131,7 +129,7 @@ const ContactScreen = () => {
                                                 width: '100%',
                                                 height: '100%',
                                                 borderRadius: 15,
-                                                backgroundColor: 'red',
+                                                backgroundColor: themeColors.tint,
                                                 overflow: 'hidden'
                                             }}>
                                             <MapView
@@ -251,5 +249,4 @@ const ContactScreen = () => {
 };
 
 export default ContactScreen;
-
 

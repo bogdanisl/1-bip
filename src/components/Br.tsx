@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export function Br() {
+interface Props {
+    theme: any;
+}
+export function Br({ theme }: Props) {
     return (
         <View style={styles.progressContainer}>
-            <View style={[styles.progressBar]} />
+            <View style={[styles.progressBar, { backgroundColor: theme.tint }]} />
         </View>
     );
 }
@@ -19,7 +22,6 @@ const styles = StyleSheet.create(
             marginBottom: 12,
         },
         progressBar: {
-            backgroundColor: '#b50315',
             height: '100%',
             width: '40%',
             borderRadius: 2,

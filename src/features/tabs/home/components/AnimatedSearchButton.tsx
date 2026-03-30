@@ -10,13 +10,12 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   StyleSheet,
-  useColorScheme,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { Colors } from '@/src/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 interface SearchModalProps {
   visible: boolean;
@@ -33,10 +32,9 @@ const faqItems = [
 export default function SearchModal({ visible, onClose, onSearch }: SearchModalProps) {
   const [query, setQuery] = useState('');
   const inputRef = useRef<TextInput>(null);
-  const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
 
   const isQueryEmpty = query.trim().length === 0;
 
@@ -80,7 +78,7 @@ export default function SearchModal({ visible, onClose, onSearch }: SearchModalP
                   onChangeText={setQuery}
                   placeholder={t('search_in_app')}
                   placeholderTextColor={'grey'}
-                  style={[styles.input, { color: 'white', backgroundColor: 'rgba(255,255,255,0.12)' }]}
+                  style={[styles.input, { color: theme.whiteText, backgroundColor: 'rgba(255,255,255,0.12)' }]}
                   autoCapitalize="none"
                   autoCorrect={false}
                   returnKeyType="search"
@@ -103,7 +101,7 @@ export default function SearchModal({ visible, onClose, onSearch }: SearchModalP
                     }}
                   >
                     <MaterialIcons name="close" size={20} color="white" />
-                    <Text style={{ color: 'white', fontSize: 15 }}>Anuluj</Text>
+                    <Text style={{ color: theme.whiteText, fontSize: 15 }}>Anuluj</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -120,7 +118,7 @@ export default function SearchModal({ visible, onClose, onSearch }: SearchModalP
                     }}
                   >
                     <MaterialIcons name="search" size={20} color="white" />
-                    <Text style={{ color: 'white', fontSize: 15 }}>Szukaj</Text>
+                    <Text style={{ color: theme.whiteText, fontSize: 15 }}>Szukaj</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -128,10 +126,10 @@ export default function SearchModal({ visible, onClose, onSearch }: SearchModalP
               {/* FAQ - only show when query is empty */}
               {isQueryEmpty && (
                 <ScrollView style={{ marginTop: 24 }} showsVerticalScrollIndicator={false}>
-                  <Text style={[styles.sectionTitle, { color: 'white' }]}>Często zadawane pytania</Text>
+                  <Text style={[styles.sectionTitle, { color: theme.whiteText }]}>Często zadawane pytania</Text>
                   {faqItems.map((item, idx) => (
                     <TouchableOpacity key={idx} style={styles.faqItem}>
-                      <Text style={[styles.faqText, { color: 'white' }]}>{item}</Text>
+                      <Text style={[styles.faqText, { color: theme.whiteText }]}>{item}</Text>
                       <MaterialIcons name="arrow-forward-ios" size={16} color={theme.icon} />
                     </TouchableOpacity>
                   ))}

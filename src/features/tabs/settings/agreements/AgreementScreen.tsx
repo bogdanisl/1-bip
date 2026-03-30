@@ -2,9 +2,10 @@ import { Br } from "@/src/components/Br";
 import { EmptyState } from "@/src/components/EmptyState";
 import { Colors } from "@/src/constants/theme";
 import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
+import { useAppTheme } from "@/src/hooks/use-theme-colors";
 import { apiRequest } from "@/src/services/api/client";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Dimensions, Platform, ScrollView, StyleSheet, useColorScheme, View, Text } from "react-native";
+import { ActivityIndicator, Dimensions, Platform, ScrollView, StyleSheet, View, Text } from "react-native";
 import RenderHTML from "react-native-render-html";
 
 interface Props {
@@ -12,8 +13,7 @@ interface Props {
 }
 export default function AgreementScreen({ type }: Props) {
     const selectedBip = useSelectedBipStore((s) => s.selectedBip);
-    const colorScheme = useColorScheme();
-    const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+    const { theme } = useAppTheme();
     const [content, setContent] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const width = Dimensions.get('window').width;
@@ -88,7 +88,7 @@ export default function AgreementScreen({ type }: Props) {
                         }}
                     >{type == 'accessibility' ? 'Deklaracja dostępności' : 'Polityka prywatności'}
                     </Text>
-                    <Br />
+                    <Br theme={theme} />
                     <RenderHTML
                         contentWidth={width}
                         source={source}

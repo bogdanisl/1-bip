@@ -1,20 +1,18 @@
-import { RefreshControl, Text, View, useColorScheme } from 'react-native';
+import { RefreshControl, Text, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-
 import { useArticles } from '@/src/hooks/use-articles';
 import { ArticleCard, ArticleCardPreloader } from '@/src/features/articles/ArticleCard';
-import { Colors } from '@/src/constants/theme';
 import { styles } from '@/assets/styles/recent_index';
 import { Article } from '@/src/types/Article';
 import { EmptyState } from '@/src/components/EmptyState';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 const ArticlesScreen = () => {
   const { t } = useTranslation();
   const { articles, isLoading, isRefreshing, refresh, loadMore } = useArticles();
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   const params = useLocalSearchParams<{ q?: string }>();
 
 
@@ -45,9 +43,13 @@ const ArticlesScreen = () => {
               });
             },
           },
+          contentStyle: {
+            backgroundColor: theme.background
+          }
         } : {}}
       />
       <Animated.FlatList
+
         data={isLoading ? skeletonData : filteredArticles}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item }: { item: Article }) =>

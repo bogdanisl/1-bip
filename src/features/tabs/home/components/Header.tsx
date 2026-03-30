@@ -14,16 +14,17 @@ import { router } from 'expo-router';
 import Logo from '@/assets/images/icon_svg.svg';
 import { useHome } from '../hooks/use-home';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
+import { Grayscale } from 'react-native-color-matrix-image-filters';
 
 const columns = 36;
 
-export const Header = () => {
-
+export const Header = ({ theme, isContrast, isMonochrome }: any) => {
+  console.log(isContrast)
   const { i18n, t } = useTranslation();
   const { officeData, savedBips } = useHome();
   const insets = useSafeAreaInsets();
   const selectedBip = useSelectedBipStore((s) => s.selectedBip);
-
+  const isContrastTheme = theme.text == '#ffff00';
   const date = new Date().toLocaleDateString(i18n.language, { dateStyle: 'full' });
   const dateString = date.charAt(0).toUpperCase() + date.slice(1);
 
@@ -49,7 +50,7 @@ export const Header = () => {
 
   return (
     <LinearGradient
-      colors={['#b50315', '#20313b']}
+      colors={isContrastTheme ? ['#d0c600ff', '#bab700ff'] : [theme.tint, '#20313b']}
       start={{ x: 0, y: 0.4 }}
       end={{ x: 1, y: 1 }}
       style={{ marginTop: -300, paddingHorizontal: 20, paddingBottom: 40 }}
@@ -93,7 +94,7 @@ export const Header = () => {
             }}
             activeOpacity={0.7}
           >
-            <Text style={{ color: 'white', fontSize: 15 }}>{t('change_bip')}</Text>
+            <Text style={{ color: theme.whiteText, fontSize: 15 }}>{t('change_bip')}</Text>
             <MaterialIcons name="swap-horiz" size={20} color="white" />
           </TouchableOpacity>
         }
@@ -101,7 +102,7 @@ export const Header = () => {
       </View>
 
       {savedBips?.length! > 1 &&
-        <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginTop: 15 }}>
+        <Text style={{ color: theme.whiteText, fontSize: 15, marginTop: 15 }}>
           {dateString}
         </Text>
       }
@@ -111,7 +112,7 @@ export const Header = () => {
         alignItems: 'center',
         justifyContent: 'space-between'
       }}>
-        <Logo width={90} height={60} fill="white" style={{ marginVertical: 0 }} />
+        <Logo width={90} height={60} fill={theme.whiteText} style={{ marginVertical: 0 }} />
         {/* <Image source={require('@/assets/images/logo3.png')}
           style={{
             width: 70,
@@ -119,15 +120,15 @@ export const Header = () => {
           }}
           resizeMode='contain'
         /> */}
-        <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: 15, marginBottom: 0 }}>
+        <Text style={{ color: theme.whiteText, fontSize: 15, marginBottom: 0 }}>
           {dateString}
         </Text>
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 22, fontWeight: '800', color: 'white', flex: 1, marginRight: 10 }}>
+        <Text style={{ fontSize: 22, fontWeight: '800', color: theme.whiteText, flex: 1, marginRight: 10 }}>
           {selectedBip?.name || ''}
-          <Text style={{ fontSize: 15, color: Colors.dark.subText, fontWeight: '600' }}>
+          <Text style={{ fontSize: 15, color: theme.whiteText, fontWeight: '600' }}>
             {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
           </Text>
         </Text>
@@ -145,13 +146,24 @@ export const Header = () => {
               borderRadius: 100,
               justifyContent: 'center',
               alignItems: 'center',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}>
-            <Image
-              source={{ uri: logo_bip?.url }}
-              style={{ width: logo_bip?.width, height: '100%' }}
-              resizeMode='contain'
-            />
+            {(isContrast || isMonochrome) ?
+              <Grayscale>
+                <Image
+                  source={{ uri: logo_bip?.url }}
+                  style={{ width: logo_bip?.width, height: '100%' }}
+                  resizeMode="contain"
+                />
+              </Grayscale>
+              :
+              <Image
+                source={{ uri: logo_bip?.url }}
+                style={{ width: logo_bip?.width, height: '100%' }}
+                resizeMode="contain"
+              />
+            }
+
           </View>
         </View>
       </View>

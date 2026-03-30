@@ -35,7 +35,7 @@ export const ReadMoreButton = ({ article, theme, path }: { article: Article; the
       {loading ? (
         <ActivityIndicator size="small" color={theme.background_2} />
       ) : (
-        <Text style={[styles.readMoreText, { color: 'white' }]}>
+        <Text style={[styles.readMoreText, { color: theme.whiteText }]}>
           {t('read_more').toUpperCase()}
         </Text>
       )}

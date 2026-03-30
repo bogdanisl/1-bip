@@ -1,6 +1,5 @@
 import { styles } from "@/assets/styles/recent_index";
-import { Colors } from "@/src/constants/theme";
-import { useColorScheme } from "@/src/hooks/use-color-scheme";
+import { useAppTheme } from "@/src/hooks/use-theme-colors";
 import { Article } from "@/src/types/Article";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, Text, Dimensions, ViewStyle } from "react-native";
@@ -19,7 +18,7 @@ type ArticleCardProps = {
 
 export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleCardProps) => {
   var he = require('he');
-  const theme = useColorScheme() == 'dark'? Colors.dark: Colors.light
+  const { theme } = useAppTheme();
   const { t, i18n } = useTranslation();
   const width = Dimensions.get('window').width;
   const isShort = variant == 'short';
@@ -72,7 +71,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
         {article.subtitle}
       </Text>
 
-      <Br />
+      <Br theme={theme}/>
 
       <View style={[styles.infoRow, { marginTop: 0 }]}>
         <MaterialIcons name="schedule" size={18} color={theme.icon} />
@@ -83,7 +82,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
       <View style={styles.infoRow}>
         <MaterialIcons name='person-add-alt-1' size={18} color={theme.icon} />
         <Text style={[styles.infoText, { color: theme.text, marginRight: 10 }]}>
-          {article.acceptedBy ? t('added_by_2') + article.acceptedBy : ''}
+          {article.acceptedBy ? t('added_by_2') + he.decode(article.acceptedBy) : ''}
         </Text>
       </View>
 
@@ -98,7 +97,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
 };
 
 export const ArticleCardPreloader = () => {
-  const theme = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  const { theme } = useAppTheme();
   return (
     <View style={[styles.card, { backgroundColor: theme.background_2 }]}>
       <View style={{ flex: 1, paddingRight: 40, position: 'relative' }}>

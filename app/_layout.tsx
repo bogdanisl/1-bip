@@ -1,18 +1,17 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useTranslation } from 'react-i18next';
-import { Platform, useColorScheme } from 'react-native'; // Или ваш хук, если кастомный
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
+import { Platform } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const { t } = useTranslation();
+  const { colorScheme, isDark } = useAppTheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
       <FlashMessage position={'top'} style={{ paddingTop: Platform.OS === 'android' ? 30 : 0 }} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* <Header currentRouteName={''} handlePresentModalPress={() => { } } handleSheetChanges={()=>{}}/>; */}

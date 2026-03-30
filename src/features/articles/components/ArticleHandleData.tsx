@@ -20,7 +20,7 @@ export function HandleDataSection({ article, theme }: Props) {
     const { t } = useTranslation();
     return (
         <View>
-            <Br></Br>
+            <Br theme={theme}></Br>
             <View style={{ marginTop: 8 }}>
                 <View style={{ marginVertical: 8, gap: 10 }}>
                     {article.resolutionNumber && (

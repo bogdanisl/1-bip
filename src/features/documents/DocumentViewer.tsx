@@ -16,8 +16,7 @@ import { WebView } from 'react-native-webview';
 import { MaterialIcons, Entypo } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useTranslation } from 'react-i18next';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
@@ -44,7 +43,7 @@ const DocumentViewerScreen = ({ file }: Props) => {
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
   const router = useRouter();
   const { t } = useTranslation();
-  const themeColors = useColorScheme() === 'dark' ? Colors.dark : Colors.light;
+  const { theme: themeColors } = useAppTheme();
   const { file_uri } = useLocalSearchParams<{ file_uri: string }>();
 
   const fullUrl = file ? file.url : `${selectedBip?.url}/dokumenty/${file_uri}`;

@@ -12,8 +12,7 @@ import { Stack } from 'expo-router/stack';
 import { WebView } from 'react-native-webview';
 import { MaterialIcons, Entypo, FontAwesome } from '@expo/vector-icons';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
-import { useColorScheme } from '@/src/hooks/use-color-scheme.web';
-import { Colors } from '@/src/constants/theme';
+import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { router } from 'expo-router';
 import { Animated } from 'react-native';
 import { useRef } from 'react';
@@ -24,8 +23,7 @@ interface WebViewScreenProps {
 }
 
 const WebViewScreen = ({ link, name }: WebViewScreenProps) => {
-
-    const themeColors = useColorScheme() == 'dark' ? Colors.dark : Colors.light;
+    const { theme: themeColors } = useAppTheme();
 
     const handleOpenInBrowser = async () => {
         Linking.openURL(link);

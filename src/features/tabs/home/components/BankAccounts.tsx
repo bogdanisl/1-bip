@@ -22,11 +22,10 @@ import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 2;
 
-const BankAccountCard = () => {
+const BankAccountCard = ({ theme }: any) => {
   const { t } = useTranslation();
   var DOMParser = require('react-native-html-parser');
   const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? Colors.dark : Colors.light;
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const [expanded, setExpanded] = useState(false);
