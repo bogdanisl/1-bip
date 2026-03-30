@@ -2,20 +2,18 @@ import { Colors } from '@/src/constants/theme';
 import React, { useEffect, useRef } from 'react';
 import { Animated, DimensionValue, Easing, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useAppTheme } from '../hooks/use-theme-colors';
 
 interface ImagePreloaderProps {
     width?: DimensionValue;
     height?: DimensionValue;
-    size?:number;
+    size?: number;
     color?: string;
     style?: StyleProp<ViewStyle>
 }
 
-export default function ActivityIndicator({ width = 100, height = 100, size=25, style }: ImagePreloaderProps) {
-    const colorScheme=useColorScheme()
-    const color = colorScheme === 'dark' ? Colors.dark.text : Colors.light.text;
-    const secondeColor = colorScheme === 'dark' ? Colors.dark.tint : Colors.light.tint;
+export default function ActivityIndicator({ width = 100, height = 100, size = 25, style }: ImagePreloaderProps) {
+    const { theme } = useAppTheme();
     const outerSpin = useRef(new Animated.Value(0)).current;
     const innerSpin = useRef(new Animated.Value(0)).current;
     useEffect(() => {
@@ -53,8 +51,8 @@ export default function ActivityIndicator({ width = 100, height = 100, size=25, 
             {/* Outer spinner */}
             <Animated.View style={{ transform: [{ rotate: outerRotate }] }}>
                 <Svg width={size} height={size} viewBox="0 0 100 100">
-                    <Path d="M50 10 A40 40 0 0 1 90 50" stroke={color} strokeWidth={4} strokeLinecap="round" fill="none" />
-                    <Path d="M50 90 A40 40 0 0 1 10 50" stroke={color} strokeWidth={4} strokeLinecap="round" fill="none" />
+                    <Path d="M50 10 A40 40 0 0 1 90 50" stroke={theme.tint} strokeWidth={4} strokeLinecap="round" fill="none" />
+                    <Path d="M50 90 A40 40 0 0 1 10 50" stroke={theme.tint} strokeWidth={4} strokeLinecap="round" fill="none" />
                 </Svg>
             </Animated.View>
 
@@ -66,8 +64,8 @@ export default function ActivityIndicator({ width = 100, height = 100, size=25, 
                 }}
             >
                 <Svg width={size} height={size} viewBox="0 0 100 100">
-                    <Path d="M50 30 A20 20 0 0 1 70 50" stroke={secondeColor} strokeWidth={3} strokeLinecap="round" fill="none" />
-                    <Path d="M50 70 A20 20 0 0 1 30 50" stroke={secondeColor} strokeWidth={3} strokeLinecap="round" fill="none" />
+                    <Path d="M50 30 A20 20 0 0 1 70 50" stroke={theme.text} strokeWidth={3} strokeLinecap="round" fill="none" />
+                    <Path d="M50 70 A20 20 0 0 1 30 50" stroke={theme.text} strokeWidth={3} strokeLinecap="round" fill="none" />
                 </Svg>
             </Animated.View>
         </View>

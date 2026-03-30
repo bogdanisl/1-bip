@@ -17,10 +17,12 @@ import { AttachmentsList } from './components/AttachmentList';
 import { MatrykaSection } from './components/MetricSection';
 import { useArticle } from '@/src/hooks/use-article';
 import { ArticleChangeHistorySection } from './components/ArticleChangeHistorySection';
+import { Article } from '@/src/types/Article';
+import { translate } from '@/src/services/translate';
 
 export default function ArticleScreen() {
   const { theme } = useAppTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -28,6 +30,9 @@ export default function ArticleScreen() {
   const { article, isLoading } = useArticle({ id: articleId });
   const [isMatrykaOpen, setIsMatrykaOpen] = useState(false);
 
+  const [translated, setTranslated] = useState(false);
+  const [translateArticle, setTranslatedArticle] = useState<Article | null>(null);
+  const [translating, setTranslating] = useState(false);
 
   const handlePress = async () => {
     try {
@@ -48,7 +53,50 @@ export default function ArticleScreen() {
     }
   };
 
-  if (!article && isLoading) {
+
+  const handleTranslate = async () => {
+    // Jeśli już przetłumaczone — wróć do oryginału
+    if (translated) {
+      setTranslated(false);
+      setTranslatedArticle(null);
+      return;
+    }
+
+    if (!article) return;
+    setTranslating(true);
+
+    try {
+      // Głęboka kopia, nie referencja!
+      const copy: Article = { ...article };
+
+      const fields: (keyof Article)[] = [
+        'title', 'content', 'subtitle',
+        'resolutionType', 'resolutionContent', 'resolutionPlace',
+        'resolutionSubject', 'requiredDocuments', 'resolutionText',
+        'appealProcedure', 'comments', 'fees', 'pickupLocation', 'author'
+      ];
+
+      for (const field of fields) {
+        const value = copy[field];
+        if (typeof value === 'string') {
+          const translated = await translate(value, i18n.language);
+          if (translated) {
+            (copy as any)[field] = translated;
+          }
+        }
+      }
+
+      setTranslatedArticle(copy);
+      setTranslated(true);
+    } finally {
+      setTranslating(false);
+    }
+  };
+
+  const activeArticle = translated && translateArticle ? translateArticle : article;
+
+
+  if (!activeArticle && isLoading) {
     return (
       <View style={{ padding: 16, paddingTop: Platform.OS == 'android' ? 20 : 130 }}>
         <Skeleton theme={theme} width="100%" height={24} borderRadius={4} style={{ marginBottom: 16 }} />
@@ -62,7 +110,7 @@ export default function ArticleScreen() {
     );
   }
 
-  if (!article) {
+  if (!activeArticle) {
     // fetch completed but returned null
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
@@ -92,32 +140,32 @@ export default function ArticleScreen() {
       />
       <ScrollView style={{ backgroundColor: theme.background }}>
         <View style={{ padding: 16, paddingTop: Platform.OS == 'android' ? 20 : 130 }}>
-          <ArticleHeader article={article} theme={theme} />
+          <ArticleHeader article={activeArticle} theme={theme} handleTranslate={handleTranslate} translating={translating} translateLabel={t(translated ? 'original' : 'translate')} />
 
-          {article.articleType == 1 && (
-            <HandleDataSection article={article} theme={theme}></HandleDataSection>
+          {activeArticle.articleType == 1 && (
+            <HandleDataSection article={activeArticle} theme={theme}></HandleDataSection>
           )}
-          {article.articleType == 2 && (
-            <CaseDataSection article={article} theme={theme}></CaseDataSection>
+          {activeArticle.articleType == 2 && (
+            <CaseDataSection article={activeArticle} theme={theme}></CaseDataSection>
           )}
 
-          <ArticleContent content={article.content ?? ''} theme={theme} />
+          <ArticleContent content={activeArticle.content ?? ''} theme={theme} />
 
-          {(article.documents && article.documents.length > 0) &&
+          {(activeArticle.documents && activeArticle.documents.length > 0) &&
             <AttachmentsList
-              attachments={article.documents ? article.documents : []}
-              theme={theme} slug={article.slug}
+              attachments={activeArticle.documents ? activeArticle.documents : []}
+              theme={theme} slug={activeArticle.slug}
             />}
 
           <MatrykaSection
-            article={article}
+            article={activeArticle}
             isOpen={isMatrykaOpen}
             toggle={() => setIsMatrykaOpen(prev => !prev)}
             theme={theme} />
 
-          {(article.versionCount && article.versionCount > 0) &&
+          {(activeArticle.versionCount && activeArticle.versionCount > 0) &&
             <ArticleChangeHistorySection
-              article={article}
+              article={activeArticle}
               theme={theme}
             />
           }

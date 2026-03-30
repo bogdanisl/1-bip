@@ -298,5 +298,7 @@
   "top_categories": "Catégories les plus représentées",
   "empty_category": "Aucune donnée n'a encore\nété ajoutée dans cette catégorie",
   "articles": "Articles",
-  "subcategories": "Sous-catégories"
+  "subcategories": "Sous-catégories",
+  "translate": "Traduire",
+  "original": "Voir le contenu original"
 }

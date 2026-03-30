@@ -298,5 +298,7 @@
   "top_categories": "Categorie con la maggiore quota",
   "empty_category": "In questa categoria non sono\nancora stati aggiunti dati",
   "articles": "Articoli",
-  "subcategories": "Sottocategorie"
+  "subcategories": "Sottocategorie",
+  "translate": "Traduci",
+  "original": "Vedi contenuto originale"
 }

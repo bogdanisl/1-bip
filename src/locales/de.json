@@ -298,5 +298,7 @@
   "top_categories": "Kategorien mit dem größten Anteil",
   "empty_category": "In dieser Kategorie wurden\nnoch keine Daten hinzugefügt",
   "articles": "Artikel",
-  "subcategories": "Unterkategorien"
+  "subcategories": "Unterkategorien",
+  "translate": "Übersetzen",
+  "original": "Originalinhalt anzeigen"
 }

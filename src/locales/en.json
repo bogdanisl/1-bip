@@ -283,5 +283,7 @@
     "top_categories": "Most popular categories",
     "empty_category": "This category\ndon't have any data yet",
     "articles": "Articles",
-    "subcategories": "Subcategories"
+    "subcategories": "Subcategories",
+    "translate": "Translate",
+    "original": "See original content"
 }

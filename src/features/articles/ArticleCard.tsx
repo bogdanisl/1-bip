@@ -1,13 +1,17 @@
 import { styles } from "@/assets/styles/recent_index";
 import { useAppTheme } from "@/src/hooks/use-theme-colors";
 import { Article } from "@/src/types/Article";
-import { MaterialIcons } from "@expo/vector-icons";
-import { View, Text, Dimensions, ViewStyle } from "react-native";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { View, Text, Dimensions, ViewStyle, TouchableOpacity, ActivityIndicator } from "react-native";
 import { ReadMoreButton } from "../../components/buttons/ReadMoreButton";
 import { Skeleton } from "../../components/skeleton";
 import { useTranslation } from "react-i18next";
 import { Br } from "../../components/Br";
 import { RelativePathString } from "expo-router";
+import { TranslateButton } from "@/src/components/buttons/TranslateButton";
+import { translate } from "@/src/services/translate";
+import { useState } from "react";
+
 
 type ArticleCardProps = {
   article: Article;
@@ -23,11 +27,27 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
   const width = Dimensions.get('window').width;
   const isShort = variant == 'short';
 
+  const [translated, setTranslated] = useState(false);
+  const [translateTitle, setTitle] = useState<string | null>(null);
+  const [translating, setTranslating] = useState(false);
+
+
+  const handleTranslate = async () => {
+    setTranslating(true);
+    try {
+      const translatedTitle = await translate(article.title, i18n.language);
+      setTitle(translatedTitle);
+      setTranslated(!translated);
+    } finally {
+      setTranslating(false);
+    }
+  }
+
   return (
     <View style={[
       styles.card,
       { backgroundColor: theme.background_2 },
-      isShort && { maxHeight: 240}, // fixed-ish height range
+      isShort && { maxHeight: 240 }, // fixed-ish height range
       style,
     ]}>
       {/* Header row */}
@@ -42,7 +62,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
               isShort && { height: 40 },
             ]}
           >
-            {article.title}
+            {translated ? translateTitle : article.title}
           </Text>
         </View>
 
@@ -71,7 +91,7 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
         {article.subtitle}
       </Text>
 
-      <Br theme={theme}/>
+      <Br theme={theme} />
 
       <View style={[styles.infoRow, { marginTop: 0 }]}>
         <MaterialIcons name="schedule" size={18} color={theme.icon} />
@@ -89,8 +109,9 @@ export const ArticleCard = ({ article, style, variant = 'full', path }: ArticleC
       {/* <View style={styles.progressContainer}>
         <View style={[styles.progressBar]} />
       </View> */}
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>
-        <ReadMoreButton article={article} theme={theme} path={path}/>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+        <TranslateButton onPress={handleTranslate} theme={theme} loading={translating} label={t(translated?'original':'translate')} />
+        <ReadMoreButton article={article} theme={theme} path={path} />
       </View>
     </View>
   );
