@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 import '../i18n'
 import { updateAllData } from '@/src/services/storage/updateData';
-import * as Notifications from 'expo-notifications';
 
 export default function App() {
 
@@ -20,7 +19,6 @@ export default function App() {
   useEffect(() => {
     const checkBip = async () => {
       try {
-        await Notifications.setBadgeCountAsync(0);
         const value = await AsyncStorage.getItem('selectedBipIds');
 
         const hasSelection = value !== null && JSON.parse(value).length > 0;

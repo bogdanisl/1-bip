@@ -17,8 +17,8 @@ export const PreviewHeader = ({ theme }: any) => {
 
     const { t } = useTranslation();
     const insets = useSafeAreaInsets();
-    const isContrastTheme = theme.text == '#ffff00';
-    const isMonochromeTheme = theme.background_2 = '#F2F2F2ff'
+    const isContrastTheme = theme.text === '#ffff00';
+    const isMonochromeTheme = theme.background_2 === '#F2F2F2ff';
     return (
         <LinearGradient
             colors={isContrastTheme ? ['#d0c600ff', '#bab700ff'] : [theme.tint, '#20313b']}

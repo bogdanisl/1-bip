@@ -10,7 +10,7 @@ import { Platform } from 'react-native';
 
 
 export default function TabLayout() {
-  const { colorScheme, theme} = useAppTheme();
+  const { colorScheme, theme } = useAppTheme();
   const { t } = useTranslation()
 
 

@@ -12,14 +12,13 @@ import { Platform } from 'react-native';
 export default function TabLayout() {
   const { theme, isDark } = useAppTheme();
   const { t } = useTranslation()
-
   return (
     (Platform.OS == 'android') ? (
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: isDark ? '#b50315' : '#b50315',
+          tabBarActiveTintColor: theme.tint,
           tabBarInactiveTintColor: 'gray',
-          tabBarStyle: { backgroundColor: isDark ? '#000' : '#fff' },
+          tabBarStyle: { backgroundColor: theme.background_2 },
           headerShown: false,
           tabBarLabelStyle: { fontSize: 11 },
           tabBarButton: HapticTab

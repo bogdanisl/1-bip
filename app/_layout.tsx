@@ -8,10 +8,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
-  const { colorScheme, isDark } = useAppTheme();
+  const { colorScheme } = useAppTheme();
 
   return (
-    <ThemeProvider value={isDark ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme == 'dark' ? DarkTheme : DefaultTheme}>
       <FlashMessage position={'top'} style={{ paddingTop: Platform.OS === 'android' ? 30 : 0 }} />
       <GestureHandlerRootView style={{ flex: 1 }}>
         {/* <Header currentRouteName={''} handlePresentModalPress={() => { } } handleSheetChanges={()=>{}}/>; */}

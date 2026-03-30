@@ -19,7 +19,7 @@ import { Grayscale } from 'react-native-color-matrix-image-filters';
 const columns = 36;
 
 export const Header = ({ theme, isContrast, isMonochrome }: any) => {
-  console.log(isContrast)
+  //console.log(isContrast)
   const { i18n, t } = useTranslation();
   const { officeData, savedBips } = useHome();
   const insets = useSafeAreaInsets();

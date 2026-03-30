@@ -6,16 +6,15 @@ import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
 export default function ProfileLayout() {
   const { t } = useTranslation();
-  const { colorScheme, theme: colorTheme } = useAppTheme();
-  const headerBlurEffect = colorScheme === 'dark' ? 'dark' : 'light';
-
+  const { theme: colorTheme, isDark } = useAppTheme();
+  //console.log(colorTheme.background_2);
   return (
     <Stack
       screenOptions={{
         headerShown: true,
         headerBackButtonDisplayMode: Platform.OS == 'ios' ? isLiquidGlassAvailable() ? 'minimal' : 'default' : 'generic',
         headerTransparent: Platform.OS == 'ios' ? true : false,
-        headerBlurEffect: isLiquidGlassAvailable() ? 'none' : headerBlurEffect,
+        headerBlurEffect: 'regular',
         headerTintColor: colorTheme.tint,
         headerTitleStyle: { color: colorTheme.text },
         headerLargeStyle: { backgroundColor: 'transparent' },
