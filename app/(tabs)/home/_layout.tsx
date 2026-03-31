@@ -24,7 +24,10 @@ export default function HomeLayout() {
         headerBackButtonDisplayMode: isLiquidGlassAvailable() ? 'minimal' : 'default',
         headerTitleStyle: { color: themeColors.text },
         headerLargeStyle: { backgroundColor: 'transparent' },
-        contentStyle: {backgroundColor:themeColors.background}
+        contentStyle: {backgroundColor:themeColors.background},
+        headerStyle:{
+          backgroundColor: Platform.OS === "ios" ? "transparent" : themeColors.background,
+        }
       }}
     >
       <Stack.Screen name="index" options={{ title: t('home_tab'), headerShown: false, headerTransparent: true }} />

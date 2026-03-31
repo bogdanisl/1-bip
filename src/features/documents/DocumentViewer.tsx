@@ -99,6 +99,9 @@ const DocumentViewerScreen = ({ file }: Props) => {
       <Stack.Screen
         options={{
           headerTitle: fileName,
+          headerTitleStyle:{
+            color: themeColors.text,
+          },
           headerRight: () => (
             <TouchableOpacity
               disabled={isSharingLoading}

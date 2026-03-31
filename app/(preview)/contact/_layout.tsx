@@ -11,8 +11,7 @@ export default function PreviewContactLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-                contentStyle: { backgroundColor: themeColors.background }
-
+        contentStyle: { backgroundColor: themeColors.background }
       }}
     >
       <Stack.Screen name="index" options={{
@@ -22,7 +21,7 @@ export default function PreviewContactLayout() {
         headerStyle: {
           backgroundColor: Platform.OS == 'ios'
             ? "transparent"
-            : themeColors.background_2,
+            : themeColors.background,
         },
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerLargeStyle: {

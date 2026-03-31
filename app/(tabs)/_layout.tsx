@@ -7,50 +7,105 @@ import { Tabs } from "expo-router";
 import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
+
+type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
+
+interface TabIconProps {
+  name: IoniconsName;
+  selectedName: IoniconsName;
+  focused: boolean;
+  color: string;
+  size: number;
+}
+
+function TabIcon({ name, selectedName, focused, color, size }: TabIconProps) {
+  return (
+    <Ionicons
+      name={focused ? selectedName : name}
+      size={size}
+      color={color}
+    />
+  );
+}
 
 export default function TabLayout() {
   const { theme, isDark } = useAppTheme();
   const { t } = useTranslation()
+
   return (
     (Platform.OS == 'android') ? (
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: theme.tint,
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: { backgroundColor: theme.background_2 },
+          tabBarStyle: {
+            backgroundColor: theme.background,
+          },
           headerShown: false,
-          tabBarLabelStyle: { fontSize: 11 },
-          tabBarButton: HapticTab
         }}
       >
         <Tabs.Screen
           name="home"
           options={{
             title: t('home_tab'),
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name={"home"} color={color} />,
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon
+                name="home-outline"
+                selectedName="home"
+                focused={focused}
+                color={color}
+                size={size}
+              />
+            ),
           }}
         />
+
         <Tabs.Screen
           name="recent"
           options={{
             title: t('recents'),
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name='clock-o' color={color} />,
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon
+                name="time-outline"
+                selectedName="time"
+                focused={focused}
+                color={color}
+                size={size}
+              />
+            ),
           }}
         />
+
         <Tabs.Screen
           name="contact"
           options={{
             title: t('contact'),
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name="phone" color={color} />,
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon
+                name="call-outline"
+                selectedName="call"
+                focused={focused}
+                color={color}
+                size={size}
+              />
+            ),
           }}
         />
+
         <Tabs.Screen
           name="settings"
-
           options={{
             title: t('settings'),
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name="gear" color={color} />,
+            tabBarIcon: ({ focused, color, size }) => (
+              <TabIcon
+                name="settings-outline"
+                selectedName="settings"
+                focused={focused}
+                color={color}
+                size={size}
+              />
+            ),
           }}
         />
       </Tabs>
@@ -58,7 +113,7 @@ export default function TabLayout() {
       <NativeTabs tintColor={theme.tint} disableTransparentOnScrollEdge>
         <NativeTabs.Trigger name="home">
           <Label>{t('home_tab')}</Label>
-          <Icon sf={{ default: 'house', selected: 'house.fill' }} drawable="ic_house" />
+          <Icon sf={{ default: 'house', selected: 'house.fill' }} drawable='' />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="recent">
           <Label>{t('recents')}</Label>
