@@ -11,6 +11,9 @@ import { Employee } from '@/src/types/Employee';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { storage } from '@/src/services/storage/asyncStorage';
+import { openLinkingPhone, openLinkingEmail } from '@/src/utils/linking';
+import * as Clipboard from 'expo-clipboard';
+
 
 export default function EmployeeScreen() {
     const { colorScheme, theme } = useAppTheme();
@@ -50,15 +53,15 @@ export default function EmployeeScreen() {
     }
 
     const openPhone = (number: number) => {
-        Linking.openURL(`tel:${number}`);
+        openLinkingPhone(number.toString());
     };
 
     const openEmail = (email: string) => {
-        Linking.openURL(`mailto:${email}`);
+        openLinkingEmail(email);
     };
 
-    const copyToClipboard = (value: string | number) => {
-        // Clipboard(value.toString());
+    const copyToClipboard = async (value: string | number) => {
+        await Clipboard.setStringAsync(value.toString());
         showMessage({
             message: 'Skopiowano do schowka!',
             type: 'success',
@@ -89,11 +92,20 @@ export default function EmployeeScreen() {
                 <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>
                 <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.position}</Text>
                 <View style={{ gap: 10, width: '100%' }}>
-
                     {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!), t('phone'), 'call-made')}
                     {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'), 'call-made')}
                     {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!), t('email'), 'message')}
                 </View>
+                {employee.notes &&
+                    <View style={{
+                        marginTop: 15,
+                        marginBottom:30
+                    }}>
+                        <Text style={[styles.infoText, { color: theme.text }]}>
+                            {employee.notes}
+                        </Text>
+                    </View>
+                }
                 {/* {renderInfoRow('phone', employee.email, () => openEmail(employee.email))} */}
             </View>
         </View>
@@ -107,8 +119,8 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: 'center',
     },
-    name: { fontSize: 20, fontWeight: 'bold' },
-    function: { fontSize: 16 },
+    name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
+    function: { fontSize: 16, textAlign: 'center' },
     infoCard: {
         flexDirection: 'row',
         alignItems: 'center',

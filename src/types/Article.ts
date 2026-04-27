@@ -1,5 +1,3 @@
-import { Attachment } from "./Attachment";
-
 export interface Article {
     id: number;
     categoryId?: number;

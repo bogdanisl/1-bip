@@ -87,7 +87,6 @@ export default function EmployeeDetailPage() {
                 <Text style={[styles.name, { color: theme.text }]}>{employee.name} {employee.surname}</Text>
                 <Text style={[styles.function, { color: theme.subText, marginBottom: 16 }]}>{employee.position}</Text>
                 <View style={{ gap: 10, width: '100%' }}>
-
                     {employee.phone && renderInfoRow('phone-iphone', employee.phone, () => openPhone(employee.phone!), t('phone'), 'call-made')}
                     {employee.extension && renderInfoRow('phone', employee.extension, () => openPhone(employee.extension!), t('phone_inside'), 'call-made')}
                     {employee.email && renderInfoRow('email', employee.email, () => openEmail(employee.email!), t('email'), 'message')}
@@ -105,8 +104,8 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: 'center',
     },
-    name: { fontSize: 20, fontWeight: 'bold' },
-    function: { fontSize: 16 },
+    name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
+    function: { fontSize: 16, textAlign: 'center' },
     infoCard: {
         flexDirection: 'row',
         alignItems: 'center',

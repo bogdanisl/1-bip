@@ -83,7 +83,7 @@ export default function HomeLayout() {
                 : "formSheet"
               : 'card',
           sheetGrabberVisible: true,
-          sheetAllowedDetents: [0.6],
+          sheetAllowedDetents: [0.65],
           sheetInitialDetentIndex: 0,
 
           contentStyle: {

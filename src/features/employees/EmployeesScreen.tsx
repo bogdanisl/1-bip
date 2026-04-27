@@ -83,9 +83,16 @@ export default function EmployeesScreen() {
                     <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
                         <MaterialIcons name="person" size={24} color={theme.tint} />
                     </View>
-                    <View>
+                    <View
+                        style={{
+                            width: '70%'
+                        }}
+                    >
                         <Text style={[styles.name, { color: theme.text }]}>{item.name}</Text>
-                        <Text style={[styles.function, { color: theme.subText }]}>{item.position}</Text>
+                        {
+                            item.position &&
+                            <Text style={[styles.function, { color: theme.subText }]}>{item.position}</Text>
+                        }
                     </View>
                 </View>
                 <MaterialIcons name="chevron-right" size={24} color={theme.subText} />

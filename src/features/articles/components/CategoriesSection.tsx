@@ -14,11 +14,11 @@ export function CategoriesSection({ categories, theme }: Props) {
             <Text style={{ color: theme.text, fontSize: 15, fontWeight: '800', paddingVertical: 12 }}>
                 {('Kategorie').toUpperCase()}
             </Text>
-            <Br />
+            <Br theme={theme} />
             <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
                 {categories.map(cat => (
                     <View key={cat} style={{ backgroundColor: theme.inactive, paddingHorizontal: 10, paddingVertical: 8, borderRadius: 16 }}>
-                        <Text style={{ color: theme.text,fontWeight: 600,}}>{cat}</Text>
+                        <Text style={{ color: theme.text, fontWeight: 600, }}>{cat}</Text>
                     </View>
                 ))}
             </View>
