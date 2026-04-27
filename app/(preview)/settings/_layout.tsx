@@ -18,18 +18,19 @@ export default function ProfileLayout() {
         headerTintColor: colorTheme.tint,
         headerTitleStyle: { color: colorTheme.text },
         headerLargeStyle: { backgroundColor: 'transparent' },
-        contentStyle: { backgroundColor: colorTheme.background }
+        contentStyle: { backgroundColor: colorTheme.background },
+        headerStyle: {
+          backgroundColor: Platform.OS == 'ios'
+            ? "transparent"
+            : colorTheme.background,
+        },
       }}
     >
       <Stack.Screen name="index" options={{
         headerShown: true,
         headerTintColor: colorTheme.tint,
         headerTitleStyle: { color: colorTheme.text },
-        headerStyle: {
-          backgroundColor: Platform.OS == 'ios'
-            ? "transparent"
-            : colorTheme.background_2,
-        },
+
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerLargeStyle: {
           backgroundColor: 'transparent'

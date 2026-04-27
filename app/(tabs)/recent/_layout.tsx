@@ -13,7 +13,12 @@ export default function RecentLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: themeColors.background }
+        contentStyle: { backgroundColor: themeColors.background },
+        headerStyle: {
+          backgroundColor: Platform.OS == 'ios'
+            ? "transparent"
+            : themeColors.background,
+        },
       }}
     >
       <Stack.Screen
@@ -22,11 +27,6 @@ export default function RecentLayout() {
           headerShown: true,
           headerTintColor: themeColors.tint,
           headerTitleStyle: { color: themeColors.text },
-          headerStyle: {
-            backgroundColor: Platform.OS === 'ios'
-              ? 'transparent'
-              : themeColors.background_2,
-          },
           headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
           headerLargeStyle: {
             backgroundColor: 'transparent'

@@ -20,7 +20,12 @@ export default function ProfileLayout() {
         headerTintColor: colorScheme.tint,
         headerTitleStyle: { color: colorScheme.text },
         headerLargeStyle: { backgroundColor: 'transparent' },
-        contentStyle:{backgroundColor:colorScheme.background}
+        contentStyle: { backgroundColor: colorScheme.background },
+        headerStyle: {
+          backgroundColor: Platform.OS == 'ios'
+            ? "transparent"
+            : colorScheme.background,
+        },
       }}
     >
       <Stack.Screen name="index" options={{
@@ -30,7 +35,7 @@ export default function ProfileLayout() {
         headerStyle: {
           backgroundColor: Platform.OS == 'ios'
             ? "transparent"
-            : colorScheme.background_2,
+            : colorScheme.background,
         },
         headerBlurEffect: isLiquidGlassAvailable() ? 'none' : 'regular',
         headerLargeStyle: {
@@ -52,7 +57,7 @@ export default function ProfileLayout() {
         title: t('color_theme'),
       }} />
       <Stack.Screen name="agreements/accessDeclaration" options={{
-        title: t('access_declaration'),  
+        title: t('access_declaration'),
       }} />
       <Stack.Screen name="agreements/privacyPolicy" options={{
         title: t('privacy_policy'),
