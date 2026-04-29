@@ -65,7 +65,7 @@ export function useChangeRegisterList(limit = DEFAULT_LIMIT) {
       setIsRefreshing(false);
       setIsLoadingMore(false);
     }
-  }, [isRefreshing, items.length, limit, selectedBip]);
+  }, [isRefreshing, limit, selectedBip]);
 
   const refresh = useCallback(async () => {
     setIsRefreshing(true);

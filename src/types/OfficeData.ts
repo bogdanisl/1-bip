@@ -20,10 +20,14 @@ export interface OfficeData {
     fax?: dataItem,
     bankName?: dataItem,
     bankAccountNumber?: dataItem,
+    homePageMode?: {
+        value: string
+    }
     map?: MapParams,
     system?: {
         version: string
     }
+
 }
 
 interface dataItem {

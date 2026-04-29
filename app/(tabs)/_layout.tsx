@@ -1,13 +1,10 @@
-import { HapticTab } from "@/src/components/haptic-tab";
-import { Colors } from "@/src/constants/theme";
-import { useSelectedBipStore } from "@/src/hooks/use-selected-bip";
 import { useAppTheme } from "@/src/hooks/use-theme-colors";
-import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Badge, Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useHome } from "@/src/features/tabs/home/hooks/use-home";
 
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
@@ -31,7 +28,9 @@ function TabIcon({ name, selectedName, focused, color, size }: TabIconProps) {
 }
 
 export default function TabLayout() {
-  const { theme, isDark } = useAppTheme();
+  const { theme } = useAppTheme();
+  const { officeData } = useHome();
+  const HomePageModeIsSelected = officeData?.homePageMode?.value == 'wybrane'
   const { t } = useTranslation()
 
   return (
@@ -64,7 +63,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="recent"
           options={{
-            title: t('recents'),
+            title: HomePageModeIsSelected ? t('articles') : t('recents'),
             tabBarIcon: ({ focused, color, size }) => (
               <TabIcon
                 name="time-outline"
@@ -116,8 +115,8 @@ export default function TabLayout() {
           <Icon sf={{ default: 'house', selected: 'house.fill' }} drawable='' />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="recent">
-          <Label>{t('recents')}</Label>
-          <Icon sf={{ default: 'clock', selected: 'clock.fill' }} drawable="ic_house" />
+          <Label>{HomePageModeIsSelected ? t('articles') : t('recents')}</Label>
+          <Icon sf={{ default: HomePageModeIsSelected ? 'newspaper' : 'clock', selected: HomePageModeIsSelected ? 'newspaper.fill' : 'clock.fill' }} drawable="ic_house" />
         </NativeTabs.Trigger>
         <NativeTabs.Trigger name="contact">
           <Label>{t('contact')}</Label>

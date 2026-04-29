@@ -28,9 +28,18 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
   const date = new Date().toLocaleDateString(i18n.language, { dateStyle: 'full' });
   const dateString = date.charAt(0).toUpperCase() + date.slice(1);
 
+  const nameFontSize = useMemo(() => {
+    const len = selectedBip?.name.length ?? 0;
+
+    if (len < 40) return 22;
+    if (len < 60) return 18;
+    if (len < 80) return 16;
+    return 14;
+  }, [selectedBip]);
+
   const logo_bip = useMemo(() => {
     if (!selectedBip?.url || !officeData?.logo?.src) return null;
-    //console.log(officeData.logo)
+    console.log(officeData.logo)
 
     const base = selectedBip.url.replace(/\/$/, '');
     const path = officeData.logo.src.startsWith('/')
@@ -45,7 +54,7 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
       url: `${base}${path}?v=${Date.now()}`,
       width: logoWidth
     }
-  }, [selectedBip?.url, officeData?.logo?.src]);
+  }, [selectedBip?.url, officeData?.logo?.src, selectedBip]);
 
 
   return (
@@ -126,10 +135,10 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontSize: 22, fontWeight: '800', color: theme.whiteText, flex: 1, marginRight: 10 }}>
+        <Text style={{ fontSize: nameFontSize, fontWeight: '800', color: theme.whiteText, flex: 1, marginRight: 10, marginTop: 10 }}>
           {selectedBip?.name || ''}
           <Text style={{ fontSize: 15, color: theme.whiteText, fontWeight: '600' }}>
-            {`\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
+            {`\n\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
           </Text>
         </Text>
 

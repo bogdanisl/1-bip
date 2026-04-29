@@ -11,7 +11,11 @@ import { useSharedValue } from 'react-native-reanimated';
 import { Gesture } from 'react-native-gesture-handler';
 import { useAppTheme } from '@/src/hooks/use-theme-colors';
 
-export default function HomeArticles() {
+interface Props {
+    HomePageModeIsSelected: boolean
+}
+
+export const HomeArticles = ({ HomePageModeIsSelected }: Props) => {
     const { theme } = useAppTheme();
     const isContrastTheme = theme.text == '#ffff00';
     const width = Dimensions.get('window').width;
@@ -23,8 +27,9 @@ export default function HomeArticles() {
     const progress = useSharedValue<number>(0);
 
     const onPressPagination = (index: number) => {
+        const currentProgress = progress.value;
         ref.current?.scrollTo({
-            count: index - progress.value,
+            count: index - currentProgress,
             animated: true,
         });
     };
@@ -34,18 +39,13 @@ export default function HomeArticles() {
             <></>
         );
     }
-    const panGesture = Gesture.Pan()
-        // Carousel aktywuje się TYLKO przy ruchu poziomym
-        .activeOffsetX([-15, 15])
 
-        // Jeśli użytkownik ruszy palcem w pionie → gesture FAIL
-        .failOffsetY([-10, 10]);
     return (
         <View style={{ marginTop: 16, paddingHorizontal: 16 }}>
             {/* Header */}
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontSize: 18, fontWeight: '700', color: theme.text, marginBottom: 12 }}>
-                    {t('home.latest_articles')}
+                    {HomePageModeIsSelected ? t('articles') : t('home.latest_articles')}
                 </Text>
                 <TouchableOpacity
                     onPress={() => { router.push('/(tabs)/recent'); }}
@@ -63,7 +63,7 @@ export default function HomeArticles() {
                 data={articles}
                 dotStyle={{ backgroundColor: theme.border, borderRadius: 50 }}
                 containerStyle={{ gap: 5 }}
-                activeDotStyle={{ backgroundColor: isContrastTheme? theme.background_2: theme.tint }}
+                activeDotStyle={{ backgroundColor: isContrastTheme ? theme.background_2 : theme.tint }}
                 onPress={onPressPagination}
 
             />

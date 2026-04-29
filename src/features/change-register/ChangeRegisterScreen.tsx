@@ -6,6 +6,7 @@ import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   Platform,
   RefreshControl,
@@ -36,7 +37,7 @@ export default function ChangeRegisterScreen() {
 
   return (
     <>
-      <FlatList
+      <Animated.FlatList
         data={isLoading ? [] : items}
         keyExtractor={(item, index) => isLoading ? `skeleton-${index}` : `${(item as ChangeRegisterEntry).id}-${index}`}
         renderItem={({ item }) => (
@@ -80,22 +81,15 @@ export default function ChangeRegisterScreen() {
                 <ActivityIndicator size={30} style={{ marginVertical: 6 }} />
               ) : null}
 
-              {hasMore ? (
-                <TouchableOpacity
-                  onPress={loadMore}
-                  activeOpacity={0.85}
-                  style={[styles.loadMoreButton, { backgroundColor: theme.tint }]}
-                >
-                  <Text style={[styles.loadMoreText, { color: theme.whiteText }]}>{t('change_register.load_more').toUpperCase()}</Text>
-                </TouchableOpacity>
-              ) : (
+              {!hasMore &&
                 <Text style={[styles.endText, { color: theme.subText }]}>
                   {t('change_register.end_of_list')}
                 </Text>
-              )}
+              }
             </View>
           ) : null
         }
+        onEndReached={loadMore}
         showsVerticalScrollIndicator
       />
     </>

@@ -1,6 +1,6 @@
 // app/components/MatrykaSection.tsx
 import React, { useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { View, Text, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Br } from '@/src/components/Br';
 import { Article } from '@/src/types/Article';

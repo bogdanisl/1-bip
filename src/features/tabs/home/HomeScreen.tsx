@@ -10,7 +10,7 @@ import OpeningHoursCard from './components/OpenHours';
 import BankAccountCard from './components/BankAccounts';
 import { Header } from './components/Header';
 import { UpdateBanner } from './components/UpdateBunner';
-import HomeArticles from './components/Articles';
+import { HomeArticles } from './components/Articles';
 import { Menu } from './components/Menu';
 import { Footer } from './components/Footer';
 
@@ -18,8 +18,7 @@ import { Footer } from './components/Footer';
 export default function HomeScreen() {
   const { theme, isContrast, isMonochrome } = useAppTheme();
   const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
-  const { isUpdateAvailable } = useHome();
-
+  const { isUpdateAvailable, officeData } = useHome();
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
@@ -36,7 +35,7 @@ export default function HomeScreen() {
           paddingBottom: 20,
           marginBottom: 80
         }}>
-          <HomeArticles />
+          <HomeArticles HomePageModeIsSelected={officeData?.homePageMode?.value == 'wybrane'} />
           <Menu type='top' theme={theme} />
           <View style={{ height: 20 }}></View>
 
@@ -52,3 +51,5 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+
