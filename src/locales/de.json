@@ -300,5 +300,7 @@
   "articles": "Artikel",
   "subcategories": "Unterkategorien",
   "translate": "Übersetzen",
-  "original": "Originalinhalt anzeigen"
+  "original": "Originalinhalt anzeigen",
+  "not_found_bip_for": "Keine Ergebnisse gefunden für '{{searchText}}'",
+  "other_bips_count": "Versteckte BIPs: {{count}}"
 }

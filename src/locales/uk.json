@@ -292,5 +292,7 @@
     "articles": "Публікації",
     "subcategories": "Підкатегорії",
     "translate": "Перекласти",
-    "original":"Показати оригінальний текст"
+    "original": "Показати оригінальний текст",
+    "not_found_bip_for": "Не знайдено результатів за '{{searchText}}'",
+    "other_bips_count": "Прихованих: {{count}}"
 }

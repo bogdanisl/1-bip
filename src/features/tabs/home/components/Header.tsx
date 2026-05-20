@@ -15,6 +15,7 @@ import Logo from '@/assets/images/icon_svg.svg';
 import { useHome } from '../hooks/use-home';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { Grayscale } from 'react-native-color-matrix-image-filters';
+import he from 'he';
 
 const columns = 36;
 
@@ -39,8 +40,6 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
 
   const logo_bip = useMemo(() => {
     if (!selectedBip?.url || !officeData?.logo?.src) return null;
-    console.log(officeData.logo)
-
     const base = selectedBip.url.replace(/\/$/, '');
     const path = officeData.logo.src.startsWith('/')
       ? officeData.logo.src
@@ -138,7 +137,7 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
         <Text style={{ fontSize: nameFontSize, fontWeight: '800', color: theme.whiteText, flex: 1, marginRight: 10, marginTop: 10 }}>
           {selectedBip?.name || ''}
           <Text style={{ fontSize: 15, color: theme.whiteText, fontWeight: '600' }}>
-            {`\n\n${officeData?.postalCode?.value || ''} ${officeData?.city?.value || ''}\n${officeData?.street?.value || ''}`}
+            {`\n\n${officeData?.postalCode?.value || ''} ${he.decode(officeData?.city?.value ?? '')}\n${he.decode(officeData?.street?.value || '')}`}
           </Text>
         </Text>
 

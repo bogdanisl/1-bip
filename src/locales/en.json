@@ -285,5 +285,7 @@
     "articles": "Articles",
     "subcategories": "Subcategories",
     "translate": "Translate",
-    "original": "See original content"
+    "original": "See original content",
+    "not_found_bip_for": "Not found any BIP for '{{searchText}}'",
+    "other_bips_count": "Hidden: {{count}}"
 }
