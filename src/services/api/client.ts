@@ -60,7 +60,7 @@ export async function apiRequest<T>(
 
   try {
     const response = await fetchWithTimeout(
-      `${selectedBip.url}${endpoint}`,
+      `${selectedBip.apiBaseUrl}${endpoint}`,
       {
         method,
         headers: {

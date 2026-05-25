@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useLocalSearchParams } from 'expo-router';
-import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import { Employee } from '@/src/types/Employee';
@@ -27,10 +26,7 @@ export default function EmployeeScreen() {
     useEffect(() => {
         const findEmployee = async () => {
             if (selectedBip == null) {
-                const found = exampleEmployees.find((e) => e.id === employeeId);
-                if (found) {
-                    setEmployee(found);
-                }
+                // setEmployee(null);
                 return;
             }
             const employees = await storage.get<Employee[]>(`${selectedBip?.id}/employees`);
@@ -99,7 +95,7 @@ export default function EmployeeScreen() {
                 {employee.notes &&
                     <View style={{
                         marginTop: 15,
-                        marginBottom:30
+                        marginBottom: 30
                     }}>
                         <Text style={[styles.infoText, { color: theme.text }]}>
                             {employee.notes}

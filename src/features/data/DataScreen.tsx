@@ -12,7 +12,6 @@ import { showMessage } from 'react-native-flash-message';
 import { useTranslation } from 'react-i18next';
 import { Br } from '@/src/components/Br';
 import { OfficeData } from '@/src/types/OfficeData';
-import { officeDataExample } from '@/src/constants/data_example';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { apiRequest } from '@/src/services/api/client';
@@ -47,14 +46,14 @@ const DataScreen = () => {
   useEffect(() => {
     const getData = async () => {
       if (selectedBip == null) {
-        setOfficeData(officeDataExample);
+        setOfficeData(null);
         return;
       }
       //console.log('test');
       const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);
       if (!data) {
         try {
-          if (selectedBip.url == '' || selectedBip.url == null) return;
+          if (selectedBip.apiBaseUrl == '' || selectedBip.apiBaseUrl == null) return;
           const fetched = await apiRequest<OfficeData>('/api/v1/data');
           if (!fetched) return;
           setOfficeData(fetched);

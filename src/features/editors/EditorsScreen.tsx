@@ -4,7 +4,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView, Refresh
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { Employee } from '@/src/types/Employee';
-import { exampleEmployees } from '@/src/constants/data_example';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
@@ -29,7 +28,7 @@ export default function EmployeesPage() {
 
     const loadEditors = async () => {
         if (selectedBip == null) {
-            setEditors(exampleEmployees)
+            setEditors([])
             return;
         }
         const savedEmployees = await storage.get<Employee[]>(`${selectedBip?.id}/editors`);

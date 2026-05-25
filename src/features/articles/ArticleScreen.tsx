@@ -45,7 +45,7 @@ export default function ArticleScreen() {
         return;
       };
       await Share.share({
-        url: `${selectedBip?.url}/artykuly/${slug}`,
+        url: `${selectedBip?.apiBaseUrl}/artykuly/${slug}`,
         title: 'Awesome website',
       });
     } catch (error) {

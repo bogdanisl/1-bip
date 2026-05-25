@@ -29,7 +29,6 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { styles } from '@/assets/styles/select_style';
-import { FAKE_CITIES } from '@/src/constants/data_example';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -127,17 +126,19 @@ export default function BipFindScreen() {
     };
 
     const handleFind = async () => {
-        const postalCode = digits.join('');
+        let postalCode = digits.join('');
+        postalCode = postalCode.slice(0, 2) + '-' + postalCode.slice(2);
+        console.log(postalCode)
         setIsSearching(true);
 
         try {
-            const res = await fetch(`https://api.voyager.am1.pl/bip/${postalCode}`, {
+            const res = await fetch(`https://api.prometheus.am1.pl/institution/search?code=${postalCode}`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
 
-            if (!res) {
+            if (!res || !res.ok) {
                 triggerError(t('no_cities_found_for_code'));
                 return;
             }
@@ -168,7 +169,7 @@ export default function BipFindScreen() {
             // Zapytanie o uprawnienia do używania lokalizacji
             const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
-               // console.log('Brak uprawnień do lokalizacji');
+                // console.log('Brak uprawnień do lokalizacji');
                 return;
             }
             // Pobranie współrzędnych użytkownika
@@ -186,7 +187,7 @@ export default function BipFindScreen() {
             if (postalCodeRaw) {
 
                 const postalCode = postalCodeRaw.replace(/\D/g, '');
-              //  console.log('Kod pocztowy (tylko cyfry):', postalCode);
+                //  console.log('Kod pocztowy (tylko cyfry):', postalCode);
 
                 // Wypełnienie inputów
                 setTimeout(() => {
@@ -204,7 +205,7 @@ export default function BipFindScreen() {
                     setIsSearchingLocation(false);
                 }, 500)
             } else {
-               // console.log('Nie udało się znaleźć kodu pocztowego.');
+                // console.log('Nie udało się znaleźć kodu pocztowego.');
             }
         } catch (error) {
             setError(t('cant_find_postal_code'));
@@ -273,7 +274,7 @@ export default function BipFindScreen() {
                                             styles.inputBox,
                                             Error
                                                 ? { borderColor: theme.tint }
-                                                : digit ? { borderColor: isContrast || isMonochrome ? theme.text :'#0f79d0ff' } : { borderColor: theme.border },
+                                                : digit ? { borderColor: isContrast || isMonochrome ? theme.text : '#0f79d0ff' } : { borderColor: theme.border },
                                             { color: theme.text, backgroundColor: theme.background_2 },
                                         ]}
                                         value={digit}
@@ -345,7 +346,7 @@ export default function BipFindScreen() {
                         {isSearching ? (
                             <ActivityIndicator color={theme.whiteText} />
                         ) : (
-                            <Text style={[styles.buttonText,{ color: theme.whiteText }]}>{t('find')}</Text>
+                            <Text style={[styles.buttonText, { color: theme.whiteText }]}>{t('find')}</Text>
                         )}
                     </TouchableOpacity>
 

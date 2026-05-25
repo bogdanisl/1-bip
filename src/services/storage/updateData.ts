@@ -65,7 +65,7 @@ export async function updateAllData() {
     if (saved) {
         for (const bip of saved) {
             try {
-                if (bip.id != '-1' && bip.url != '') {
+                if (bip.id != '-1' && bip.apiBaseUrl != '') {
                     await updateData(bip); // ждём обновления каждой записи
                 }
             } catch (err) {

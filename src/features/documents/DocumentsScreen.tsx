@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { formatFileSize } from '@/src/features/articles/components/AttachmentList';
 import { Document } from '@/src/types/Article';
-import { attachmentExamples } from '@/src/constants/data_example';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { MaterialIcons } from '@expo/vector-icons';
 import { getFileIcon } from '@/src/utils/attachement';
@@ -43,10 +42,10 @@ export default function DocumentsScreen() {
 
   const loadFiles = async () => {
     if (selectedBip == null) {
-      setAttachments(attachmentExamples);
+      setAttachments([]);
       return;
     }
-    if (selectedBip.url == '') {
+    if (selectedBip.apiBaseUrl == '') {
       setAttachments([]);
       return;
     }

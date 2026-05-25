@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelectedBipStore } from './use-selected-bip';
 import { apiRequest } from '@/src/services/api/client';
 import { Article } from '@/src/types/Article';
-import { ArtilcesExample } from '@/src/constants/data_example';
 
 
 
@@ -26,7 +25,7 @@ export function useArticle({ id }: { id: number }) {
         }
 
         if (!selectedBip) {
-            setArticle(ArtilcesExample.find(a => a.id === id) || null);
+            setArticle(null);
             setIsLoading(false);
             return;
         }

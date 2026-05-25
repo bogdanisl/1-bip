@@ -8,7 +8,6 @@ import { router, Stack, useLocalSearchParams } from 'expo-router';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
-import { exampleEmployees } from '@/src/constants/data_example';
 import { useTranslation } from 'react-i18next';
 import { Br } from '@/src/components/Br';
 import { apiRequest } from '@/src/services/api/client';
@@ -29,7 +28,7 @@ export default function EmployeesScreen() {
 
     const loadEmployees = async () => {
         if (selectedBip == null) {
-            setEmplpoyees(exampleEmployees);
+            setEmplpoyees([]);
             return;
         }
 

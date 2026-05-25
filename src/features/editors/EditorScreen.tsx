@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking, Platform
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import { useLocalSearchParams } from 'expo-router';
-import { exampleEmployees } from '@/src/constants/data_example';
 import { showMessage } from 'react-native-flash-message';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { useTranslation } from 'react-i18next';
@@ -25,10 +24,7 @@ export default function EmployeeDetailPage() {
     useEffect(() => {
         const findEmployee = async () => {
             if (selectedBip == null) {
-                const found = exampleEmployees.find((e) => e.id === employeeId);
-                if (found) {
-                    setEmployee(found);
-                }
+                // setEmployee(null)
                 return;
             }
             const editors = await storage.get<Employee[]>(`${selectedBip?.id}/editors`);

@@ -123,8 +123,8 @@ export function ArticleContent({ content, theme }: Props) {
   const selectedBip = useSelectedBipStore((state) => state.selectedBip);
 
   const normalizedHtml = useMemo(
-    () => normalizeBackendHtml(content, selectedBip?.url),
-    [content, selectedBip?.url]
+    () => normalizeBackendHtml(content, selectedBip?.apiBaseUrl),
+    [content, selectedBip?.apiBaseUrl]
   );
 
   const renderers = useMemo(

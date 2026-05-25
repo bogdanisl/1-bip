@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { OfficeData } from '@/src/types/OfficeData';
-import { bankCredentialsExample, officeDataExample } from '@/src/constants/data_example';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 
 
@@ -49,8 +48,8 @@ const BankAccountCard = ({ theme }: any) => {
   useEffect(() => {
     const getData = async () => {
       if (selectedBip == null) {
-        setAccountNumber(bankCredentialsExample.number!);
-        setBankName(bankCredentialsExample.name!);
+        setAccountNumber(null);
+        setBankName(null);
         return;
       }
       const data = await storage.get<OfficeData>(`${selectedBip?.id}/officeData`);

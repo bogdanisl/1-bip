@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Article } from '@/src/types/Article';
 import { useSelectedBipStore } from './use-selected-bip';
-import { ArticlesListExample } from '@/src/constants/data_example';
 import { apiRequest } from '../services/api/client';
 
 const DEFAULT_LIMIT = 10;
@@ -26,7 +25,7 @@ export function useArticles({ initialLimit = DEFAULT_LIMIT }: UseArticlesOptions
   const load = useCallback(async (nextOffset = 0, append = false, limit = DEFAULT_LIMIT) => {
 
     if (!selectedBip) {
-      setArticles(ArticlesListExample.slice(0, limit));
+      setArticles([]);
       setHasMore(false);
       setIsLoading(false);
       return;

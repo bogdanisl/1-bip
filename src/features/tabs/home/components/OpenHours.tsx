@@ -14,7 +14,6 @@ import { OpenHoursDTO } from '@/src/types/OpenHours';
 import { storage } from '@/src/services/storage/asyncStorage';
 import { useSelectedBipStore } from '@/src/hooks/use-selected-bip';
 import { useTranslation } from 'react-i18next';
-import { openHoursExample } from '@/src/constants/data_example';
 
 const ROW_HEIGHT = 60;
 const ROW_COUNT = 5;
@@ -41,7 +40,7 @@ const OpeningHoursCard = ({ theme }: Props) => {
   useEffect(() => {
     const getHours = async () => {
       if (selectedBip == null) {
-        setSchedule(openHoursExample);
+        setSchedule([]);
         return;
       }
       const hours = await storage.get<OpenHoursDTO[]>(`${selectedBip?.id}/hours`);

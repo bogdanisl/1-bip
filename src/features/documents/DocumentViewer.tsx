@@ -46,7 +46,7 @@ const DocumentViewerScreen = ({ file }: Props) => {
   const { theme: themeColors } = useAppTheme();
   const { file_uri } = useLocalSearchParams<{ file_uri: string }>();
 
-  const fullUrl = file ? file.url : `${selectedBip?.url}/dokumenty/${file_uri}`;
+  const fullUrl = file ? file.url : `${selectedBip?.apiBaseUrl}/dokumenty/${file_uri}`;
   const pdfUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(fullUrl)}`;
   const fileName = file ? file.name : (file_uri?.split('/').pop() || 'file').split('?')[0];
   const extension = file ? file.extension : fileName.split('.').pop()?.toLowerCase() || '';
@@ -56,7 +56,7 @@ const DocumentViewerScreen = ({ file }: Props) => {
   const handleShareAndSave = async () => {
     if (!file_uri && !file) return;
     setIsSharingLoading(true);
-    const remoteUrl = `${selectedBip?.url}/dokumenty/${file_uri}`;
+    const remoteUrl = `${selectedBip?.apiBaseUrl}/dokumenty/${file_uri}`;
     const fileName = file ? file.name : (file_uri.split('/').pop() || 'document.pdf').split('?')[0];
     const localUri = new File(Paths.cache, fileName);
 

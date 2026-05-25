@@ -39,8 +39,8 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
   }, [selectedBip]);
 
   const logo_bip = useMemo(() => {
-    if (!selectedBip?.url || !officeData?.logo?.src) return null;
-    const base = selectedBip.url.replace(/\/$/, '');
+    if (!selectedBip?.apiBaseUrl || !officeData?.logo?.src) return null;
+    const base = selectedBip.apiBaseUrl.replace(/\/$/, '');
     const path = officeData.logo.src.startsWith('/')
       ? officeData.logo.src
       : `/${officeData.logo.src}`;
@@ -53,7 +53,7 @@ export const Header = ({ theme, isContrast, isMonochrome }: any) => {
       url: `${base}${path}?v=${Date.now()}`,
       width: logoWidth
     }
-  }, [selectedBip?.url, officeData?.logo?.src, selectedBip]);
+  }, [selectedBip?.apiBaseUrl, officeData?.logo?.src, selectedBip]);
 
 
   return (
