@@ -18,9 +18,9 @@ import {
 import { ChangeRegisterCard, ChangeRegisterCardPreloader } from '@/src/features/change-register/components/ChangeRegisterCard';
 import { ChangeRegisterEntry } from '@/src/types/ChangeRegister';
 
-if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental?.(true);
-}
+// if (Platform.OS === 'android') {
+//   UIManager.setLayoutAnimationEnabledExperimental?.(true);
+// }
 
 interface Props {
   article: Article;

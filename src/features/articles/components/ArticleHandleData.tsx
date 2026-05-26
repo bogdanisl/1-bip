@@ -7,9 +7,9 @@ import { Article } from '@/src/types/Article';
 import { useTranslation } from 'react-i18next';
 import FileItem from '@/src/components/buttons/ItemButton';
 
-if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental?.(true);
-}
+// if (Platform.OS === 'android') {
+//     UIManager.setLayoutAnimationEnabledExperimental?.(true);
+// }
 
 interface Props {
     article: Article;

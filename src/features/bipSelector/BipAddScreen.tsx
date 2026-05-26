@@ -10,6 +10,8 @@ import {
     FlatList,
     Alert,
     ActivityIndicator,
+    Platform,
+    useWindowDimensions,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,6 +25,7 @@ import { useAppTheme } from '@/src/hooks/use-theme-colors';
 import Animated from 'react-native-reanimated';
 import { EmptyState } from '@/src/components/EmptyState';
 import { BlurView } from 'expo-blur';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -32,8 +35,7 @@ export default function SelectBipScreen() {
     const { theme } = useAppTheme();
     const selectedBip = useSelectedBipStore((state) => state.selectedBip);
     const { cities: citiesJson } = useLocalSearchParams();
-
-
+    const { bottom } = useSafeAreaInsets()
     const params = useLocalSearchParams<{ q?: string }>();
     const searchText = params?.q?.toLowerCase() || "";
 
@@ -154,7 +156,7 @@ export default function SelectBipScreen() {
                     // backgroundColor: theme.background_2,
                     borderRadius: 16,
                     position: 'absolute',
-                    bottom: 100,
+                    bottom: Platform.OS == 'android' ? bottom : 100,
                     left: 24,
                     right: 24,
                 }}

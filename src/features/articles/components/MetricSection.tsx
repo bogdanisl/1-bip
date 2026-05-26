@@ -8,9 +8,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FileItem from '@/src/components/buttons/ItemButton';
 import { getDeviceLanguage } from '@/i18n';
 
-if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental?.(true);
-}
+// if (Platform.OS === 'android') {
+//     UIManager.setLayoutAnimationEnabledExperimental?.(true);
+// }
 
 interface Props {
     article: Article;

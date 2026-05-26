@@ -23,7 +23,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
         <Header theme={theme} isContrast={isContrast} isMonochrome={isMonochrome} />
-        {/* {isUpdateAvailable && <UpdateBanner />} */}
+        {isUpdateAvailable && <UpdateBanner />}
 
         <View style={{
           zIndex: 1,
